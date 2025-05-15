@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plumbing Business Marketing</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #10b981;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-600: #475569;
+            --gray-800: #1e293b;
+            --accent: #8b5cf6;
+            --box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s ease;
+            --border-radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.7;
+            color: var(--gray-800);
+            background: var(--light);
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 2rem; }
+        .mb-5 { margin-bottom: 2.5rem; }
+        .mb-6 { margin-bottom: 3rem; }
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mt-4 { margin-top: 2rem; }
+        .mt-6 { margin-top: 3rem; }
+        .mt-8 { margin-top: 4rem; }
+        .mt-12 { margin-top: 6rem; }
+        .my-8 { margin-top: 4rem; margin-bottom: 4rem; }
+        .py-12 { padding-top: 6rem; padding-bottom: 6rem; }
+        .py-20 { padding-top: 10rem; padding-bottom: 10rem; }
+        .py-8 { padding-top: 4rem; padding-bottom: 4rem; }
+        .pb-20 { padding-bottom: 10rem; }
+        .px-4 { padding-left: 2rem; padding-right: 2rem; }
+        .w-full { width: 100%; }
+        .max-w-3xl { max-width: 48rem; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .flex-col { flex-direction: column; }
+        .flex-row { flex-direction: row; }
+        .flex-wrap { flex-wrap: wrap; }
+        .gap-4 { gap: 1rem; }
+        .gap-6 { gap: 1.5rem; }
+        .gap-8 { gap: 2rem; }
+        .text-white { color: white; }
+        .text-primary { color: var(--primary); }
+        .text-secondary { color: var(--secondary); }
+        .text-accent { color: var(--accent); }
+        .text-gray-400 { color: var(--gray-400); }
+        .text-gray-600 { color: var(--gray-600); }
+        .font-bold { font-weight: 700; }
+        .text-sm { font-size: 0.875rem; }
+        .text-lg { font-size: 1.125rem; }
+        .text-xl { font-size: 1.25rem; }
+        .text-2xl { font-size: 1.5rem; }
+        .text-3xl { font-size: 1.875rem; }
+        .text-4xl { font-size: 2.25rem; }
+        .text-5xl { font-size: 3rem; }
+        .leading-tight { line-height: 1.25; }
+        .uppercase { text-transform: uppercase; }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--dark), #111827);
+            color: white;
+            padding: 8rem 0 6rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 150%, rgba(37, 99, 235, 0.15) 0%, transparent 50%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #fff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--gray-300);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            background-color: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            border-radius: 50px;
+            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 0 8rem;
+            background-color: white;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-align: center;
+            color: var(--dark);
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+            text-align: center;
+            color: var(--gray-600);
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .tip-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.04);
+            transition: var(--transition);
+            border: 1px solid var(--gray-200);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--box-shadow);
+            border-color: var(--gray-300);
+        }
+
+        .tip-card:hover .icon-wrapper {
+            transform: scale(1.05);
+        }
+
+        .tip-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 4px;
+            width: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .icon-wrapper {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(139, 92, 246, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .tip-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .tip-title {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .tip-number {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-200);
+            line-height: 1;
+        }
+
+        .tip-text {
+            color: var(--gray-600);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        /* Utility Animations */
+        .animate-up {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .animate-up:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Floating Animation for Icons */
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .section-title {
+                font-size: 2.25rem;
+            }
+
+            .tips-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 6rem 0 4rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.125rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.75rem;
+            }
+
+            .tip-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <span class="badge">Plumbing Business Marketing</span>
+                <h1 class="hero-title">Grow Your Plumbing Business Locally</h1>
+                <p class="hero-subtitle">Implement these proven marketing strategies to attract more local customers, build trust, and secure consistent work for your plumbing service.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">9 Essential Marketing Tips for Plumbers</h2>
+            <p class="section-subtitle">From optimizing your online presence to building local relationships, these tips are designed to help your plumbing business thrive.</p>
+
+            <div class="tips-grid">
+                <!-- Tip 1 -->
+                <div class="tip-card animate-up">
+                    <span class="tip-number">01</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-building tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Optimize Your Google My Business (GMB) Profile</h3>
+                    <p class="tip-text">Why: This is crucial for local services. Your GMB profile is often the first thing people see in map results. How: Claim or create your profile, fill out every section completely (services, hours, areas, photos), keep it updated, and use relevant keywords in descriptions.</p>
+                </div>
+
+                <!-- Tip 2 -->
+                <div class="tip-card animate-up">
+                    <span class="tip-number">02</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-search-location tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Focus on Local SEO</h3>
+                    <p class="tip-text">Why: Helps your website rank for specific local searches like "water heater repair [Your City]". How: Ensure your website has dedicated service pages, include city/town names, and keep Name, Address, Phone number (NAP) consistent across your site and directories.</p>
+                </div>
+
+                <!-- Tip 3 -->
+                <div class="tip-card animate-up">
+                    <span class="tip-number">03</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-comments tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Actively Seek Online Reviews</h3>
+                    <p class="tip-text">Why: Positive reviews are massive social proof and boost your local search ranking. Trust is paramount for in-home services. How: Politely ask satisfied customers for reviews (provide a link). Respond professionally to all reviews.</p>
+                </div>
+
+                <!-- Tip 4 -->
+                <div class="tip-card animate-up">
+                    <span class="tip-number">04</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-laptop-mobile tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Build a Professional, Mobile-Friendly Website</h3>
+                    <p class="tip-text">Why: Your website is your online storefront. Customers use it to find info and judge professionalism, and most searches are on mobile. How: Include clear contact info (phone number prominent), list services, showcase testimonials, and mention emergency services.</p>
+                </div>
+
+                <!-- Tip 5 -->
+                <div class="tip-card animate-up">
+                    <span class="tip-number">05</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-truck-pickup tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Brand Your Vehicles & Apparel</h3>
+                    <p class="tip-text">Why: Provides constant local visibility and builds trust upon arrival. How: Invest in clear, professional vehicle wraps/graphics with your logo, name, phone, and website. Ensure your team wears clean, branded uniforms.</p>
+                </div>
+
+                <!-- Tip 6 -->
+                <div class="tip-card animate-up">
+                    <span class="tip-number">06</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-handshake tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Network with Related Businesses</h3>
+                    <p class="tip-text">Why: This can be a great source of referrals. How: Connect with general contractors, remodelers, real estate agents, property managers, home inspectors, and local hardware stores. Offer to exchange referrals, perhaps with a finder's fee.</p>
+                </div>
+
+                <!-- Tip 7 -->
+                <div class="tip-card animate-up">
+                    <span class="tip-number">07</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-gift tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Implement a Customer Referral Program</h3>
+                    <p class="tip-text">Why: Word-of-mouth is incredibly powerful in local services. How: Offer a discount on a future service, a gift card, or a small incentive to customers who refer a new paying client. Make sure existing customers know about it.</p>
+                </div>
+
+                <!-- Tip 8 -->
+                <div class="tip-card animate-up">
+                    <span class="tip-number">08</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-lightbulb tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Share Helpful Plumbing Tips</h3>
+                    <p class="tip-text">Why: Positions you as an expert and resource, building trust before an emergency. How: Post short tips on social media, write blog posts on your website (e.g., "Prevent Drain Clogs"), or create short videos.</p>
+                </div>
+
+                <!-- Tip 9 -->
+                <div class="tip-card animate-up">
+                    <span class="tip-number">09</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-receipt tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Offer Clear, Upfront Pricing or Estimates</h3>
+                    <p class="tip-text">Why: Transparency builds trust and prevents disputes. Customers appreciate knowing what to expect financially. How: Have a clear pricing structure or offer free, detailed estimates for larger jobs. Explain service call fees. Being upfront reduces anxiety.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
