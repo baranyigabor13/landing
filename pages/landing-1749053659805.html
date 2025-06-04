@@ -1,16 +1,827 @@
-<!-- loading.html -->
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Az oldal tölt...</title>
-    <meta http-equiv="refresh" content="15" />
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milyen folyamatokat automatizáljunk cégünkben?</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-      body { font-family: sans-serif; text-align: center; padding-top: 100px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00f7ff;
+            --primary-dark: #00c4cc;
+            --secondary: #ff00c8;
+            --accent: #7700ff;
+            --dark: #0a0e17;
+            --light: #e6f7ff;
+            --card-bg: rgba(10, 14, 23, 0.8);
+            --glass-bg: rgba(20, 25, 40, 0.25);
+            --glow-primary: 0 0 15px rgba(0, 247, 255, 0.7);
+            --glow-secondary: 0 0 15px rgba(255, 0, 200, 0.7);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --warning: #ff4757;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: linear-gradient(135deg, var(--dark), #050a1a);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(0, 247, 255, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 200, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(119, 0, 255, 0.05) 0%, transparent 30%);
+            z-index: -1;
+        }
+
+        .grid-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(0, 247, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 247, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .floating-objects {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .floating-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.2;
+            animation: float 25s infinite linear;
+        }
+
+        .circle-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--primary);
+            top: 10%;
+            left: 5%;
+            animation-duration: 30s;
+        }
+
+        .circle-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--secondary);
+            top: 60%;
+            left: 80%;
+            animation-duration: 25s;
+            animation-delay: -5s;
+        }
+
+        .circle-3 {
+            width: 200px;
+            height: 200px;
+            background: var(--accent);
+            top: 20%;
+            left: 70%;
+            animation-duration: 20s;
+            animation-delay: -10s;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 6rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 3rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--glow-primary), 0 20px 50px rgba(0, 0, 0, 0.5);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.3s forwards;
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--light), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            position: relative;
+        }
+
+        .hero-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--light);
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 300;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.7rem 1.8rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            background: rgba(255, 71, 87, 0.15);
+            color: var(--warning);
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            letter-spacing: 0.1em;
+            border: 1px solid rgba(255, 71, 87, 0.3);
+            box-shadow: 0 0 15px rgba(255, 71, 87, 0.3);
+            transition: var(--transition);
+        }
+
+        .badge:hover {
+            background: rgba(255, 71, 87, 0.25);
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(255, 71, 87, 0.5);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 8rem 0;
+            position: relative;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            text-align: center;
+            background: linear-gradient(to right, var(--light), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            letter-spacing: -0.02em;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out 0.2s forwards;
+        }
+
+        .section-subtitle {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 2rem auto 5rem;
+            text-align: center;
+            color: var(--light);
+            line-height: 1.7;
+            opacity: 0.8;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out 0.4s forwards;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tip-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transform: translateY(30px) rotateX(5deg);
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            perspective: 1000px;
+        }
+
+        .tip-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--warning), var(--accent));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.6s ease;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-15px) rotateX(0);
+            box-shadow: 0 0 20px rgba(255, 71, 87, 0.3), 0 25px 50px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 71, 87, 0.3);
+        }
+
+        .tip-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .tip-card:hover .icon-wrapper {
+            transform: translateY(-10px) scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 71, 87, 0.5);
+        }
+
+        .icon-wrapper {
+            width: 90px;
+            height: 90px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, rgba(255, 71, 87, 0.1), rgba(119, 0, 255, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 71, 87, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .icon-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 71, 87, 0.2), transparent);
+            transform: rotate(45deg);
+            transition: var(--transition);
+        }
+
+        .tip-card:hover .icon-wrapper::before {
+            transform: rotate(45deg) translate(20px, 20px);
+        }
+
+        .tip-icon {
+            font-size: 2.5rem;
+            color: var(--warning);
+            transition: var(--transition);
+            z-index: 2;
+        }
+
+        .tip-title {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            font-weight: 700;
+            color: var(--light);
+            line-height: 1.3;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: -0.01em;
+        }
+
+        .tip-number {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 3rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.05);
+            line-height: 1;
+            transition: var(--transition);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .tip-card:hover .tip-number {
+            color: rgba(255, 71, 87, 0.1);
+            transform: scale(1.2);
+        }
+
+        .tip-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .tip-list li {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .tip-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--warning);
+            font-size: 1.3rem;
+            transition: var(--transition);
+        }
+
+        .tip-list li:hover {
+            color: var(--light);
+            transform: translateX(5px);
+        }
+
+        .tip-list li:hover::before {
+            transform: translateX(5px);
+            color: var(--primary);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(20px, -20px) rotate(5deg);
+            }
+            50% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            75% {
+                transform: translate(-20px, 20px) rotate(-5deg);
+            }
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+        }
+
+        .tip-card:nth-child(1) { animation-delay: 0.2s; }
+        .tip-card:nth-child(2) { animation-delay: 0.3s; }
+        .tip-card:nth-child(3) { animation-delay: 0.4s; }
+        .tip-card:nth-child(4) { animation-delay: 0.5s; }
+        .tip-card:nth-child(5) { animation-delay: 0.6s; }
+        .tip-card:nth-child(6) { animation-delay: 0.7s; }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .hero {
+                padding: 4rem 0;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.3rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .section-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .tip-card {
+                padding: 2.5rem 2rem;
+            }
+
+            .tip-list li {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            .hero-title {
+                font-size: 1.8rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 1.7rem;
+            }
+
+            .tip-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .icon-wrapper {
+                width: 75px;
+                height: 75px;
+            }
+
+            .tip-icon {
+                font-size: 2rem;
+            }
+
+            .tip-title {
+                font-size: 1.5rem;
+            }
+
+            .tips-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
     </style>
-  </head>
-  <body>
-    <h1>Készül az oldalad...</h1>
-    <p>Kérlek várj egy pillanatot.</p>
-  </body>
+</head>
+<body>
+<section class="features">
+    <div class="container">
+        <h2 class="section-title">Szükséges és Nem Automatizálható Feladatok</h2>
+        <p class="section-subtitle"></p>
+
+        <div class="tips-grid">
+            <div class="tip-card">
+                <span class="tip-number">01</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-paw tip-icon"></i>
+                </div>
+                <h3 class="tip-title">Állatokkal és Gazdákkal Való Interakció és Viselkedéskezelés</h3>
+                <ul class="tip-list">
+                    <li>Kutyák közötti konfliktusok vagy gazdák közötti nézeteltérések azonnali és empatikus kezelése, amely a felek viselkedésének, testbeszédének komplex értelmezését, feszültségoldást és helyzetfüggő döntéshozatalt igényel.</li>
+                    <li>Egyedi kutyák viselkedésének folyamatos megfigyelése stressz, félelem, fájdalom vagy agresszió jelei után kutatva, megkülönböztetve azokat a normális játéktól, és szükség esetén beavatkozásról dönteni a biztonság érdekében.</li>
+                    <li>Személyre szabott tanácsadás nyújtása a gazdáknak kutyájuk egyedi igényei, fajtajellemzői vagy a strandkörnyezetben tapasztalt viselkedése alapján, ami mély emberi megértést és tapasztalatot igényel.</li>
+                    <li>Stresszes, sérült vagy elveszett állatok, illetve aggódó gazdák megnyugtatása és érzelmi támogatása, ami empátiát, finom bánásmódot és kommunikációs készségeket követel.</li>
+                    <li>Helyszíni, szubjektív megítélés arról, hogy egy adott kutya vagy gazda alkalmas-e az adott napi strandkörnyezetre, az érkezéskor tapasztalt viselkedés (pl. túlzott szorongás, kontrollálatlan energia) alapján, a kockázatok felmérésével.</li>
+                </ul>
+            </div>
+
+            <div class="tip-card">
+                <span class="tip-number">02</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-shield-alt tip-icon"></i>
+                </div>
+                <h3 class="tip-title">Kríziskezelés és Biztonság</h3>
+                <ul class="tip-list">
+                    <li>Állatok sérülése vagy hirtelen rosszulléte esetén azonnali, helyszíni elsősegély nyújtása, a helyzet súlyosságának felmérése és a további lépésekről (pl. állatorvos azonnali értesítése) szóló felelős döntés meghozatala.</li>
+                    <li>Váratlan környezeti veszélyek (pl. törött üveg a homokban, éles tárgy a vízben, hirtelen erős áramlat) észlelése és azonnali kezelése (pl. terület lezárása, látogatók figyelmeztetése) emberi megfigyelés és gyors reagálás alapján.</li>
+                    <li>Elveszett kutyák keresésének koordinálása, a kétségbeesett gazdákkal való empatikus kommunikáció, a bejelentések kezelése és a keresési stratégia dinamikus alakítása korlátozott információk alapján.</li>
+                    <li>Elharapózó gazda-gazda viták vagy konfliktusok békés, határozott kezelése, a feszültség csökkentése, a szabályok alkalmazása emberi ítélőképesség és konfliktuskezelési készség révén.</li>
+                    <li>Összetett, fejlődő helyzetek (pl. vízminőségi aggályok, széleskörű viselkedési problémák) alapján a strand átmeneti lezárásáról vagy kiürítéséről szóló döntés meghozatala, ami több tényező szintézisét és felelős kockázatvállalást igényel.</li>
+                </ul>
+            </div>
+
+            <div class="tip-card">
+                <span class="tip-number">03</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-comments tip-icon"></i>
+                </div>
+                <h3 class="tip-title">Ügyfélkapcsolat-építés és Problémamegoldás</h3>
+                <ul class="tip-list">
+                    <li>Őszinte kapcsolat kialakítása a törzsvendégekkel és kutyáikkal, nevek és preferenciák megjegyzése, kellemes légkör teremtése, ami a személyes interakció esszenciája.</li>
+                    <li>Összetett vagy érzelmileg túlfűtött panaszok empatikus meghallgatása és kezelése, amelyek rugalmas, nem sablonos problémamegoldást és mély emberi megértést igényelnek.</li>
+                    <li>A strandon kívüli, de a strandhoz kapcsolódó problémák (pl. parkolás, szomszédok panaszai a kutyák miatt) diplomáciai úton történő kezelése, ami közvetítést és kommunikációs készségeket kíván.</li>
+                    <li>Egyedi körülmények alapján a szabályoktól való eltérés mérlegelése vagy személyre szabott megoldások felkínálása (pl. speciális igényű szolgálati kutya), ami emberséget, méltányosságot és ítélőképességet igényel.</li>
+                    <li>Minőségi visszajelzések gyűjtése a gazdáktól az élményeikről, ötleteikről és aggályaikról nyitott párbeszéd keretében, ami bizalmat épít és lehetővé teszi a rejtett igények feltárását.</li>
+                </ul>
+            </div>
+
+            <div class="tip-card">
+                <span class="tip-number">04</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-tools tip-icon"></i>
+                </div>
+                <h3 class="tip-title">Létesítményfelügyelet és Adaptív Karbantartás</h3>
+                <ul class="tip-list">
+                    <li>Konkrét események (pl. kutya rosszulléte, felszerelés sérülése) után a terület azonnali vizuális felmérése, a szükséges rendkívüli takarítás vagy javítás mértékének megítélése és a szükséges lépések megtétele a standard ütemezésen túl.</li>
+                    <li>Apró, potenciális veszélyek (pl. kilazult kerítésdeszka, éles kagyló a homokban, instabil pad) észlelése emberi szemmel, azok kockázatának felmérése és a javítás kezdeményezése, mielőtt komoly problémát okoznának.</li>
+                    <li>A strand területének dinamikus kezelése és a gazdák, kutyák áramlásának irányítása a tömegsűrűség, a kutyák közötti interakciók vagy speciális események alapján a feszültség elkerülése érdekében.</li>
+                    <li>A higiéniai protokollok finomhangolása a valós használati minták és a tapasztalt kockázatok (pl. bizonyos területek fokozott szennyeződése) alapján, ami biológiai megértést és megfigyelőképességet igényel a statikus tervek helyett.</li>
+                    <li>Esztétikai megítélés alkalmazása a strand vizuális megjelenésének fenntartásában, az elrendezés finomításában, hogy a terület mindig ápolt és hívogató legyen, ami szubjektív emberi ízlést és a látogatói élmény megértését kívánja meg.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="features">
+  <div class="container">
+    <h2 class="section-title">Szükséges, de Automatizálható Feladatok</h2>
+    <p class="section-subtitle"></p>
+
+    <div class="tips-grid">
+      <!-- Card 1 -->
+      <div class="tip-card">
+        <span class="tip-number">01</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-ticket-alt tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Online Foglalás és Jegykezelés</h3>
+        <ul class="tip-list">
+          <li>Foglalások kezelése (időpontok, férőhelyek) online rendszeren keresztül.</li>
+          <li>Jegyek/belépők online értékesítése és fizetésfeldolgozás.</li>
+          <li>Foglalási és fizetési visszaigazolások automatikus kiküldése e-mailben vagy SMS-ben.</li>
+          <li>Emlékeztetők küldése a foglalás előtt (pl. 24 órával).</li>
+          <li>Belépők/jegyek érvényesítése QR-kód vagy vonalkód alapú rendszerekkel.</li>
+        </ul>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="tip-card">
+        <span class="tip-number">02</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-comments tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Ügyfélkommunikáció</h3>
+        <ul class="tip-list">
+          <li>Gyakran Ismételt Kérdések (GYIK) megválaszolása chatboton vagy weboldali automatizált válaszokkal.</li>
+          <li>Információk küldése nyitvatartásról, szabályokról, aktuális eseményekről automatikus üzenetekben.</li>
+          <li>Automatikus üdvözlő e-mail küldése új regisztrálóknak.</li>
+          <li>Visszajelzés/értékelés kérés automatikus e-mailben a látogatás után.</li>
+        </ul>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="tip-card">
+        <span class="tip-number">03</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-file-invoice-dollar tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Fizetés és Számlázás</h3>
+        <ul class="tip-list">
+          <li>Online fizetések feldolgozása (bankkártya, online pénztárcák).</li>
+          <li>Automatikus számlakiállítás és kiküldés a fizetés után.</li>
+          <li>Elmaradt fizetésekkel kapcsolatos emlékeztetők küldése.</li>
+        </ul>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="tip-card">
+        <span class="tip-number">04</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-bullhorn tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Marketing és Promóciók</h3>
+        <ul class="tip-list">
+          <li>E-mail hírlevelek kiküldése (új szolgáltatásokról, eseményekről, akciókról).</li>
+          <li>Közösségi média bejegyzések ütemezése és automatikus posztolása.</li>
+          <li>Célzott promóciós üzenetek küldése az ügyféladatok alapján (pl. születésnapi kedvezmény).</li>
+          <li>Online hirdetési kampányok kezelése automatizált platformokon.</li>
+        </ul>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="tip-card">
+        <span class="tip-number">05</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-chart-bar tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Adatgyűjtés és Elemzés</h3>
+        <ul class="tip-list">
+          <li>Látogatói adatok gyűjtése a foglalási rendszerből (népszerű időszakok, szolgáltatások).</li>
+          <li>Riportok készítése a napi/heti/havi látogatói számokról.</li>
+          <li>Weboldal és közösségi média analitikai adatok követése.</li>
+        </ul>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="tip-card">
+        <span class="tip-number">06</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-tasks tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Adminisztráció (kiegészítő szolgáltatások esetén, pl. shop)</h3>
+        <ul class="tip-list">
+          <li>Készletnyilvántartás egyszerűsítése és riasztás alacsony készletnél.</li>
+          <li>Alapvető pénzügyi tranzakciók rögzítése.</li>
+        </ul>
+      </div>
+    </div> <!-- closes .tips-grid -->
+  </div> <!-- closes .container -->
+</section> <!-- closes .features -->
+<section class="features">
+  <div class="container">
+    <h2 class="section-title">Szükségtelen Feladatok (Időpocsékolás)</h2>
+    <p class="section-subtitle">Az alábbi lista azokat a tipikus tevékenységeket gyűjti össze, amelyek gyakran feleslegesek, hatékonytalanok és csak pazarolják az értékes munkaidőt.</p>
+
+    <div class="tips-grid">
+      
+      <div class="tip-card">
+        <span class="tip-number">01</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-clipboard tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Redundáns Adminisztráció</h3>
+        <ul class="tip-list">
+          <li>Napi látogatók számának manuális rögzítése papíron is, amellett, hogy a beléptető rendszer elektronikusan is tárolja.</li>
+          <li>Külön, nem szinkronizált táblázatok vezetése a napi bevételről, látogatószámról és a felhasznált készletekről (pl. szemeteszsák).</li>
+          <li>Minden bejövő számla és bizonylat manuális lefűzése és fizikai archiválása, mielőtt digitalizálják vagy felviszik a rendszerbe.</li>
+          <li>Minden apró, belső kommunikáció (pl. "ma nem működik a csap") írásos jegyzőkönyvben történő rögzítése, amelyre nincs szükség.</li>
+          <li>Ugyanazoknak az adatoknak (pl. kutya mérete, fajtája) többszöri, eltérő helyen történő felvezetése (pl. beléptetésnél, belső nyilvántartásban, esetleges regisztrációkor).</li>
+        </ul>
+      </div>
+      
+      <div class="tip-card">
+        <span class="tip-number">02</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-users tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Felesleges Megbeszélések</h3>
+        <ul class="tip-list">
+          <li>Napi, kötelező "stand-up" megbeszélések, ahol minden alkalmazott (kapus, takarító, esetleges úszómester) elmondja, mit fog csinálni aznap, holott a feladatok rutinszerűek.</li>
+          <li>Heti, általános "helyzetértékelő" megbeszélések, ahol nincs konkrét napirend, és csak általánosságokról van szó.</li>
+          <li>Túl sok ember bevonása olyan megbeszélésekbe, amelyek csak egy szűkebb csoportot érintenek (pl. a takarítási protokoll apró módosítása).</li>
+          <li>Hosszas viták és megbeszélések olyan triviális döntésekről, mint egy új lapát beszerzése vagy egy tábla pontos helye.</li>
+          <li>Megbeszélések olyan témákról, amelyekre a válasz vagy a szükséges információ egy közös online dokumentumban vagy rendszerben is megtalálható.</li>
+        </ul>
+      </div>
+      
+      <div class="tip-card">
+        <span class="tip-number">03</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-eye tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Túlzott Ellenőrzés</h3>
+        <ul class="tip-list">
+          <li>A vezető vagy a felügyelő személyesen ellenőrzi <strong>minden</strong> szemeteszsák cseréjét vagy a takarító munkájának minden apró részletét.</li>
+          <li>Minden apró vásárlás (pl. extra wc-papír tekercs, egy új kefe) esetén több lépcsős engedélyeztetési folyamat.</li>
+          <li>Folyamatosan, óránként ellenőrizni a kapus által rögzített látogatószámot, összevetve a számláló állásával.</li>
+          <li>Rutin karbantartási feladatok (pl. kerítés javítása) esetén is több ember általi felülvizsgálat és jóváhagyás igénylése.</li>
+          <li>A homok gereblyézésének vagy a víz tisztaságának folyamatos, minden apró részletre kiterjedő ellenőrzése, ahelyett, hogy csak a biztonsági és higiéniai minimumot ellenőriznék.</li>
+        </ul>
+      </div>
+      
+      <div class="tip-card">
+        <span class="tip-number">04</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-exchange-alt tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Rossz Kommunikáció</h3>
+        <ul class="tip-list">
+          <li>Fontos operatív információk (pl. "az egyik zuhanyzó elromlott") kommunikálása csak szóban, szétfolyóan, nem dokumentálva.</li>
+          <li>Több, nem összefüggő csatorna használata belső kommunikációra (pl. részben e-mail, részben WhatsApp, részben cetlik az irodában), ami információvesztéshez vezet.</li>
+          <li>Minden alkalmazottnak kiküldött e-mailek olyan témákról, amelyek csak egy szűk csoportot érintenek (pl. a kapusok új beléptetési protokollja kiküldve a takarítóknak is).</li>
+          <li>Nincs egy központi, könnyen elérhető hely (pl. közös online dokumentum, belső chat csoport) a napi operatív információk megosztására.</li>
+          <li>Túl hosszú, terjengős üzenetek írása, amikor pár bullet point is elegendő lenne.</li>
+        </ul>
+      </div>
+      
+      <div class="tip-card">
+        <span class="tip-number">05</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-cogs tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Elavult Rendszerek</h3>
+        <ul class="tip-list">
+          <li>Fizikai pénztárgép és manuális naplózás a beléptetési díjak gyűjtésére a digitális POS rendszer helyett.</li>
+          <li>Papíralapú munkaidő-nyilvántartás és beosztások készítése digitális szoftver helyett.</li>
+          <li>Nincs online jegyvásárlási vagy előfoglalási lehetőség, minden tranzakció a helyszínen, manuálisan történik.</li>
+          <li>Régi, hatástalan takarítóeszközök használata, amelyek sokkal több időt igényelnek, mint a modernek.</li>
+          <li>Minden közösségi média poszt manuális közzététele az összes platformon ahelyett, hogy időzítő szoftvert használnának.</li>
+        </ul>
+      </div>
+      
+      <!-- According to instructions, a maximum of 5 cards are generated. The remaining two categories are omitted. -->
+      
+    </div> <!-- closes .tips-grid -->
+  </div> <!-- closes .container -->
+</section> <!-- closes .features / section -->
+    <script>
+        // Add mouse move effect to cards
+        document.querySelectorAll('.tip-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const cardRect = card.getBoundingClientRect();
+                const x = e.clientX - cardRect.left;
+                const y = e.clientY - cardRect.top;
+
+                const centerX = cardRect.width / 2;
+                const centerY = cardRect.height / 2;
+
+                const angleY = (x - centerX) / 25;
+                const angleX = (centerY - y) / 25;
+
+                card.style.transform = `rotateY(${angleY}deg) rotateX(${angleX}deg) translateY(-15px)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(-15px) rotateX(0)';
+            });
+        });
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateElements = document.querySelectorAll('.animate-up');
+
+            // Trigger animations with delay
+            setTimeout(() => {
+                animateElements.forEach(el => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                });
+            }, 300);
+        });
+    </script>
+</body>
 </html>
