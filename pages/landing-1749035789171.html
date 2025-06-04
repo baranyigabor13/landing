@@ -1,16 +1,1034 @@
-<!-- loading.html -->
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Az oldal tölt...</title>
-    <meta http-equiv="refresh" content="15" />
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milyen folyamatokat automatizáljunk cégünkben?</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-      body { font-family: sans-serif; text-align: center; padding-top: 100px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00f7ff;
+            --primary-dark: #00c4cc;
+            --secondary: #ff00c8;
+            --accent: #7700ff;
+            --dark: #0a0e17;
+            --light: #e6f7ff;
+            --card-bg: rgba(10, 14, 23, 0.8);
+            --glass-bg: rgba(20, 25, 40, 0.25);
+            --glow-primary: 0 0 15px rgba(0, 247, 255, 0.7);
+            --glow-secondary: 0 0 15px rgba(255, 0, 200, 0.7);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --warning: #ff4757;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: linear-gradient(135deg, var(--dark), #050a1a);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(0, 247, 255, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 200, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(119, 0, 255, 0.05) 0%, transparent 30%);
+            z-index: -1;
+        }
+
+        .grid-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(0, 247, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 247, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .floating-objects {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .floating-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.2;
+            animation: float 25s infinite linear;
+        }
+
+        .circle-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--primary);
+            top: 10%;
+            left: 5%;
+            animation-duration: 30s;
+        }
+
+        .circle-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--secondary);
+            top: 60%;
+            left: 80%;
+            animation-duration: 25s;
+            animation-delay: -5s;
+        }
+
+        .circle-3 {
+            width: 200px;
+            height: 200px;
+            background: var(--accent);
+            top: 20%;
+            left: 70%;
+            animation-duration: 20s;
+            animation-delay: -10s;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 6rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 3rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--glow-primary), 0 20px 50px rgba(0, 0, 0, 0.5);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.3s forwards;
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--light), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            position: relative;
+        }
+
+        .hero-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--light);
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 300;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.7rem 1.8rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            background: rgba(255, 71, 87, 0.15);
+            color: var(--warning);
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            letter-spacing: 0.1em;
+            border: 1px solid rgba(255, 71, 87, 0.3);
+            box-shadow: 0 0 15px rgba(255, 71, 87, 0.3);
+            transition: var(--transition);
+        }
+
+        .badge:hover {
+            background: rgba(255, 71, 87, 0.25);
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(255, 71, 87, 0.5);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 8rem 0;
+            position: relative;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            text-align: center;
+            background: linear-gradient(to right, var(--light), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            letter-spacing: -0.02em;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out 0.2s forwards;
+        }
+
+        .section-subtitle {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 2rem auto 5rem;
+            text-align: center;
+            color: var(--light);
+            line-height: 1.7;
+            opacity: 0.8;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out 0.4s forwards;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tip-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transform: translateY(30px) rotateX(5deg);
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            perspective: 1000px;
+        }
+
+        .tip-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--warning), var(--accent));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.6s ease;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-15px) rotateX(0);
+            box-shadow: 0 0 20px rgba(255, 71, 87, 0.3), 0 25px 50px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 71, 87, 0.3);
+        }
+
+        .tip-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .tip-card:hover .icon-wrapper {
+            transform: translateY(-10px) scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 71, 87, 0.5);
+        }
+
+        .icon-wrapper {
+            width: 90px;
+            height: 90px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, rgba(255, 71, 87, 0.1), rgba(119, 0, 255, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 71, 87, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .icon-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 71, 87, 0.2), transparent);
+            transform: rotate(45deg);
+            transition: var(--transition);
+        }
+
+        .tip-card:hover .icon-wrapper::before {
+            transform: rotate(45deg) translate(20px, 20px);
+        }
+
+        .tip-icon {
+            font-size: 2.5rem;
+            color: var(--warning);
+            transition: var(--transition);
+            z-index: 2;
+        }
+
+        .tip-title {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            font-weight: 700;
+            color: var(--light);
+            line-height: 1.3;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: -0.01em;
+        }
+
+        .tip-number {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 3rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.05);
+            line-height: 1;
+            transition: var(--transition);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .tip-card:hover .tip-number {
+            color: rgba(255, 71, 87, 0.1);
+            transform: scale(1.2);
+        }
+
+        .tip-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .tip-list li {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .tip-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--warning);
+            font-size: 1.3rem;
+            transition: var(--transition);
+        }
+
+        .tip-list li:hover {
+            color: var(--light);
+            transform: translateX(5px);
+        }
+
+        .tip-list li:hover::before {
+            transform: translateX(5px);
+            color: var(--primary);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(20px, -20px) rotate(5deg);
+            }
+            50% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            75% {
+                transform: translate(-20px, 20px) rotate(-5deg);
+            }
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+        }
+
+        .tip-card:nth-child(1) { animation-delay: 0.2s; }
+        .tip-card:nth-child(2) { animation-delay: 0.3s; }
+        .tip-card:nth-child(3) { animation-delay: 0.4s; }
+        .tip-card:nth-child(4) { animation-delay: 0.5s; }
+        .tip-card:nth-child(5) { animation-delay: 0.6s; }
+        .tip-card:nth-child(6) { animation-delay: 0.7s; }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .hero {
+                padding: 4rem 0;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.3rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .section-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .tip-card {
+                padding: 2.5rem 2rem;
+            }
+
+            .tip-list li {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            .hero-title {
+                font-size: 1.8rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 1.7rem;
+            }
+
+            .tip-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .icon-wrapper {
+                width: 75px;
+                height: 75px;
+            }
+
+            .tip-icon {
+                font-size: 2rem;
+            }
+
+            .tip-title {
+                font-size: 1.5rem;
+            }
+
+            .tips-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
     </style>
-  </head>
-  <body>
-    <h1>Készül az oldalad...</h1>
-    <p>Kérlek várj egy pillanatot.</p>
-  </body>
+</head>
+<body>
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <span class="badge">AI Szakértő Cég</span>
+            <h1 class="hero-title">Cégautomatizálás és Emberi Hozzájárulás</h1>
+            <p class="hero-subtitle">Az AI korában is vannak területek, ahol az emberi készségek pótolhatatlanok.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <div class="container">
+        <h2 class="section-title">Az Emberi Hozzájárulás Kulcsterületei</h2>
+        <p class="section-subtitle">Fedezze fel, hol maradhat az emberi intuíció, empátia és kreativitás a legfontosabb tényező.</p>
+
+        <div class="tips-grid">
+            <!-- Tip Card 01 -->
+            <div class="tip-card">
+                <span class="tip-number">01</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-file-alt tip-icon"></i>
+                </div>
+                <h3 class="tip-title">Stratégiai Döntéshozatal és Üzleti Irányítás</h3>
+                <ul class="tip-list">
+                    <li>A hosszú távú vízió és misszió meghatározása összetett piaci megértés, jövőbeli trendekkel kapcsolatos intuíció és szubjektív értékítéletek alapján, ami túllép az adatvezérelt elemzés korlátain.</li>
+                    <li>Jelentős vállalati egyesülések, felvásárlások vagy értékesítések eldöntése, figyelembe véve a kulturális illeszkedést, a politikai vonatkozásokat és a pénzügyi modelleken túlmutató hosszú távú szinergia potenciált, ami emberi megítélést igényel.</li>
+                    <li>A vállalati kultúra és értékek meghatározása, valamint azok előmozdítása személyes példamutatással és vezetéssel, ami inherensen emberi interakción és értékátadáson alapul.</li>
+                    <li>Magas tétű szerződések tárgyalása kulcsfontosságú partnerekkel vagy kormányzati szervekkel, ami bizalomépítést, a testbeszéd olvasását és a nuanced motivációk megértését követeli meg, ami nem automatizálható emberi készség.</li>
+                    <li>Kockázatértékelés példa nélküli vagy nagyon bizonytalan helyzetekben (pl. globális pandémia kezelése, váratlan politikai változásokra való reagálás), ahol a történelmi adatok elégtelenek, és emberi ítéletre van szükség.</li>
+                </ul>
+            </div>
+
+            <!-- Tip Card 02 -->
+            <div class="tip-card">
+                <span class="tip-number">02</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-comments tip-icon"></i>
+                </div>
+                <h3 class="tip-title">Emberi Kapcsolatok és Empátia</h3>
+                <ul class="tip-list">
+                    <li>Összetett személyközi konfliktusok közvetítése egy csapaton belül, az alapvető érzelmek, kimondatlan feszültségek megértése és az egyének segítése közös nevező vagy megoldás megtalálásában, ami mély empátiát és érzelmi intelligenciát igényel.</li>
+                    <li>Empatikus támogatás és útmutatás nyújtása olyan munkavállalóknak, akik személyes válságokkal néznek szembe, amelyek befolyásolják munkájukat vagy jólétüket, ami személyre szabott, érzékeny emberi törődést követel.</li>
+                    <li>Erős, bizalomra épülő kapcsolatok kiépítése és ápolása kulcsfontosságú ügyfelekkel, partnerekkel vagy érdekelt felekkel személyes kapcsolaton és egyéni igényeik és preferenciáik megértésén keresztül, ami kapcsolati intelligenciát igényel.</li>
+                    <li>Teljesítményértékelések lebonyolítása, amelyek árnyalt visszajelzést, egy munkavállaló karrier aspirations-jének megértését, bátorítást és érzékeny fejlesztési területek konstruktív megvitatását foglalják magukban, ami emberi érzékenységet és coaching készségeket kíván.</li>
+                    <li>Jelöltek felvétele és értékelése a kulturális illeszkedés és olyan megfoghatatlan tulajdonságok szempontjából, mint a szenvedély, az ellenállóképesség és az együttműködési készség, amelyek túllépnek az önéletrajzban felsorolt készségeken vagy teszteredményeken, ami emberi intuíciót és megítélést igényel.</li>
+                </ul>
+            </div>
+
+            <!-- Tip Card 03 -->
+            <div class="tip-card">
+                <span class="tip-number">03</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-truck tip-icon"></i>
+                </div>
+                <h3 class="tip-title">Kreativitás és Innováció</h3>
+                <ul class="tip-list">
+                    <li>Újszerű üzleti modellek vagy termékötletek generálása, amelyek megzavarják a meglévő piacokat vagy teljesen újakat hoznak létre, gyakran intuíció, disparate információk szintézise és divergens gondolkodás alapján, ami kreatív szellemi ugrást kíván.</li>
+                    <li>Meggyőző és érzelmileg rezonáló marketing kampányok vagy márka narratívák kidolgozása, amelyek mélyen kapcsolódnak a célközönséghez emberi szinten, ami az emberi érzelmek és a történetmesélés mély megértését igényli.</li>
+                    <li>Felhasználói élmények tervezése, amelyek intuitívan örömteliek és előre látják a felhasználók kimondatlan igényeit vagy érzelmi reakcióit, túlmutatva a funkcionális követelményeken, ami emberi empátiát és esztétikai érzéket igényel.</li>
+                    <li>Művészi vagy design elemek (logók, termék esztétika, reklám vizuálisok) létrehozása, amelyek specifikus érzéseket váltanak ki vagy absztrakt márkát azonosítanak a technikai specifikációkon túl, ami emberi művészi ítéletet és érzelmi szándékot foglal magában.</li>
+                    <li>Tudományos hipotézisek vagy kutatási kérdések megfogalmazása alapvető áttörésekhez, ami intuitív ugrásokat, mintafelismerést összetett adatokban és teljesen új kutatási területek meghatározását igényli, ami túllép az automatizálható elemzésen.</li>
+                </ul>
+            </div>
+
+            <!-- Tip Card 04 -->
+            <div class="tip-card">
+                <span class="tip-number">04</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-user-tie tip-icon"></i>
+                </div>
+                <h3 class="tip-title">Komplex Problémamegoldás és Kritikus Gondolkodás</h3>
+                <ul class="tip-list">
+                    <li>Szisztémás szervezeti hibák gyökér okainak diagnosztizálása, amelyek magukban foglalják az emberi hiba, a folyamat hibák és a technológiai korlátok kölcsönhatását, szubjektív megítélést és hiányos információk szintézisét követelve.</li>
+                    <li>Kétértelmű jogi vagy etikai dilemmák értelmezése, ahol nincs világos precedens, morális érvelést, versengő értékek mérlegelését és jelentős következményekkel járó ítélet meghozatalát igényli.</li>
+                    <li>Stratégiai válasz kidolgozása egy nagy válságra (pl. PR katasztrófa, súlyos biztonsági rés), amely magában foglalja a nagyon változékony helyzet gyors értékelését, több emberi szereplő koordinálását és empatikus kommunikációt nyomás alatt.</li>
+                    <li>Nagyon zavaró technológiák üzleti környezetre gyakorolt megvalósíthatóságának és potenciális hatásának értékelése, jövőképességet, összetett kölcsönfüggőségek megértését és bizonytalan jövőbeli állapotokon alapuló hosszú távú befektetési döntések meghozatalát igényelve.</li>
+                    <li>Alapvető szervezeti folyamatok újratervezése, amely jelentős változásokat foglal magában az emberi szerepekben, munkafolyamatokban és kulturális alkalmazkodásban, változásmenedzsment szakértelem, érdekelt felekkel való tárgyalást és az emberi ellenállás megértését követelve.</li>
+                </ul>
+            </div>
+
+            <!-- Tip Card 05 -->
+            <div class="tip-card">
+                <span class="tip-number">05</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-tools tip-icon"></i>
+                </div>
+                <h3 class="tip-title">[TIP_05_TITLE]</h3>
+                <ul class="tip-list">
+                    <li>[TIP_05_ITEM_1]</li>
+                    <li>[TIP_05_ITEM_2]</li>
+                    <li>[TIP_05_ITEM_3]</li>
+                    <li>[TIP_05_ITEM_4]</li>
+                </ul>
+            </div>
+
+            <!-- Tip Card 06 -->
+            <div class="tip-card">
+                <span class="tip-number">06</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-user-slash tip-icon"></i>
+                </div>
+                <h3 class="tip-title">[TIP_06_TITLE]</h3>
+                <ul class="tip-list">
+                    <li>[TIP_06_ITEM_1]</li>
+                    <li>[TIP_06_ITEM_2]</li>
+                    <li>[TIP_06_ITEM_3]</li>
+                    <li>[TIP_06_ITEM_4]</li>
+                </ul>
+            </div>
+        </div> <!-- closes .tips-grid -->
+    </div> <!-- closes .container -->
+</section> <!-- closes .features -->
+<section class="features">
+  <div class="container">
+    <h2 class="section-title">Szükséges, de Automatizálható Feladatok</h2>
+    <p class="section-subtitle"></p>
+
+    <div class="tips-grid">
+      <div class="tip-card">
+        <span class="tip-number">01</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-database tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Adatfeldolgozás és -bevitel</h3>
+        <ul class="tip-list">
+          <li>Számlák, rendelések, űrlapok adatainak rögzítése adatbázisba.</li>
+          <li>Adatok gyűjtése és rendszerezése weboldalakról, közösségi médiából.</li>
+          <li>Adatok konvertálása különböző formátumok között.</li>
+          <li>Nagymennyiségű adat tisztítása és validálása.</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <span class="tip-number">02</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-cogs tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Ismétlődő adminisztratív feladatok</h3>
+        <ul class="tip-list">
+          <li>E-mailek szűrése és válaszadás sablonválaszokkal gyakori kérdésekre.</li>
+          <li>Naptárkezelés, időpontok egyeztetése és emlékeztetők küldése.</li>
+          <li>Dokumentumok generálása sablonok alapján (pl. szerződések, ajánlatok).</li>
+          <li>Rendszeres riportok és statisztikák generálása.</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <span class="tip-number">03</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-headset tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Ügyfélszolgálat egyszerűbb kérdésekre</h3>
+        <ul class="tip-list">
+          <li>Gyakran ismételt kérdések (GYIK) megválaszolása chatboton keresztül.</li>
+          <li>Rendeléskövetés és szállítási információk automatikus biztosítása.</li>
+          <li>Egyszerűbb panaszok és reklamációk kezelése automatizált rendszerekkel.</li>
+          <li>Ügyféladatok frissítése és karbantartása CRM rendszerben.</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <span class="tip-number">04</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-chart-line tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Marketing és értékesítés automatizálás</h3>
+        <ul class="tip-list">
+          <li>E-mail marketing kampányok indítása és kezelése.</li>
+          <li>Közösségi média bejegyzések ütemezése és automatikus posztolása.</li>
+          <li>Hirdetések megjelenítése automatizált platformokon.</li>
+          <li>Lead generálás és automatikus érdeklődők feldolgozása.</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <span class="tip-number">05</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-file-invoice-dollar tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Pénzügyi és számviteli feladatok</h3>
+        <ul class="tip-list">
+          <li>Számlák kiállítása és elküldése.</li>
+          <li>Kifizetések feldolgozása és könyvelése.</li>
+          <li>Pénzügyi riportok és kimutatások készítése.</li>
+          <li>Költségelszámolás és -nyilvántartás.</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <span class="tip-number">06</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-users tip-icon"></i>
+        </div>
+        <h3 class="tip-title">HR feladatok</h3>
+        <ul class="tip-list">
+          <li>Jelentkezések fogadása és szűrése sablonok alapján.</li>
+          <li>Interjúk ütemezése és emlékeztetők küldése.</li>
+          <li>Új munkatársak beléptetése és adminisztratív feladatok elvégzése.</li>
+          <li>Szabadságok és betegszabadságok nyilvántartása.</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <span class="tip-number">07</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-warehouse tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Raktárkezelés és logisztika</h3>
+        <ul class="tip-list">
+          <li>Készletnyilvántartás és automatikus utánrendelés.</li>
+          <li>Rendelések összekészítése és csomagolása robotok segítségével.</li>
+          <li>Szállítási útvonalak optimalizálása és diszpécser feladatok automatizálása.</li>
+          <li>Visszáru kezelése automatizált rendszerekkel.</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <span class="tip-number">08</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-laptop-code tip-icon"></i>
+        </div>
+        <h3 class="tip-title">IT és technikai feladatok</h3>
+        <ul class="tip-list">
+          <li>Szerverek és rendszerek monitorozása és automatikus hibaelhárítás.</li>
+          <li>Szoftverfrissítések és -telepítések automatizálása.</li>
+          <li>Biztonsági mentések készítése és adatvisszaállítás.</li>
+          <li>Felhasználói fiókok létrehozása és kezelése.</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <span class="tip-number">09</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-industry tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Gyártás és termelés</h3>
+        <ul class="tip-list">
+          <li>Gyártósorok működtetése és folyamatvezérlés.</li>
+          <li>Minőségellenőrzés automatizált rendszerekkel (pl. gépi látás).</li>
+          <li>Raktározás és anyagmozgatás automatizált raktárakban.</li>
+          <li>Csomagolás és címkézés automatizált rendszerekkel.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="features">
+  <div class="container">
+    <h2 class="section-title">Szükségtelen Feladatok (Időpocsékolás)</h2>
+    <p class="section-subtitle">[MODUL ALÁÍRÁS / LEÍRÁS]</p>
+
+    <div class="tips-grid">
+      <!-- 1 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">01</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-file-alt tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Redundáns adminisztráció</h3>
+        <ul class="tip-list">
+          <li>Ugyanazokat az adatokat manuálisan beírni több, nem integrált rendszerbe (pl. ügyféladatok CRM-be, majd ugyanezeket egy számlázó programba).</li>
+          <li>Fizikai dokumentumok fénymásolása és archiválása digitális példányok megléte mellett.</li>
+          <li>Többlépcsős, felesleges engedélyezési folyamatok apró beszerzések vagy rutin kiadások esetén.</li>
+          <li>Manuális jelenléti ívek vezetése és rögzítése automatizált beléptető rendszer helyett.</li>
+          <li>Kézzel írt vagy nyomtatott bizonylatok újbóli begépelése a rendszerbe.</li>
+          <li>Túlzottan részletes, felesleges metaadatok vagy címkék hozzáadása fájlokhoz, amelyeket soha senki nem használ.</li>
+          <li>Ugyanazon információ újbóli és újbóli kitöltése különböző belső űrlapokon.</li>
+          <li>Felesleges másolatok küldése dokumentumokból vagy e-mailekből olyan embereknek, akiknek nincs szükségük rá.</li>
+          <li>Rendszeres, de soha nem használt vagy ellenőrzött nyilvántartások vezetése.</li>
+          <li>Manuális utazási költségelszámolások kitöltése és papír alapú benyújtása automatizált rendszerek helyett.</li>
+        </ul>
+      </div>
+
+      <!-- 2 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">02</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-users tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Felesleges megbeszélések</h3>
+        <ul class="tip-list">
+          <li>Heti státuszegyeztető megbeszélések megtartása, ahol az információk e-mailben vagy projektmenedzsment eszközben is könnyen megoszthatók lennének.</li>
+          <li>Megbeszélések tartása világos napirend vagy előre meghatározott cél nélkül.</li>
+          <li>Olyan személyek meghívása megbeszélésekre, akiknek a témához nincs közvetlen közük, vagy akikre nincs szükség a döntéshozatalhoz.</li>
+          <li>Túlzottan hosszúra nyúló megbeszélések, amelyek témája már lezárult, vagy amelyekben elkalandoznak a résztvevők.</li>
+          <li>Végtelen "brainstorming" ülések, amelyek sosem eredményeznek konkrét lépéseket vagy döntéseket.</li>
+          <li>Hirtelen összehívott, sürgősségi megbeszélések, amelyek valójában nem sürgősek, csak rossz tervezés eredményei.</li>
+          <li>Ismétlődő megbeszélések, amelyek eredeti célja már irreleváns, de továbbra is megtartják őket a megszokásból.</li>
+          <li>Virtuális megbeszélések tartása, ahol a technikai problémák vagy a rossz kapcsolat miatt sok idő vész el.</li>
+          <li>Megbeszélések, ahol egy-két ember beszél, a többiek passzívan figyelnek, holott elég lenne csak a lényegi összefoglalót megkapniuk.</li>
+          <li>Olyan megbeszélések, ahol a meghozott döntésekről nem készül összefoglaló, így később újra meg kell tárgyalni a témát.</li>
+        </ul>
+      </div>
+
+      <!-- 3 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">03</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-search tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Túlzott ellenőrzés</h3>
+        <ul class="tip-list">
+          <li>Mikromenedzsment: a munkatársak minden lépésének folyamatos figyelése és instruálása ahelyett, hogy feladatot adnának és bízva ellenőriznék a végeredményt.</li>
+          <li>Apró döntések vagy feladatok többszintű, szükségtelen engedélyezése.</li>
+          <li>Minden elkészült munka több ember általi, redundáns ellenőrzése, holott egyetlen felelős személy is elegendő lenne.</li>
+          <li>Szükségtelenül részletes, percre pontos időkövetés megkövetelése a munkatársaktól.</li>
+          <li>Jelentések kérése, amelyek célja kizárólag a kontrol, de valójában nem elemzik vagy használják fel azokat.</li>
+          <li>Folyamatosan ellenőrizni, hogy a munkatársak "dolgoznak-e", ahelyett, hogy az eredményekre fókuszálnának.</li>
+          <li>Szükségtelenül sok és részletes beszámoló vagy frissítés kérése olyan projektekről, amelyek jól haladnak.</li>
+          <li>Tesztelési vagy minőségellenőrzési folyamatok túlzottan bonyolulttá tétele egyszerű termékek vagy szolgáltatások esetén.</li>
+          <li>Minden apró kommunikáció vagy döntés előzetes jóváhagyásának megkövetelése.</li>
+          <li>Munkatársaktól olyan információk kérése, amelyekhez maguk is könnyen hozzáférhetnének a rendszerben.</li>
+        </ul>
+      </div>
+
+      <!-- 4 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">04</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-comments-slash tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Rossz kommunikáció</h3>
+        <ul class="tip-list">
+          <li>Homályos vagy hiányos instrukciók adása, ami félreértésekhez és átmunkáláshoz vezet.</li>
+          <li>Információ "silók" fenntartása, ahol a szükséges adatokhoz vagy dokumentumokhoz csak egy szűk kör fér hozzá.</li>
+          <li>Rossz csatorna választása a kommunikációhoz (pl. sürgős kérés e-mailben ahelyett, hogy felhívnák az érintettet).</li>
+          <li>Passzív-agresszív vagy udvariatlan kommunikáció, ami feszültséget okoz és időt emészt fel a konfliktuskezeléssel.</li>
+          <li>Túl sok belső szakzsargon vagy rövidítés használata, ami megnehezíti a megértést az új vagy más területről érkező kollégáknak.</li>
+          <li>Információk többszöri, különböző formában való elküldése (pl. e-mail, chat, személyes beszélgetés ugyanarról a dologról).</li>
+          <li>A kollégák kérdéseire adott késői vagy hiányos válaszok, amelyek blokkolják a munkát.</li>
+          <li>Fontos bejelentések vagy változások rosszul vagy késve történő kommunikálása.</li>
+          <li>Nem megfelelő visszajelzés adása, ami nem segít a munkatársaknak fejlődni vagy javítani a munkájukat.</li>
+          <li>Szóban megbeszélt fontos információk írásos dokumentálása vagy megerősítése elmulasztása.</li>
+        </ul>
+      </div>
+
+      <!-- 5 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">05</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-wrench tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Elavult rendszerek/folyamatok</h3>
+        <ul class="tip-list">
+          <li>Táblázatok használata összetett projektmenedzsmentre vagy ügyféladatok kezelésére.</li>
+          <li>Papír alapú vagy manuális számlázási és pénzügyi folyamatok használata.</li>
+          <li>Dokumentumok nyomtatása, aláírása, szkennelése és e-mailben történő továbbítása digitális aláírás vagy munkafolyamat rendszer helyett.</li>
+          <li>Régi, nem integrált szoftverek használata, amelyek manuális adatátvitelt igényelnek közöttük.</li>
+          <li>Fax vagy fizikai posta használata olyan kommunikációra, amely elektronikus úton is megoldható lenne.</li>
+          <li>Olyan belső rendszerek használata, amelyek lassúak, gyakran hibásodnak meg, vagy bonyolult a kezelésük.</li>
+          <li>Kézi készletnyilvántartás automatizált rendszer helyett.</li>
+          <li>Elavult, mobilra nem optimalizált belső rendszerek, amelyek nehezítik a távmunkát vagy a helyszíni munkavégzést.</li>
+          <li>Belső tudásbázis hiánya, ami miatt minden kérdésre újra és újra válaszolni kell.</li>
+          <li>Manuális adatgyűjtés és összesítés jelentésekhez automatizált riporting eszközök helyett.</li>
+        </ul>
+      </div>
+
+      <!-- 6 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">06</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-star tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Perfekcionizmus (túlzó mértékben)</h3>
+        <ul class="tip-list">
+          <li>Egyszerű belső dokumentumok (pl. e-mail, belső jelentés) formázására vagy nyelvtanára túlzott mennyiségű idő fordítása.</li>
+          <li>Egy feladat "tökéletesítésén" dolgozni jóval azután is, hogy az már elérte a szükséges minőséget és funkcionalitást.</li>
+          <li>Egy projekt vagy termék bevezetésének halogatása apró, nem kritikus hibák kijavítása vagy további finomítások miatt.</li>
+          <li>Túlzott mértékű kutatás vagy elemzés egyszerű döntések meghozatala előtt.</li>
+          <li>Folyamatosan újra és újra átdolgozni már jóváhagyott anyagokat.</li>
+          <li>Túlzottan részletes tesztelés vagy minőségellenőrzés olyan területeken, ahol alacsony a hiba kockázata vagy a hiba következménye.</li>
+          <li>Grafikai elemek vagy designok végtelen tweakelése, ami nem befolyásolja jelentősen a hatékonyságot vagy az ügyfélélményt.</li>
+          <li>A "még egy utolsó simítás" csapdájába esni, ami jelentősen kitolja a határidőket.</li>
+          <li>Nem létező vagy extrém ritka forgatókönyvekre való felkészülés túlzott mértékben.</li>
+          <li>Egyszerű feladatok túlgondolása és szükségtelenül bonyolult megoldások keresése.</li>
+        </ul>
+      </div>
+
+      <!-- 7 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">07</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-chart-bar tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Felesleges riportálás</h3>
+        <ul class="tip-list">
+          <li>Napi szintű, részletes jelentések készítése olyan adatokról, amelyek nem változnak jelentősen napról napra, vagy amelyeket senki nem elemez.</li>
+          <li>Jelentések készítése olyan mutatókról, amelyek nincsenek összhangban a cég stratégiai céljaival.</li>
+          <li>Manuális adatgyűjtés és összesítés olyan jelentésekhez, amelyek automatizálhatók lennének.</li>
+          <li>Több különböző formátumban (pl. Excel, PDF, prezentáció) elkészíteni ugyanazt a jelentést.</li>
+          <li>Jelentések küldése olyan személyeknek, akik nem érintettek a témában, vagy akik nem használják azokat.</li>
+          <li>Történelmi adatokról szóló jelentések generálása, amelyekből nem vonnak le következtetéseket a jövőre nézve.</li>
+          <li>Túlzottan hosszú és nehezen érthető jelentések készítése, amelyekből nehéz kinyerni a lényegi információt.</li>
+          <li>Jelentések készítése olyan adatokból, amelyek megbízhatatlanok vagy pontatlanok.</li>
+          <li>Heti megbeszéléseken szóbeli státuszjelentést tartani, holott ez írásban is megoldható lenne, és a megbeszélésen csak a problémákat és döntéseket kellene tárgyalni.</li>
+          <li>Egyedi jelentések kérése és elkészítése olyan adatokból, amelyek könnyen elérhetők lennének egy jól kialakított rendszerben.</li>
+        </ul>
+      </div>
+
+      <!-- 8 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">08</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-keyboard tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Manuális adatbevitel</h3>
+        <ul class="tip-list">
+          <li>Papír alapú kérdőívek, megrendelések vagy szerződések adatainak kézi begépelése számítógépbe.</li>
+          <li>Adatok másolása egyik táblázatból vagy rendszerből a másikba.</li>
+          <li>Névjegyek adatainak kézi rögzítése CRM rendszerbe.</li>
+          <li>Számlák adatainak manuális rögzítése a könyvelési rendszerbe.</li>
+          <li>Weboldal űrlapjain beérkezett adatok manuális átmásolása belső rendszerekbe.</li>
+          <li>Jelenléti adatok manuális átvezetése kártyás rendszerből bérszámfejtő programba.</li>
+          <li>Hangfelvételek vagy videók manuális átírása szöveggé.</li>
+          <li>E-mailben vagy chatben érkezett rendelési információk manuális rögzítése a rendszerbe.</li>
+          <li>Régi archívumok adatainak kézi digitalizálása.</li>
+          <li>Webáruház termék adatainak kézi feltöltése vagy frissítése.</li>
+        </ul>
+      </div>
+
+      <!-- 9 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">09</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-inbox tip-icon"></i>
+        </div>
+        <h3 class="tip-title">E-mail túlterheltség</h3>
+        <ul class="tip-list">
+          <li>Minden bejövő e-mail azonnali ellenőrzése és megválaszolása ahelyett, hogy meghatározott időblokkokban kezelnék őket.</li>
+          <li>Minden e-mailre válaszolni, még akkor is, ha egy egyszerű "oké" is elég lenne, vagy egyáltalán nem szükséges válasz.</li>
+          <li>Feleslegesen sok embert (cc vagy bcc) bevenni egy e-mail váltásba.</li>
+          <li>Olyan e-mailek küldése, amelyeknek nincs világos tárgya vagy célja, ami tisztázó köröket eredményez.</li>
+          <li>Komplex problémák vagy hosszadalmas témák e-mailben való megvitatása, ami helyette egy rövid megbeszélés vagy chat hatékonyabb lenne.</li>
+          <li>E-mailt használni belső feladatkiosztásra vagy projektkövetésre, holott erre dedikált eszközök léteznek.</li>
+          <li>Minden értesítés (pl. rendszerüzenet, közösségi média frissítés) e-mailben történő fogadása.</li>
+          <li>Manuálisan rendezni és mappázni az e-maileket ahelyett, hogy szűrőket vagy keresési funkciókat használnának.</li>
+          <li>Feleslegesen hosszú vagy részletes e-mailek írása egyszerű üzenetek helyett.</li>
+          <li>Túlreagálni vagy érzelmi töltetű válaszokat írni e-mailekre.</li>
+        </ul>
+      </div>
+
+      <!-- 10 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">10</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-exchange-alt tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Kontextusváltás (Context Switching)</h3>
+        <ul class="tip-list">
+          <li>Folyamatosan megszakítani a koncentrációt igénylő feladatot bejövő e-mailek, chat üzenetek vagy telefonhívások miatt.</li>
+          <li>Számos különböző, egymástól független projekt vagy feladat között ugrálni a nap folyamán.</li>
+          <li>Ad-hoc, nem tervezett megbeszéléseken vagy beszélgetéseken részt venni, amelyek kizökkentik a mély munkából.</li>
+          <li>Több digitális eszköz vagy alkalmazás párhuzamos használata, amelyek között állandóan váltani kell.</li>
+          <li>Gyors reagálást igénylő, de valójában nem sürgős kérések azonnali kezelése.</li>
+          <li>A munkafolyamat megszakítása, hogy segítsenek egy kollégának olyan problémával, amit maga is meg tudna oldani.</li>
+          <li>Gyakran váltani a távoli munka és az irodai munka között, ami logisztikai és koncentrációs kihívásokat okoz.</li>
+          <li>Túl sok különböző kommunikációs csatornát használni egyszerre (e-mail, Teams, Slack, telefon, SMS), és állandóan ellenőrizni mindegyiket.</li>
+          <li>Egy feladat többszöri megszakítása és későbbi újrakezdése, ami minden alkalommal időt vesz igénybe a "visszatéréshez".</li>
+          <li>A kollégák közötti felesleges, munkahelyi pletyka vagy más, nem releváns témák megvitatása munkaidőben.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+    <script>
+        // Add mouse move effect to cards
+        document.querySelectorAll('.tip-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const cardRect = card.getBoundingClientRect();
+                const x = e.clientX - cardRect.left;
+                const y = e.clientY - cardRect.top;
+
+                const centerX = cardRect.width / 2;
+                const centerY = cardRect.height / 2;
+
+                const angleY = (x - centerX) / 25;
+                const angleX = (centerY - y) / 25;
+
+                card.style.transform = `rotateY(${angleY}deg) rotateX(${angleX}deg) translateY(-15px)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(-15px) rotateX(0)';
+            });
+        });
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateElements = document.querySelectorAll('.animate-up');
+
+            // Trigger animations with delay
+            setTimeout(() => {
+                animateElements.forEach(el => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                });
+            }, 300);
+        });
+    </script>
+</body>
 </html>
