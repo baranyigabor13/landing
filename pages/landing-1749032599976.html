@@ -1,16 +1,1000 @@
-<!-- loading.html -->
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Az oldal tölt...</title>
-    <meta http-equiv="refresh" content="15" />
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milyen folyamatokat automatizáljunk cégünkben?</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-      body { font-family: sans-serif; text-align: center; padding-top: 100px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00f7ff;
+            --primary-dark: #00c4cc;
+            --secondary: #ff00c8;
+            --accent: #7700ff;
+            --dark: #0a0e17;
+            --light: #e6f7ff;
+            --card-bg: rgba(10, 14, 23, 0.8);
+            --glass-bg: rgba(20, 25, 40, 0.25);
+            --glow-primary: 0 0 15px rgba(0, 247, 255, 0.7);
+            --glow-secondary: 0 0 15px rgba(255, 0, 200, 0.7);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --warning: #ff4757;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: linear-gradient(135deg, var(--dark), #050a1a);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(0, 247, 255, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 200, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(119, 0, 255, 0.05) 0%, transparent 30%);
+            z-index: -1;
+        }
+
+        .grid-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(0, 247, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 247, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .floating-objects {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .floating-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.2;
+            animation: float 25s infinite linear;
+        }
+
+        .circle-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--primary);
+            top: 10%;
+            left: 5%;
+            animation-duration: 30s;
+        }
+
+        .circle-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--secondary);
+            top: 60%;
+            left: 80%;
+            animation-duration: 25s;
+            animation-delay: -5s;
+        }
+
+        .circle-3 {
+            width: 200px;
+            height: 200px;
+            background: var(--accent);
+            top: 20%;
+            left: 70%;
+            animation-duration: 20s;
+            animation-delay: -10s;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 6rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 3rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--glow-primary), 0 20px 50px rgba(0, 0, 0, 0.5);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.3s forwards;
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--light), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            position: relative;
+        }
+
+        .hero-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--light);
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 300;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.7rem 1.8rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            background: rgba(255, 71, 87, 0.15);
+            color: var(--warning);
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            letter-spacing: 0.1em;
+            border: 1px solid rgba(255, 71, 87, 0.3);
+            box-shadow: 0 0 15px rgba(255, 71, 87, 0.3);
+            transition: var(--transition);
+        }
+
+        .badge:hover {
+            background: rgba(255, 71, 87, 0.25);
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(255, 71, 87, 0.5);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 8rem 0;
+            position: relative;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            text-align: center;
+            background: linear-gradient(to right, var(--light), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            letter-spacing: -0.02em;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out 0.2s forwards;
+        }
+
+        .section-subtitle {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 2rem auto 5rem;
+            text-align: center;
+            color: var(--light);
+            line-height: 1.7;
+            opacity: 0.8;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out 0.4s forwards;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tip-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transform: translateY(30px) rotateX(5deg);
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            perspective: 1000px;
+        }
+
+        .tip-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--warning), var(--accent));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.6s ease;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-15px) rotateX(0);
+            box-shadow: 0 0 20px rgba(255, 71, 87, 0.3), 0 25px 50px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 71, 87, 0.3);
+        }
+
+        .tip-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .tip-card:hover .icon-wrapper {
+            transform: translateY(-10px) scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 71, 87, 0.5);
+        }
+
+        .icon-wrapper {
+            width: 90px;
+            height: 90px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, rgba(255, 71, 87, 0.1), rgba(119, 0, 255, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 71, 87, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .icon-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 71, 87, 0.2), transparent);
+            transform: rotate(45deg);
+            transition: var(--transition);
+        }
+
+        .tip-card:hover .icon-wrapper::before {
+            transform: rotate(45deg) translate(20px, 20px);
+        }
+
+        .tip-icon {
+            font-size: 2.5rem;
+            color: var(--warning);
+            transition: var(--transition);
+            z-index: 2;
+        }
+
+        .tip-title {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            font-weight: 700;
+            color: var(--light);
+            line-height: 1.3;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: -0.01em;
+        }
+
+        .tip-number {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 3rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.05);
+            line-height: 1;
+            transition: var(--transition);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .tip-card:hover .tip-number {
+            color: rgba(255, 71, 87, 0.1);
+            transform: scale(1.2);
+        }
+
+        .tip-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .tip-list li {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .tip-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--warning);
+            font-size: 1.3rem;
+            transition: var(--transition);
+        }
+
+        .tip-list li:hover {
+            color: var(--light);
+            transform: translateX(5px);
+        }
+
+        .tip-list li:hover::before {
+            transform: translateX(5px);
+            color: var(--primary);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(20px, -20px) rotate(5deg);
+            }
+            50% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            75% {
+                transform: translate(-20px, 20px) rotate(-5deg);
+            }
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+        }
+
+        .tip-card:nth-child(1) { animation-delay: 0.2s; }
+        .tip-card:nth-child(2) { animation-delay: 0.3s; }
+        .tip-card:nth-child(3) { animation-delay: 0.4s; }
+        .tip-card:nth-child(4) { animation-delay: 0.5s; }
+        .tip-card:nth-child(5) { animation-delay: 0.6s; }
+        .tip-card:nth-child(6) { animation-delay: 0.7s; }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .hero {
+                padding: 4rem 0;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.3rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .section-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .tip-card {
+                padding: 2.5rem 2rem;
+            }
+
+            .tip-list li {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            .hero-title {
+                font-size: 1.8rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 1.7rem;
+            }
+
+            .tip-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .icon-wrapper {
+                width: 75px;
+                height: 75px;
+            }
+
+            .tip-icon {
+                font-size: 2rem;
+            }
+
+            .tip-title {
+                font-size: 1.5rem;
+            }
+
+            .tips-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
     </style>
-  </head>
-  <body>
-    <h1>Készül az oldalad...</h1>
-    <p>Kérlek várj egy pillanatot.</p>
-  </body>
+</head>
+<body>
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <span class="badge">Szükséges és Nem Automatizálható</span>
+            <h1 class="hero-title">AI Cégautomatizálással Foglalkozó Cég: Szükséges és Nem Automatizálható Feladatok</h1>
+            <p class="hero-subtitle">Még egy olyan cég is, amelynek fő tevékenysége az automatizálás és a mesterséges intelligencia alkalmazása más cégek folyamataiban, maga is számos olyan alapvető és komplex feladattal néz szembe, amelyek hatékony ellátásához elengedhetetlen az emberi intelligencia, kritikus gondolkodás, érzelmi intelligencia, kreativitás és szubjektív ítélőképesség. Ezek a feladatok alkotják a cég stratégiai alapjait, a humán tőke kezelését, az ügyfélkapcsolatok mélyítését, az etikai keretek kijelölését és a folyamatos alkalmazkodást a gyorsan változó piaci és technológiai környezethez.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <div class="container">
+        <h2 class="section-title">Nem Automatizálható Feladatok Kategóriái</h2>
+        <p class="section-subtitle">Íme a példák releváns, logikus alkategóriákba csoportosítva:</p>
+
+        <div class="tips-grid">
+            <!-- Tip Card 01 -->
+            <div class="tip-card">
+                <span class="tip-number">01</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-file-alt tip-icon"></i>
+                </div>
+                <h3 class="tip-title">Stratégiai tervezés és Vállalatvezetés (A Cég Iránytűje)</h3>
+                <ul class="tip-list">
+                    <li>A Cég Hosszú Távú Stratégiájának Kidolgozása: Mely AI technológiákra fókuszáljunk? Mely iparágakat célozzunk meg? Hogyan pozícionáljuk magunkat a versenytársakkal szemben? Ez mély piaci elemzést, jövőbeli trendek előrejelzését (nem csak adatok alapján, hanem szakértői intuícióval), és kockázatvállalási döntéseket igényel.</li>
+                    <li>Új Üzleti Modellek és Partnerségek Meghatározása: Hogyan monetizáljuk az AI megoldásainkat? Milyen típusú partnerségek lennének stratégiaiak (pl. felhőszolgáltatókkal, domain szakértőkkel)? Ez kreativitást, tárgyalási képességet, és a piaci ökoszisztéma mély emberi megértését követeli.</li>
+                    <li>A Vállalati Kultúra és Értékek Formálása: Hogyan építsünk bizalmat, innovációt és etikus működést egy gyorsan változó, technológiai fókuszú környezetben? A kultúra nem automatizálható; emberi interakcióval, vezetéssel, példamutatással épül.</li>
+                    <li>Fontos Befektetési és Erőforrás-elosztási Döntések: Mely kutatás-fejlesztési területekbe fektessünk? Mennyi erőforrást szánjunk az új technológiák kísérleti bevezetésére? Ezek magas kockázatú döntések, amelyek szubjektív mérlegelést igényelnek a potenciális megtérülés és a kockázat között.</li>
+                    <li>Vezetői Csapat Kiválasztása és Összeállítása: Az AI terület specifikus szakértelmet és vezetői készségeket igényel. A megfelelő emberek megtalálása, motiválása és együttműködésének biztosítása emberi ítélőképességet és kapcsolati készséget kíván.</li>
+                    <li>Globális Terjeszkedési Stratégia: Hogyan lépjünk be új piacokra? Milyen helyi sajátosságokat vegyünk figyelembe? Ez nemzetközi jogi, kulturális és piaci ismereteket igényel, gyakran helyi szakértők bevonásával és emberi kapcsolatok építésével.</li>
+                    <li>Alkalmazkodás a Szabályozási Környezet Változásaihoz: Az AI jogi és etikai kerete folyamatosan fejlődik. A cég stratégiáját úgy kell alakítani, hogy megfeleljen ezeknek a változásoknak, ami jogi értelmezést, etikai megfontolásokat és stratégiai döntéseket kíván.</li>
+                    <li>Hosszú Távú Kockázatkezelési Tervezés: Milyen jövőbeli technológiai, piaci vagy etikai kockázatokra kell felkészülni? Hogyan csökkenthetjük a függőségünket bizonyos technológiáktól vagy ügyfelektől? Ez előrelátást, szcenáriótervezést és szubjektív kockázatértékelést igényel.</li>
+                </ul>
+            </div>
+
+            <!-- Tip Card 02 -->
+            <div class="tip-card">
+                <span class="tip-number">02</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-comments tip-icon"></i>
+                </div>
+                <h3 class="tip-title">Komplex Problémamegoldás és Innováció (Az AI Határainak Feszegetése)</h3>
+                <ul class="tip-list">
+                    <li>Ügyfelek Valódi Üzleti Problémáinak Diagnosztizálása: Gyakran az ügyfél csak annyit lát, hogy "valamit automatizálni kellene". A valós, mélyebb üzleti probléma feltárása, ami AI-val <strong>valóban</strong> megoldható, mélyreható kérdezést, üzleti folyamatok megértését és empátiát igényel.</li>
+                    <li>Egyedi, Testreszabott AI Megoldások Tervezése: Olyan problémákra, amelyekre nincs "dobozos" AI termék. Több AI technológia kombinálása, új algoritmusok kidolgozása vagy meglévők adaptálása egyedi kontextushoz. Ez mély szakértelmet, kreativitást és kísérletezést igényel.</li>
+                    <li>Az AI Modell Teljesítményének Értelmezése Nem Standard Esetekben: Az AI jól működik az "átlagos" adatokon, de a kivételek, ritka esetek elemzése, megértése, miért hibázott a modell, és hogyan lehet ezen javítani, mély emberi szakértelmet és kritikai gondolkodást kíván.</li>
+                    <li>Integrációs Kihívások Kezelése Legacy Rendszerekkel: A modern AI rendszerek beillesztése évtizedes, elavult vállalati rendszerekbe komplex technikai és szervezeti problémákat vet fel, amelyek megoldása emberi tervezést és problémamegoldást igényel.</li>
+                    <li>Az AI Megoldások Alkalmazkodása Változó Üzleti Környezethez: Amikor az ügyfél piaci környezete, szabályozása vagy belső folyamatai változnak, az AI megoldást is adaptálni kell. Ez nem automatikus, emberi elemzést és újratervezést igényel.</li>
+                    <li>Új, Pionír AI Alkalmazási Területek Feltárása: Hol lehetne még AI-t használni, ahol jelenleg nem használják? Ez látnoki képességet, iparági ismereteket és kreatív ötletelést követel.</li>
+                    <li>Az AI Projektek Kockázatainak Azonosítása és Kezelése: Egy AI projekt sikere sok tényezőtől függ (adatminőség, felhasználói elfogadás, technológiai korlátok). E kockázatok előrejelzése, értékelése és csökkentése emberi tapasztalatot és ítélőképességet igényel.</li>
+                    <li>Összetett Hibakeresés (Debugging) AI Rendszerekben: Amikor egy komplex AI rendszer nem úgy működik, ahogy kellene, a hiba okának megtalálása (lehet adat, modell, infrastruktúra, interakció) mély technikai tudást és szisztematikus, de intuitív hibakeresést kíván.</li>
+                    <li>Innováció az AI Kutatásban és Fejlesztésben: Új algoritmusok, modellek vagy megközelítések kidolgozása az AI területén. Ez tiszta kreativitást, matematikai és számítástechnikai mély szakértelmet, és kitartást igényel a kudarcok ellenére.</li>
+                    <li>Saját Belső Folyamataink Optimalizálása AI-val: Hogyan használjuk <strong>mi magunk</strong> az AI-t a saját működésünk hatékonyabbá tételére? Ennek azonosítása, tervezése és bevezetése paradox módon szintén emberi stratégiát és problémamegoldást igényel.</li>
+                </ul>
+            </div>
+
+            <!-- Tip Card 03 -->
+            <div class="tip-card">
+                <span class="tip-number">03</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-truck tip-icon"></i>
+                </div>
+                <h3 class="tip-title">Emberi Kapcsolatok, Csapatvezetés és Mentoring (Az Emberi Tőke Építése)</h3>
+                <ul class="tip-list">
+                    <li>Csapat Vezetése, Motiválása és Inspirálása: Hogyan tartsuk lelkesen és elkötelezetten a magasan képzett, gyakran nehezen pótolható AI szakértőket? Ez empátiát, személyes odafigyelést, coachingot és hiteles vezetést igényel.</li>
+                    <li>Konfliktusok Kezelése a Csapaton Belül vagy Ügyfelekkel: Az AI projektek stresszesek lehetnek. Az emberi konfliktusok (személyes nézeteltérések, szakmai viták, feszültség az ügyféllel) kezelése, mediálása és megoldása érzelmi intelligenciát és kommunikációs készséget kíván.</li>
+                    <li>Munkatársak Személyre Szabott Fejlesztése és Mentoringja: Az AI terület rohamosan fejlődik. A munkatársak képzési igényeinek felmérése, karrierútjuk tervezése és személyes mentorálásuk nem automatizálható.</li>
+                    <li>Érzelmi Támogatás és Empátia: A projekt kudarcai, a stressz vagy személyes nehézségek esetén a kollégák vagy ügyfelek támogatása, megértése alapvető emberi képesség.</li>
+                    <li>Teljesítményértékelés és Visszajelzés Adása: Nem csak metrikák alapján, hanem a "hogyan" és "miért" megértésével, konstruktív visszajelzés adása, amely motiválja a fejlődést. Ez szubjektív ítélőképességet és jó kommunikációt igényel.</li>
+                    <li>Csapatépítés és Csapatszellem Erősítése: A hatékony együttműködés alapja a bizalom és a jó viszony. Ennek tudatos építése emberi interakciókon és élményeken keresztül valósul meg.</li>
+                    <li>Nehéz Beszélgetések Kezelése: Pl. teljesítményproblémák, elbocsátások, érzékeny visszajelzések. Ezek a helyzetek magas fokú érzelmi intelligenciát és kommunikációs képességet igényelnek.</li>
+                    <li>Új Munkatársak Befogadó Integrációja: Az új kollégák kulturális és szociális beillesztése a csapatba.</li>
+                </ul>
+            </div>
+
+            <!-- Tip Card 04 -->
+            <div class="tip-card">
+                <span class="tip-number">04</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-user-tie tip-icon"></i>
+                </div>
+                <h3 class="tip-title">Ügyfélkapcsolatok, Értékesítés és Tárgyalás (Az Üzlet Motorja)</h3>
+                <ul class="tip-list">
+                    <li>Komplex Üzleti Tárgyalások Vezetése: Nem csak az árról, hanem a scope-ról, a felelősségekről, a kockázatokról, a szellemi tulajdonról. Ezek stratégiai gondolkodást, meggyőző képességet és emberismeretet igényelnek.</li>
+                    <li>Hosszú Távú, Stratégiai Ügyfélkapcsolatok Építése: Nem tranzakciós, hanem partneri kapcsolatok kialakítása, ahol az ügyfél bízik a cég szakértelmében és tanácsaiban. Ez folyamatos odafigyelést, proaktivitást és személyes bizalmat igényel.</li>
+                    <li>Az Ügyfél Igényeinek Mélyreható, Empatikus Megértése: Nem csak az elmondottakra figyelni, hanem a kimondatlan igényekre, félelmekre, célokra is ráérezni. Ez aktív hallgatást és empátiát követel.</li>
+                    <li>Nehéz Ügyfél Helyzetek Kezelése: Projektek csúszása, váratlan problémák, ügyfél elégedetlenség. Ezeket a helyzeteket empátiával, őszinte kommunikációval és megoldás-orientált hozzáállással kell kezelni.</li>
+                    <li>Komplex Technológiai Koncepciók Érthető Elmagyarázása Nem Technikai Ügyfeleknek: Az AI bonyolult lehet. A lényeg megértetése, az előnyök és korlátok világos kommunikálása emberi fordítást és magyarázó képességet igényel.</li>
+                    <li>Személyre Szabott Értékajánlat Kidolgozása Ügyfeleknek: Minden ügyfél egyedi, az AI megoldás által nyújtott érték megfogalmazása az ő specifikus kontextusában emberi elemzést és kreativitást igényel.</li>
+                    <li>Ügyfél Elégedettség Mérése és Javítása: Nem csak kérdőívekkel, hanem személyes beszélgetésekkel, a visszajelzések mögötti érzések és motivációk megértésével.</li>
+                    <li>Referencia Ügyfelekkel Való Együttműködés Kezelése: Az elégedett ügyfelek bevonása értékesítési és marketing tevékenységbe (pl. esettanulmányok, testimonialok) emberi koordinációt és kapcsolattartást igényel.</li>
+                </ul>
+            </div>
+
+            <!-- Tip Card 05 -->
+            <div class="tip-card">
+                <span class="tip-number">05</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-tools tip-icon"></i>
+                </div>
+                <h3 class="tip-title">Etikai és Erkölcsi Döntések (Az AI Felelős Használata)</h3>
+                <ul class="tip-list">
+                    <li>AI Rendszerekben Rejlő Elfogultságok (Bias) Azonosítása és Mérséklése: Milyen adatokon tréningezzük az AI-t? Milyen potenciális társadalmi hatásai lehetnek az elfogultságnak? Ezen problémák felismerése, etikai mérlegelése és a megoldások tervezése emberi értékítéletet igényel.</li>
+                    <li>Az Adatvédelem és Biztonság Etikai Hatásainak Mérlegelése: Hogyan kezeljük az ügyfelek adatait? Milyen kockázatokat vállalhatunk? A jogi megfelelésen túl az etikus adatkezelési gyakorlat kialakítása emberi felelősségvállalást követel.</li>
+                    <li>Felelős AI Használat Irányelveinek Kidolgozása: Mikor mondunk nemet egy AI projektre etikai aggályok miatt? Hogyan biztosítjuk, hogy a megoldásaink ne okozzanak kárt? Ezen belső irányelvek meghatározása és betartatása etikai vezetői döntést igényel.</li>
+                    <li>Az AI Hatásainak Megértése a Humán Munkaerőre: Hogyan kommunikáljuk az automatizálás következményeit az ügyfelek dolgozói felé? Hogyan segíthetjük elő a munkaerő átképzését vagy átcsoportosítását? Ez empátiát, társadalmi felelősségvállalást és kommunikációs készséget kíván.</li>
+                    <li>Átláthatóság és Magyarázhatóság (Explainability) Biztosítása: Hogyan magyarázzuk el, <strong>miért</strong> hozott egy AI rendszer egy adott döntést? Különösen fontos olyan területeken, mint a hitelbírálat, orvosi diagnosztika. Ennek biztosítása technikai és kommunikációs kihívás, etikai megközelítést igényel.</li>
+                    <li>Szerződések Etikai Feltételeinek Megfogalmazása: Hogyan tükröződjenek az etikai elvek a jogi dokumentumokban? Ez jogi szakértelem és etikai megfontolás kombinációját kívánja.</li>
+                </ul>
+            </div>
+
+            <!-- Tip Card 06 -->
+            <div class="tip-card">
+                <span class="tip-number">06</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-user-slash tip-icon"></i>
+                </div>
+                <h3 class="tip-title">Kreativitás és Design (Az AI Megoldások Megjelenése és Értelmezése)</h3>
+                <ul class="tip-list">
+                    <li>Felhasználói Interfészek (UX/UI) Tervezése AI Alkalmazásokhoz: Hogyan tegyük a komplex AI funkciókat intuitívan használhatóvá és érthetővé a végfelhasználók számára? Ez mély emberi-számítógép interakció ismeretet és kreatív tervezést igényel.</li>
+                    <li>Marketing Kampányok és Tartalomstratégia Kidol
+<section class="features">
+  <div class="container">
+    <h2 class="section-title">Szükséges, de Automatizálható Feladatok</h2>
+    <p class="section-subtitle"></p>
+
+    <div class="tips-grid">
+      <div class="tip-card">
+        <span class="tip-number">01</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-database tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Adatfeldolgozás és -bevitel</h3>
+        <ul class="tip-list">
+          <li>Számlák, rendelések, űrlapok adatainak rögzítése adatbázisba.</li>
+          <li>Adatok gyűjtése és rendszerezése weboldalakról, közösségi médiából.</li>
+          <li>Adatok konvertálása különböző formátumok között.</li>
+          <li>Nagymennyiségű adat tisztítása és validálása.</li>
+          <li>Dokumentumokból (pl. PDF, képek) strukturált adatok kinyerése.</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <span class="tip-number">02</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-tasks tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Ismétlődő adminisztratív feladatok</h3>
+        <ul class="tip-list">
+          <li>E-mailek szűrése és válaszadás sablonválaszokkal gyakori kérdésekre.</li>
+          <li>Naptárkezelés, időpontok egyeztetése és emlékeztetők küldése.</li>
+          <li>Dokumentumok generálása sablonok alapján (pl. szerződések, ajánlatok).</li>
+          <li>Rendszeres riportok és statisztikák generálása.</li>
+          <li>Fájlok rendszerezése és mappák közötti mozgatása.</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <span class="tip-number">03</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-headset tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Ügyfélszolgálat egyszerűbb kérdésekre</h3>
+        <ul class="tip-list">
+          <li>Gyakran ismételt kérdések (GYIK) megválaszolása chatboton keresztül.</li>
+          <li>Rendeléskövetés és szállítási információk automatikus biztosítása.</li>
+          <li>Egyszerűbb panaszok és reklamációk kezelése automatizált rendszerekkel.</li>
+          <li>Ügyféladatok frissítése és karbantartása CRM rendszerben.</li>
+          <li>Ügyfélvisszajelzések elemzése és kategorizálása.</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <span class="tip-number">04</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-bullhorn tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Marketing és értékesítés automatizálás</h3>
+        <ul class="tip-list">
+          <li>E-mail marketing kampányok indítása és kezelése.</li>
+          <li>Közösségi média bejegyzések ütemezése és automatikus posztolása.</li>
+          <li>Hirdetések megjelenítése automatizált platformokon.</li>
+          <li>Lead generálás és automatikus érdeklődők feldolgozása.</li>
+          <li>Értékesítési folyamatok (pipeline) automatikus követése és emlékeztetők küldése.</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <span class="tip-number">05</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-calculator tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Pénzügyi és számviteli feladatok</h3>
+        <ul class="tip-list">
+          <li>Számlák kiállítása és elküldése.</li>
+          <li>Kifizetések feldolgozása és könyvelése.</li>
+          <li>Pénzügyi riportok és kimutatások készítése.</li>
+          <li>Költségelszámolás és -nyilvántartás.</li>
+          <li>Banki tranzakciók összevetése a könyveléssel.</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <span class="tip-number">06</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-users tip-icon"></i>
+        </div>
+        <h3 class="tip-title">HR feladatok</h3>
+        <ul class="tip-list">
+          <li>Jelentkezések fogadása és előszűrése önéletrajzok alapján.</li>
+          <li>Interjúk ütemezése és emlékeztetők küldése.</li>
+          <li>Új munkatársak beléptetése és adminisztratív feladatok elvégzése.</li>
+          <li>Szabadságok és betegszabadságok nyilvántartása.</li>
+          <li>Teljesítményértékelések adatainak gyűjtése és rendszerezése.</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <span class="tip-number">07</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-truck tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Beszerzés és logisztika</h3>
+        <ul class="tip-list">
+          <li>Készletnyilvántartás és automatikus utánrendelés.</li>
+          <li>Szállítási útvonalak optimalizálása és diszpécser feladatok automatizálása.</li>
+          <li>Visszáru kezelése automatizált rendszerekkel.</li>
+          <li>Szállítólevelek és raktári bizonylatok generálása.</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <span class="tip-number">08</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-laptop-code tip-icon"></i>
+        </div>
+        <h3 class="tip-title">IT és technikai feladatok</h3>
+        <ul class="tip-list">
+          <li>Szerverek és rendszerek monitorozása és automatikus hibaelhárítás.</li>
+          <li>Szoftverfrissítések és -telepítések automatizálása.</li>
+          <li>Biztonsági mentések készítése és adatvisszaállítás.</li>
+          <li>Felhasználói fiókok létrehozása és kezelése.</li>
+          <li>Rendszernaplók (logok) elemzése hibakeresés céljából.</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <span class="tip-number">09</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-balance-scale tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Jogi és megfelelőségi feladatok</h3>
+        <ul class="tip-list">
+          <li>Dokumentumok (pl. szerződések) tartalmának elemzése kulcsszavakra, feltételekre.</li>
+          <li>Megfelelőségi riportok generálása.</li>
+          <li>Szabályozási változások követése és releváns információk gyűjtése.</li>
+          <li>Anonimizálás és adatvédelmi (GDPR) feladatok támogatása.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="features">
+  <div class="container">
+    <h2 class="section-title">[MODUL CÍME]</h2>
+    <p class="section-subtitle">[MODUL ALÁÍRÁS / LEÍRÁS]</p>
+
+    <div class="tips-grid">
+      <!-- 1 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">01</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-clipboard-list tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Redundáns Adminisztráció</h3>
+        <ul class="tip-list">
+          <li>Ugyanazoknak az ügyféladatoknak a manuális bevitele különálló, nem integrált rendszerekbe (pl. CRM, számlázó, projektmenedzsment eszköz).</li>
+          <li>Papír alapú űrlapok kitöltése, aláíratása és szkennelése digitális aláírás és automatizált munkafolyamat helyett.</li>
+          <li>Többszörös, felesleges adategyeztetés különböző részlegek között (pl. értékesítés lead adatait a pénzügy is ellenőrzi, miután a szerződést jóváhagyták).</li>
+          <li>Minden egyes beérkező dokumentum kézi átnevezése és mappákba rendezése standardizált automatikus nevezés és dokumentumkezelő rendszer helyett.</li>
+          <li>Munkaidő nyilvántartás vezetése manuális Excel táblában, miközben van erre alkalmas, automatizált rendszer.</li>
+          <li>Utazási költségtérítések igénylésének és jóváhagyásának teljes folyamata papíron, több fizikai aláírással, online rendszer helyett.</li>
+          <li>Új munkatársak beléptetési (onboarding) feladatlistájának minden egyes elemének manuális, e-mailben történő kiküldése és követése, automatizált checklist vagy HR szoftver helyett.</li>
+          <li>Számlák és bevételek kézi követése és egyeztetése a banki kivonattal, integrált számlázó- és könyvelési szoftver helyett.</li>
+          <li>Szabadságkérelmek nyomtatása, fizikális aláírása a vezető által, majd személyes leadása a HR-en, online szabadságkezelő rendszer helyett.</li>
+          <li>Telefonhívások vagy e-mailek naplózása manuálisan egy megosztott táblázatba, automatikus CRM vagy kommunikációs rendszer integráció nélkül.</li>
+        </ul>
+      </div>
+
+      <!-- 2 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">02</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-users tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Felesleges Megbeszélések</h3>
+        <ul class="tip-list">
+          <li>Heti státusz meetingek, ahol mindenki csupán felolvassa a tevékenységeit, miközben ez egy közös projektmenedzsment vagy feladatkövető eszközben is elérhető lenne.</li>
+          <li>Túl sok résztvevő meghívása egy megbeszélésre, akiknek nagy része nincs közvetlenül érintve a témában és nem is járul hozzá a döntéshez.</li>
+          <li>Megalapozott napirend nélküli megbeszélések, amik céltalan "brainstorminggá" vagy általános csevegéssé fajulnak.</li>
+          <li>Minden apró döntést formális megbeszélésen hoznak meg e-mailben vagy chatben történő gyors egyeztetés helyett.</li>
+          <li>Ismétlődő heti vagy havi megbeszélések, amiket a projekt lezárulta vagy a probléma megoldódása után sem törölnek.</li>
+          <li>"Szinkronizáló" megbeszélések, ahol az információkat nem osztják meg előzetesen írásban, így a meeting maga az információmegosztásról szól ahelyett, hogy a problémákról vagy döntésekről tárgyalnának.</li>
+          <li>Meetingek, amelyek közben derül ki, hogy kulcsfontosságú személyek hiányoznak, és emiatt nem születhet döntés.</li>
+          <li>Virtuális megbeszélések, ahol mindenki bekapcsolt kamerával ül csendben, miközben a szükséges információ egy rövid írásos üzenettel is átadható lenne.</li>
+          <li>Olyan megbeszélések, amelyeknek nincs kijelölt vezetője vagy jegyzőkönyvvezetője, és így nem születnek egyértelmű döntések vagy feladatok.</li>
+          <li>Prezentációk tartása belső, ismert folyamatokról vagy szabályokról, amelyekről már van írásos dokumentáció.</li>
+        </ul>
+      </div>
+
+      <!-- 3 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">03</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-check-circle tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Túlzott Ellenőrzés és Jóváhagyás</h3>
+        <ul class="tip-list">
+          <li>Minden egyes kimenő e-mailt a vezetőnek vagy a marketingosztálynak jóvá kell hagynia.</li>
+          <li>Egyszerű, rutinjellegű beszerzésekhez vagy kiadásokhoz többszintű, lassú és bürokratikus jóváhagyási folyamat szükséges.</li>
+          <li>Minden egyes belső dokumentum (pl. prezentáció vázlat, belső jelentés) többszörös, redundáns korrektúrán megy keresztül különböző személyeknél.</li>
+          <li>A munkatársak minden apró lépéséről be kell számolniuk a vezetőnek, bizalom hiánya és mikromenedzsment miatt.</li>
+          <li>Köztes munkafolyamatok túlzott ellenőrzése és jóváhagyása (pl. minden egyes fejlesztési sprint végén több vezetőnek is jóvá kell hagynia a részfeladatok állapotát, nem csak a kész feature-öket).</li>
+          <li>Túl sok ember jogosult jóváhagyni vagy elutasítani egy adott feladatot vagy dokumentumot, ami késedelmeket és zavart okoz.</li>
+          <li>Minden külső kommunikációt (blogposzt, social media poszt, hírlevél) több lépcsőben kell engedélyeztetni, még a rutinjellegű tartalmakat is.</li>
+          <li>A munkatársaknak minden egyes munkaeszköz beszerzését (pl. új egér) külön kell engedélyeztetniük, egyszerű keretösszeg vagy belső webshop használata helyett.</li>
+        </ul>
+      </div>
+
+      <!-- 4 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">04</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-exchange-alt tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Rossz/Elavult Kommunikáció és Információáramlás</h3>
+        <ul class="tip-list">
+          <li>Fontos információk kizárólag szóbeli továbbítása (pl. folyosói beszélgetések vagy informális megbeszélések) írásos összefoglaló vagy dokumentáció nélkül.</li>
+          <li>Túl sok kommunikációs csatorna párhuzamos és rendszertelen használata (e-mail, különböző chat alkalmazások, SMS, személyes beszélgetések, belső faliújság), ami miatt szétszóródik az információ és nehéz követni.</li>
+          <li>Nincs központi, könnyen kereshető tudásbázis vagy belső wiki, így ugyanazokat a rutin kérdéseket (pl. "Hol találom a logó fájlt?", "Mi a céges utazási policy?") újra és újra felteszik.</li>
+          <li>Fontos céges bejelentések vagy belső hírek kizárólag egy olyan platformon kerülnek közzétételre (pl. intranet, hírlevél), amit a munkatársak többsége nem használ vagy nem olvas el.</li>
+          <li>Információk "silókban" ragadnak – az egyik részleg nem tudja, min dolgozik a másik, vagy nem osztja meg a releváns eredményeket.</li>
+          <li>Ügyfélkommunikáció, amiben a cég több munkatársa is párhuzamosan, összehangolatlanul beszél ugyanazzal az ügyféllel, vagy nincs nyoma a korábbi kommunikációnak.</li>
+          <li>Projekt státuszokról nincs közös, átlátható felület (pl. projektmenedzsment eszköz, közös tábla), mindenki egyedi e-mailekben vagy saját táblázatokban tartja nyilván.</li>
+          <li>Ügyféltől vagy partnertől érkező fontos visszajelzések nem jutnak el a megfelelő személyekhez vagy részlegekhez (pl. fejlesztők nem kapják meg a felhasználói feedbacket a hibákról).</li>
+          <li>Munkaeszközök (pl. közös naptár, fájlmegosztás) használatának elavult vagy nem egységes módja, ami nehézkessé teszi az együttműködést.</li>
+          <li>Túlzottan formális, időigényes kommunikáció egyszerű kérdésekben (pl. e-mail írás chat üzenet helyett).</li>
+        </ul>
+      </div>
+
+      <!-- 5 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">05</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-cogs tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Elavult Rendszerek és Manuális Munka</h3>
+        <ul class="tip-list">
+          <li>Különböző, egymással nem vagy rosszul integrált szoftverek használata, ami manuális adatátvitelt, duplikációt és hibalehetőséget igényel (pl. külön CRM, külön számlázó, külön HR rendszer, külön projektkövető).</li>
+          <li>Manuális adatfeldolgozás és riportálás (pl. Excel táblákban kézi számítások és összefűzések) automatizált adatbázisok, BI eszközök vagy automatikus jelentésgenerálás helyett.</li>
+          <li>Dokumentumok keresése bonyolult, hierarchikus fájlrendszerben, egységes dokumentumkezelő rendszer vagy felhő alapú, kereshető tárhely hiányában.</li>
+          <li>Manuális szoftverfrissítések minden egyes gépen vagy rendszeren a központi menedzsment vagy automatikus frissítések helyett.</li>
+          <li>Papír alapú archiválás és irattárazás a digitális dokumentumkezelés és felhő alapú tárolás helyett.</li>
+          <li>Telefonhívások és meetingek jegyzeteinek manuális rögzítése és rendszerezése diktálás vagy automatikus átíró és rendszerező eszközök nélkül.</li>
+          <li>Ügyfél- vagy partneradatok gyűjtése és frissítése manuálisan, automatikus adatbeviteli vagy adatfrissítési eszközök nélkül.</li>
+          <li>Fizetési határidők kézi figyelése, emlékeztetők küldése és a bejövő utalások manuális egyeztetése automatizált számlázó- és pénzügyi rendszer helyett.</li>
+          <li>Munkafolyamatok kézi indítása és követése (pl. feladatok kiosztása, jóváhagyások kérése) dedikált munkafolyamat-kezelő szoftver (workflow tool) hiányában.</li>
+          <li>Tesztelési folyamatok manuális végrehajtása, amikor automatizált tesztek is lehetségesek lennének.</li>
+        </ul>
+      </div>
+
+      <!-- 6 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">06</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-star-half-alt tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Túlzott Perfekcionizmus és Túlbonyolítás</h3>
+        <ul class="tip-list">
+          <li>Egy feladat túlzottan aprólékos, feleslegesen részletes kidolgozása, amikor egy "elég jó" vagy "prototípus" is megtenné az adott fázisban (pl. egy belső prezentáció designjának csiszolgatása órákig a tartalom vagy a gyors megosztás rovására).</li>
+          <li>Folyamatok feleslegesen bonyolultra tervezése és dokumentálása, ami nehezen követhetővé és betarthatóvá teszi őket.</li>
+          <li>Soha el nem készült projektek vagy termékek, mert mindig "van még mit finomítani", és sosem ér el a piacra vagy a belső felhasználókhoz.</li>
+          <li>Egy dokumentum, jelentés vagy kimenő anyag végleges formájának túlzott polírozása és tökéletesítése, ami késlelteti az információ megosztását vagy a cselekvést.</li>
+          <li>Túl sok opció és lehetőség részletes elemzése egy döntés előtt, ami "analysis paralysis"-hez és döntésképtelenséghez vezet.</li>
+          <li>Minden apró, elhanyagolható hiba azonnali javítása ahelyett, hogy a nagyobb, hatékonyabb vagy kritikus hibákra koncentrálnának.</li>
+          <li>Egy probléma túlzottan bonyolult megoldásának keresése, amikor létezne egy egyszerűbb, gyorsabb és kellően hatékony megközelítés is.</li>
+          <li>Folyamatos újratervezés és újrakezdés ahelyett, hogy a meglévő alapokra építenének és iterálnának.</li>
+        </ul>
+      </div>
+
+      <!-- 7 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">07</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-chart-bar tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Felesleges Jelentések és Adatgyűjtés</h3>
+        <ul class="tip-list">
+          <li>Jelentések rendszeres készítése, amiket senki sem olvas el, nem használ fel döntéshozatalhoz, vagy aminek az információtartalma már máshol elérhető.</li>
+          <li>Adatok gyűjtése "csak azért, mert jól jöhetnek egyszer" anélkül, hogy világos cél, hipotézis vagy felhasználási mód lenne meghatározva.</li>
+          <li>Túl sok, feleslegesen részletes adat begyűjtése, ami elveszi az időt a lényeges információk elemzésétől és az insight-ok levonásától.</li>
+          <li>Ismétlődő jelentések, amiknek tartalma és formája sosem változik, pedig az üzleti igények vagy a stratégiai fókusz igen.</li>
+          <li>Versenyzők, piaci trendek vagy iparági adatok követése olyan részletességgel, ami irreleváns vagy túlzó a saját stratégia és működés szempontjából.</li>
+          <li>Minden egyes tevékenység és minden eltöltött perc pontos időnyilvántartása, ami nem számlázható, nem szükséges a projektkövetéshez vagy a teljesítményértékeléshez, és csak a munkatársak idejét veszi el.</li>
+          <li>Ügyfél visszajelzések vagy elégedettségi adatok gyűjtése nem hatékony, nehézkes módszerekkel, ami miatt alacsony a válaszadási arány és az adatok torzítottak.</li>
+          <li>Belső teljesítménymutatók (KPI-ok) mérése és riportálása, amik nem kapcsolódnak a céges célokhoz, vagy nincs ráhatása a munkatársaknak az eredményre.</li>
+        </ul>
+      </div>
+
+      <!-- 8 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">08</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-project-diagram tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Nem Egyértelmű Folyamatok és Munkamegosztás</h3>
+        <ul class="tip-list">
+          <li>Nincs írásos, átlátható vagy könnyen hozzáférhető folyamatleírás a kulcsfontosságú vagy gyakran ismétlődő feladatok elvégzésére, minden "majd megoldódik", "kérdezd meg X-et" alapon történik.</li>
+          <li>Nem tisztázott, ki miért felelős egy adott projektben vagy folyamatban (felelősségi mátrix hiánya), ami duplikációhoz (ketten csinálják ugyanazt) vagy "leeső" feladatokhoz vezet (senki sem csinálja meg).</li>
+          <li>Új feladatok kiosztása anélkül, hogy a munkatársak tisztában lennének a prioritásokkal a meglévő terheikhez képest, ami stresszt és ineffektivitást okoz.</li>
+          <li>Nincs standardizált, mindenki számára ismert módszer a problémák jelentésére, kezelésére vagy a hibajavításra.</li>
+          <li>Az újonnan érkezők nem kapnak egyértelmű vagy strukturált útmutatást a munkafolyamatokról és a cég belső működéséről (gyenge onboarding folyamat).</li>
+          <li>Különböző csapatok vagy egyének különböző, össze nem hangolt vagy legjobb gyakorlatokat nem követő módszerekkel végzik ugyanazt a feladatot.</li>
+          <li>A döntéshozatali jogkörök nincsenek tisztázva különböző szinteken vagy szerepkörökben, ami késedelmeket és bizonytalanságot okoz.</li>
+          <li>Nincs egyértelmű visszacsatolási (feedback) folyamat a munkatársak számára a teljesítményükről vagy a munkafolyamatokról.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+    <script>
+        // Add mouse move effect to cards
+        document.querySelectorAll('.tip-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const cardRect = card.getBoundingClientRect();
+                const x = e.clientX - cardRect.left;
+                const y = e.clientY - cardRect.top;
+
+                const centerX = cardRect.width / 2;
+                const centerY = cardRect.height / 2;
+
+                const angleY = (x - centerX) / 25;
+                const angleX = (centerY - y) / 25;
+
+                card.style.transform = `rotateY(${angleY}deg) rotateX(${angleX}deg) translateY(-15px)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(-15px) rotateX(0)';
+            });
+        });
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateElements = document.querySelectorAll('.animate-up');
+
+            // Trigger animations with delay
+            setTimeout(() => {
+                animateElements.forEach(el => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                });
+            }, 300);
+        });
+    </script>
+</body>
 </html>
