@@ -1,16 +1,1037 @@
-<!-- loading.html -->
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Az oldal tölt...</title>
-    <meta http-equiv="refresh" content="15" />
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Időpocsékoló Feladatok - Vízvezeték Szerelő Cég</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-      body { font-family: sans-serif; text-align: center; padding-top: 100px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00f7ff;
+            --primary-dark: #00c4cc;
+            --secondary: #ff00c8;
+            --accent: #7700ff;
+            --dark: #0a0e17;
+            --light: #e6f7ff;
+            --card-bg: rgba(10, 14, 23, 0.8);
+            --glass-bg: rgba(20, 25, 40, 0.25);
+            --glow-primary: 0 0 15px rgba(0, 247, 255, 0.7);
+            --glow-secondary: 0 0 15px rgba(255, 0, 200, 0.7);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --warning: #ff4757;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: linear-gradient(135deg, var(--dark), #050a1a);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(0, 247, 255, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 200, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(119, 0, 255, 0.05) 0%, transparent 30%);
+            z-index: -1;
+        }
+
+        .grid-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(0, 247, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 247, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .floating-objects {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .floating-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.2;
+            animation: float 25s infinite linear;
+        }
+
+        .circle-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--primary);
+            top: 10%;
+            left: 5%;
+            animation-duration: 30s;
+        }
+
+        .circle-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--secondary);
+            top: 60%;
+            left: 80%;
+            animation-duration: 25s;
+            animation-delay: -5s;
+        }
+
+        .circle-3 {
+            width: 200px;
+            height: 200px;
+            background: var(--accent);
+            top: 20%;
+            left: 70%;
+            animation-duration: 20s;
+            animation-delay: -10s;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 6rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 3rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--glow-primary), 0 20px 50px rgba(0, 0, 0, 0.5);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.3s forwards;
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--light), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            position: relative;
+        }
+
+        .hero-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--light);
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 300;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.7rem 1.8rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            background: rgba(255, 71, 87, 0.15);
+            color: var(--warning);
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            letter-spacing: 0.1em;
+            border: 1px solid rgba(255, 71, 87, 0.3);
+            box-shadow: 0 0 15px rgba(255, 71, 87, 0.3);
+            transition: var(--transition);
+        }
+
+        .badge:hover {
+            background: rgba(255, 71, 87, 0.25);
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(255, 71, 87, 0.5);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 8rem 0;
+            position: relative;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            text-align: center;
+            background: linear-gradient(to right, var(--light), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            letter-spacing: -0.02em;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out 0.2s forwards;
+        }
+
+        .section-subtitle {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 2rem auto 5rem;
+            text-align: center;
+            color: var(--light);
+            line-height: 1.7;
+            opacity: 0.8;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out 0.4s forwards;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tip-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transform: translateY(30px) rotateX(5deg);
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            perspective: 1000px;
+        }
+
+        .tip-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--warning), var(--accent));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.6s ease;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-15px) rotateX(0);
+            box-shadow: 0 0 20px rgba(255, 71, 87, 0.3), 0 25px 50px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 71, 87, 0.3);
+        }
+
+        .tip-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .tip-card:hover .icon-wrapper {
+            transform: translateY(-10px) scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 71, 87, 0.5);
+        }
+
+        .icon-wrapper {
+            width: 90px;
+            height: 90px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, rgba(255, 71, 87, 0.1), rgba(119, 0, 255, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 71, 87, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .icon-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 71, 87, 0.2), transparent);
+            transform: rotate(45deg);
+            transition: var(--transition);
+        }
+
+        .tip-card:hover .icon-wrapper::before {
+            transform: rotate(45deg) translate(20px, 20px);
+        }
+
+        .tip-icon {
+            font-size: 2.5rem;
+            color: var(--warning);
+            transition: var(--transition);
+            z-index: 2;
+        }
+
+        .tip-title {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            font-weight: 700;
+            color: var(--light);
+            line-height: 1.3;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: -0.01em;
+        }
+
+        .tip-number {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 3rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.05);
+            line-height: 1;
+            transition: var(--transition);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .tip-card:hover .tip-number {
+            color: rgba(255, 71, 87, 0.1);
+            transform: scale(1.2);
+        }
+
+        .tip-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .tip-list li {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .tip-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--warning);
+            font-size: 1.3rem;
+            transition: var(--transition);
+        }
+
+        .tip-list li:hover {
+            color: var(--light);
+            transform: translateX(5px);
+        }
+
+        .tip-list li:hover::before {
+            transform: translateX(5px);
+            color: var(--primary);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(20px, -20px) rotate(5deg);
+            }
+            50% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            75% {
+                transform: translate(-20px, 20px) rotate(-5deg);
+            }
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+        }
+
+        .tip-card:nth-child(1) { animation-delay: 0.2s; }
+        .tip-card:nth-child(2) { animation-delay: 0.3s; }
+        .tip-card:nth-child(3) { animation-delay: 0.4s; }
+        .tip-card:nth-child(4) { animation-delay: 0.5s; }
+        .tip-card:nth-child(5) { animation-delay: 0.6s; }
+        .tip-card:nth-child(6) { animation-delay: 0.7s; }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .hero {
+                padding: 4rem 0;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.3rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .section-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .tip-card {
+                padding: 2.5rem 2rem;
+            }
+
+            .tip-list li {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            .hero-title {
+                font-size: 1.8rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 1.7rem;
+            }
+
+            .tip-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .icon-wrapper {
+                width: 75px;
+                height: 75px;
+            }
+
+            .tip-icon {
+                font-size: 2rem;
+            }
+
+            .tip-title {
+                font-size: 1.5rem;
+            }
+
+            .tips-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
     </style>
-  </head>
-  <body>
-    <h1>Készül az oldalad...</h1>
-    <p>Kérlek várj egy pillanatot.</p>
-  </body>
+</head>
+<body>
+<section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <span class="badge">EMBERI ÉRTÉK ELEMZÉS</span>
+                <h1 class="hero-title">Szükséges és Nem Automatizálható Feladatok egy Villanyszerelő Cégnél</h1>
+                <p class="hero-subtitle">Ezek a feladatok olyan emberi képességeket igényelnek, mint a kritikus gondolkodás, az érzelmi intelligencia, a szubjektív ítélőképesség, a tapasztalat, a kreativitás és a dinamikus helyzetfelismerés, amelyeket jelenleg vagy a közeljövőben sem lehet teljes mértékben automatizálni.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Szükséges és Nem Automatizálható Feladatok Kategóriánként</h2>
+            <p class="section-subtitle">Az alábbi kategóriák bemutatják az emberi intelligenciát és tapasztalatot igénylő kulcsfontosságú feladatokat.</p>
+
+            <div class="tips-grid">
+                <!-- Komplex Hibaelhárítás -->
+                <div class="tip-card">
+                    <span class="tip-number">01</span>
+                    <div class="icon-wrapper">
+                        <i class="fas fa-search-plus tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Komplex Hibaelhárítás és Diagnosztika a Helyszínen</h3>
+                    <ul class="tip-list">
+                        <li>Egyedi, nem rutin hibák okának feltárása régi, nem dokumentált rendszerekben (pl. szakaszosan jelentkező zárlat oka, amely nincs összefüggésben a terheléssel).</li>
+                        <li>Több, egymással összefüggő hibaforrás azonosítása és prioritás szerinti kezelése összetett ipari vagy kereskedelmi létesítményekben.</li>
+                        <li>"Nem reprodukálható" vagy csak bizonyos körülmények között (pl. időjárás, páratartalom, terhelésingadozás) jelentkező elektromos problémák diagnosztizálása, amihez tapasztalat, intuíció és kreatív vizsgálati módszerek kellenek.</li>
+                        <li>Rejtett (pl. falban futó, padlásfödémben lévő) kábelek, kötések vagy berendezések állapotának felmérése és hibakeresése roncsolásmentes vagy minimálisan roncsoló módszerekkel, ami helyszíni tapasztalatot igényel.</li>
+                        <li>Elektromos rendszer meghibásodásának ok-okozati összefüggéseinek feltárása (pl. egy túlfeszültség vagy villámcsapás okozta láncreakció elemzése).</li>
+                        <li>Biztonsági rendszerek (pl. tűzvédelmi, beléptetőrendszer) elektromos hibáinak diagnosztizálása, ahol a fals riasztások vagy a működésképtelenség oka lehet szoftveres, hardveres vagy vezetékezési probléma.</li>
+                        <li>Okosotthon rendszerek integrációs hibáinak diagnosztizálása, ahol különböző gyártók eszközei kommunikálnak hibásan.</li>
+                        <li>Energetikai audit során feltárt komplex problémák (pl. indokolatlan energiaveszteség, reaktív energia gondok) okainak mélyreható elemzése és megoldási javaslatok kidolgozása.</li>
+                        <li>Nem szabványos, "házi barkács" módon kivitelezett elektromos rendszerek veszélyeinek felmérése és a javítási/átalakítási lehetőségek értékelése.</li>
+                        <li>Zaj- vagy interferenciaforrások azonosítása az elektromos hálózatban, ami zavarja az elektronikus eszközöket.</li>
+                    </ul>
+                </div>
+
+                <!-- Ügyfélkapcsolatok -->
+                <div class="tip-card">
+                    <span class="tip-number">02</span>
+                    <div class="icon-wrapper">
+                        <i class="fas fa-comments tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Ügyfélkapcsolatok, Kommunikáció és Bizalomépítés</h3>
+                    <ul class="tip-list">
+                        <li>Az ügyfél (háztulajdonos, cégvezető) szempontjainak, félelmeinek és költségvetési korlátainak empatikus meghallgatása és megértése.</li>
+                        <li>Komplex műszaki problémák és megoldási javaslatok lefordítása az ügyfél számára érthető, laikus nyelvre, elkerülve a szakzsargont.</li>
+                        <li>Az ügyfél aggodalmainak kezelése veszélyes helyzetekben (pl. zárlat, tűzveszély), nyugodt és megnyugtató módon történő tájékoztatás.</li>
+                        <li>Elégedetlen vagy dühös ügyfelek panaszainak kezelése, a konfliktusok de-eszkalálása és a megoldásra fókuszálás.</li>
+                        <li>Az ügyfél elvárásainak kezelése a munka időtartamával, a várható költségekkel és a lehetséges felfordulással kapcsolatban, különösen felújításoknál vagy nagy projekteknél.</li>
+                        <li>Hosszú távú bizalom kiépítése az ügyféllel, ami alapvető egy szolgáltató cégnél, különösen az ismétlődő munkák és az ajánlások szempontjából.</li>
+                        <li>Az ügyfél nem kimondott (vagy nem tudatosított) igényeinek felismerése és arra proaktív megoldások javaslása (pl. jövőbeni bővítésre való felkészülés, energiatakarékossági lehetőségek).</li>
+                        <li>Helyszíni konzultáció során a munka pontosítására, a felmerülő kérdések megválaszolására és a legjobb műszaki/gazdasági megoldás közös megtalálására irányuló párbeszéd.</li>
+                        <li>Visszajelzések kérése és fogadása az ügyféltől a munka befejeztével, és az esetleges kritikák konstruktív kezelése.</li>
+                        <li>Kapcsolattartás kulcsfontosságú ügyfelekkel vagy partnerekkel (pl. építész, generálkivitelező), koordináció és egyeztetés komplex projektekben.</li>
+                    </ul>
+                </div>
+
+                <!-- Biztonság és Kockázatértékelés -->
+                <div class="tip-card">
+                    <span class="tip-number">03</span>
+                    <div class="icon-wrapper">
+                        <i class="fas fa-shield-alt tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Biztonság és Kockázatértékelés a Helyszínen</h3>
+                    <ul class="tip-list">
+                        <li>Dinamikus, valós idejű kockázatértékelés a munka megkezdése *előtt* és *közben* a helyszínen, ami magában foglalja a látható és rejtett veszélyek (pl. régi, ismeretlen bekötések, statikai problémák, nedvesség, gázvezetékek közelsége) felismerését.</li>
+                        <li>Annak a felelős döntésnek a meghozatala, hogy egy munka biztonsági okokból nem végezhető el adott pillanatban vagy adott feltételekkel, és erről a megbízó tájékoztatása, akár a munka elvesztése árán is.</li>
+                        <li>Egyedi, helyszín-specifikus biztonsági intézkedések kidolgozása és betartása (pl. magasban végzett munka, szűk helyen végzett munka, veszélyes anyagok közelsége esetén).</li>
+                        <li>Munkatársak biztonsági kultúrájának kialakítása, nem csupán a szabályok betanítása, hanem a "safety-first" mentalitás átadása és ellenőrzése.</li>
+                        <li>Közvetlen veszély felismerése és azonnali cselekvés (pl. áramtalanítás, terület elkerítése) kritikus helyzetekben (pl. tűz, robbanásveszély, súlyos áramütés veszélye).</li>
+                        <li>Munkavédelmi eszközök (pl. szigetelt szerszámok, megfelelő PPE) állapotának és megfelelő használatának szigorú ellenőrzése, ami felelősségvállalást igényel.</li>
+                        <li>Közel-balesetek vagy kisebb incidensek kivizsgálása, az emberi tényezők és a rendszerhibák felismerése a jövőbeli balesetek megelőzése érdekében.</li>
+                        <li>A munkahelyi környezet folyamatos figyelése a változások (pl. más szakmák által okozott új veszélyek) szempontjából és a biztonsági intézkedések adaptálása.</li>
+                        <li>Speciális engedélyekhez vagy eljárásokhoz kötött munkák (pl. robbanásveszélyes környezet, kórház, nagyfeszültség) biztonsági tervének kidolgozása és betartatása.</li>
+                        <li>Ügyfél tájékoztatása a potenciális veszélyekről a meglévő rendszerrel kapcsolatban, még akkor is, ha az adott munkát nem rendelték meg kifejezetten erre.</li>
+                    </ul>
+                </div>
+
+                <!-- Műszaki Tervezés -->
+                <div class="tip-card">
+                    <span class="tip-number">04</span>
+                    <div class="icon-wrapper">
+                        <i class="fas fa-drafting-compass tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Műszaki Tervezés, Rendszertervezés és Ajánlatadás (Nem Sablon Alapú)</h3>
+                    <ul class="tip-list">
+                        <li>Egyedi vagy komplex igényekre szabott elektromos rendszer tervezése (pl. speciális világítás, ipari gépek tápellátása, épületautomatizálás).</li>
+                        <li>Különböző műszaki megoldások előnyeinek és hátrányainak mérlegelése az ügyfél igényei, költségvetése és a helyszíni adottságok figyelembevételével, és a legjobb kompromisszum megtalálása.</li>
+                        <li>Részletes és pontos árajánlat összeállítása komplex vagy bizonytalan (pl. régi, feltárást igénylő) munkákra, figyelembe véve a várható kockázatokat és az esetlegesen felmerülő extra munkákat.</li>
+                        <li>Anyagok és berendezések kiválasztása nem csupán ár vagy specifikáció alapján, hanem figyelembe véve a minőséget, megbízhatóságot, garanciát, elérhetőséget és a gyártó támogatását.</li>
+                        <li>Jövőbeni igények előrejelzése és a rendszer "jövőbiztos" tervezése, amennyire lehetséges (pl. nagyobb keresztmetszetű vezetékek, több tartalék áramkör).</li>
+                        <li>Világítási tervek készítése, ami nem csupán a szabványokat követi, hanem az esztétikai és funkcionális szempontokat is figyelembe veszi (pl. hangulatvilágítás étteremben, specifikus munkavilágítás műhelyben).</li>
+                        <li>Nagyobb projektek (pl. családi ház teljes átvezetékelése, csarnok villanyszerelése) ütemezésének, erőforrásigényének és logisztikájának megtervezése.</li>
+                        <li>Energiatakarékossági megoldások (pl. LED-világítás, mozgásérzékelők, intelligens vezérlés) integrálásának megtervezése és az ügyfél számára gazdasági előnyeinek bemutatása.</li>
+                        <li>Egyedi gépvezérlések vagy automatizálási feladatok elektromos tervezése.</li>
+                        <li>Projektek utólagos értékelése, a tapasztalatok beépítése a jövőbeni tervezési és ajánlatadási folyamatokba.</li>
+                    </ul>
+                </div>
+
+                <!-- Etikai és Erkölcsi Döntéshozatal -->
+                <div class="tip-card">
+                    <span class="tip-number">05</span>
+                    <div class="icon-wrapper">
+                        <i class="fas fa-balance-scale tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Etikai és Erkölcsi Döntéshozatal</h3>
+                    <ul class="tip-list">
+                        <li>Annak a döntésnek a meghozatala, hogy jelenteni kell-e a hatóságok vagy az ügyfél felé a helyszínen talált súlyos, de nem a megbízáshoz kapcsolódó szabálytalanságot vagy veszélyt (pl. szomszédos lakásban gyanús bekötés, korábbi kivitelező hibája), még akkor is, ha ez kényelmetlen vagy konfliktust okoz.</li>
+                        <li>Ügyfél nyomására nem biztonságos vagy szabálytalan megoldás elutasítása (pl. földelés nélküli konnektor felszerelése, túlzott terhelés egy áramkörre), még akkor is, ha a munka elvesztésével jár.</li>
+                        <li>Tisztességes és átlátható árazás kialakítása és kommunikációja, elkerülve a rejtett költségeket vagy a helyzet kihasználását (pl. sürgős hibaelhárításnál indokolatlanul magas ár).</li>
+                        <li>Saját hibák elismerése és azok korrekt, az ügyfél számára kedvező kezelése.</li>
+                        <li>Környezeti szempontok figyelembevétele a munkavégzés során (pl. keletkező hulladék megfelelő kezelése, energiatakarékos megoldások javaslata).</li>
+                        <li>Konkurenciával szembeni tisztelet és etikus magatartás fenntartása.</li>
+                        <li>Saját vagy alkalmazottak szakmai fejlődésének és képzésének biztosítása az új technológiák és szabványok naprakész ismerete érdekében, ami felelősség az ügyfelek felé.</li>
+                        <li>Alvállalkozó vagy beszállító kiválasztása nem csupán ár alapján, hanem figyelembe véve az ő etikai normáikat és minőségi munkavégzésüket.</li>
+                        <li>A cég jó hírének és reputációjának védelme a magas minőségű és etikus munkavégzés révén.</li>
+                        <li>Érdekütközések felismerése és kezelése (pl. ha egy adott termék forgalmazásában érdekelt a cég, de egy másik megoldás lenne jobb az ügyfélnek).</li>
+                    </ul>
+                </div>
+
+                <!-- Személyzetvezetés -->
+                <div class="tip-card">
+                    <span class="tip-number">06</span>
+                    <div class="icon-wrapper">
+                        <i class="fas fa-users tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Személyzetvezetés, Csapatmunka és Mentorálás</h3>
+                    <ul class="tip-list">
+                        <li>Alkalmazottak (különösen a fiatalabbak és a tanulók) mentorálása, tapasztalatok átadása, nem csupán technikai tudás, hanem a "mesterség" fortélyai és a biztonságos munkavégzés iránti elkötelezettség átadása.</li>
+                        <li>Csapat tagjai közötti konfliktusok felismerése, közvetítése és megoldása.</li>
+                        <li>Munkatársak motiválása, elismerése és teljesítményük értékelése, figyelembe véve nem csupán a mérhető eredményeket, hanem a hozzáállást, a biztonság betartását és a csapatmunkát is.</li>
+                        <li>Biztonságos munkakörnyezet és csapatkultúra kialakítása, ahol a munkatársak mernek szólni, ha valami nem biztonságos, vagy ha hibát követtek el.</li>
+                        <li>Egyedi munkatársak erősségeinek és gyengeségeinek felismerése, és a feladatok ennek megfelelően történő kiosztása.</li>
+                        <li>Új munkatársak vagy tanulók beillesztése a csapatba és a cég kultúrájába.</li>
+                        <li>Teljesítményproblémákkal küzdő munkatársakkal való beszélgetés, a probléma okának feltárása (akár személyes problémák is lehetnek a háttérben) és a támogatás nyújtása.</li>
+                        <li>Képzési és fejlődési tervek összeállítása a munkatársak számára.</li>
+                        <li>A csapaton belüli tudásmegosztás ösztönzése és megkönnyítése.</li>
+                        <li>Példamutatás a magas szakmai színvonal, a biztonság és az etikus magatartás terén.</li>
+                    </ul>
+                </div>
+
+                <!-- Kreativitás és Innováció -->
+                <div class="tip-card">
+                    <span class="tip-number">07</span>
+                    <div class="icon-wrapper">
+                        <i class="fas fa-lightbulb tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Kreativitás és Innováció (Villanyszerelő Kontextusban)</h3>
+                    <ul class="tip-list">
+                        <li>Új vagy szokatlan problémákra kreatív, nem szokványos megoldások kitalálása a helyszíni adottságokhoz igazodva (pl. kábelezés elrejtése műemlék épületben a szerkezet károsítása nélkül, egyedi rögzítési megoldások).</li>
+                        <li>Energiatakarékos vagy környezetbarát megoldások proaktív keresése és javaslása az ügyfeleknek, nem csupán a szabványoknak megfelelés.</li>
+                        <li>Új technológiák (pl. smart home rendszerek, energiatárolók, speciális világítástechnika) adaptálása és integrálása a cég szolgáltatási körébe.</li>
+                        <li>Munkafolyamatok vagy eszközök fejlesztése a hatékonyság és a biztonság növelése érdekében (pl. saját fejlesztésű tesztelési módszer, speciális szerszámok).</li>
+                        <li>Egyedi ügyfélkérésekre szabott, innovatív műszaki megoldások kidolgozása.</li>
+                        <li>Piaci rések vagy új szolgáltatási lehetőségek azonosítása és azok megvalósítására üzleti terv készítése (pl. specializáció napelemes rendszerekre, elektromos autótöltők telepítésére).</li>
+                        <li>Marketing anyagok vagy a cég weboldalának kreatív tartalmának megalkotása, ami kiemeli a cég egyediségét és szakértelmét.</li>
+                        <li>Prezentációk vagy oktatási anyagok készítése, amelyek érthetően és vonzóan mutatnak be komplex műszaki témákat.</li>
+                        <li>Részvétel iparági szakmai csoportokban, konferenciákon, új ötletek és legjobb gyakorlatok megismerése és adaptálása.</li>
+                        <li>Saját tapasztalatok és tudásbázis folyamatos bővítése a szakirodalom, képzések és a gyakorlat révén.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+<section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <span class="badge">EMBERI ÉRTÉK ELEMZÉS</span>
+                <h1 class="hero-title">Szükséges és Nem Automatizálható Feladatok egy Villanyszerelő Cégnél</h1>
+                <p class="hero-subtitle">Ezek a feladatok olyan emberi képességeket igényelnek, mint a kritikus gondolkodás, az érzelmi intelligencia, a szubjektív ítélőképesség, a tapasztalat, a kreativitás és a dinamikus helyzetfelismerés, amelyeket jelenleg vagy a közeljövőben sem lehet teljes mértékben automatizálni.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Szükséges és Nem Automatizálható Feladatok Kategóriánként</h2>
+            <p class="section-subtitle">Az alábbi kategóriák bemutatják az emberi intelligenciát és tapasztalatot igénylő kulcsfontosságú feladatokat.</p>
+
+            <div class="tips-grid">
+                <!-- Komplex Hibaelhárítás -->
+                <div class="tip-card">
+                    <span class="tip-number">01</span>
+                    <div class="icon-wrapper">
+                        <i class="fas fa-search-plus tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Komplex Hibaelhárítás és Diagnosztika a Helyszínen</h3>
+                    <ul class="tip-list">
+                        <li>Egyedi, nem rutin hibák okának feltárása régi, nem dokumentált rendszerekben (pl. szakaszosan jelentkező zárlat oka, amely nincs összefüggésben a terheléssel).</li>
+                        <li>Több, egymással összefüggő hibaforrás azonosítása és prioritás szerinti kezelése összetett ipari vagy kereskedelmi létesítményekben.</li>
+                        <li>"Nem reprodukálható" vagy csak bizonyos körülmények között (pl. időjárás, páratartalom, terhelésingadozás) jelentkező elektromos problémák diagnosztizálása, amihez tapasztalat, intuíció és kreatív vizsgálati módszerek kellenek.</li>
+                        <li>Rejtett (pl. falban futó, padlásfödémben lévő) kábelek, kötések vagy berendezések állapotának felmérése és hibakeresése roncsolásmentes vagy minimálisan roncsoló módszerekkel, ami helyszíni tapasztalatot igényel.</li>
+                        <li>Elektromos rendszer meghibásodásának ok-okozati összefüggéseinek feltárása (pl. egy túlfeszültség vagy villámcsapás okozta láncreakció elemzése).</li>
+                        <li>Biztonsági rendszerek (pl. tűzvédelmi, beléptetőrendszer) elektromos hibáinak diagnosztizálása, ahol a fals riasztások vagy a működésképtelenség oka lehet szoftveres, hardveres vagy vezetékezési probléma.</li>
+                        <li>Okosotthon rendszerek integrációs hibáinak diagnosztizálása, ahol különböző gyártók eszközei kommunikálnak hibásan.</li>
+                        <li>Energetikai audit során feltárt komplex problémák (pl. indokolatlan energiaveszteség, reaktív energia gondok) okainak mélyreható elemzése és megoldási javaslatok kidolgozása.</li>
+                        <li>Nem szabványos, "házi barkács" módon kivitelezett elektromos rendszerek veszélyeinek felmérése és a javítási/átalakítási lehetőségek értékelése.</li>
+                        <li>Zaj- vagy interferenciaforrások azonosítása az elektromos hálózatban, ami zavarja az elektronikus eszközöket.</li>
+                    </ul>
+                </div>
+
+                <!-- Ügyfélkapcsolatok -->
+                <div class="tip-card">
+                    <span class="tip-number">02</span>
+                    <div class="icon-wrapper">
+                        <i class="fas fa-comments tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Ügyfélkapcsolatok, Kommunikáció és Bizalomépítés</h3>
+                    <ul class="tip-list">
+                        <li>Az ügyfél (háztulajdonos, cégvezető) szempontjainak, félelmeinek és költségvetési korlátainak empatikus meghallgatása és megértése.</li>
+                        <li>Komplex műszaki problémák és megoldási javaslatok lefordítása az ügyfél számára érthető, laikus nyelvre, elkerülve a szakzsargont.</li>
+                        <li>Az ügyfél aggodalmainak kezelése veszélyes helyzetekben (pl. zárlat, tűzveszély), nyugodt és megnyugtató módon történő tájékoztatás.</li>
+                        <li>Elégedetlen vagy dühös ügyfelek panaszainak kezelése, a konfliktusok de-eszkalálása és a megoldásra fókuszálás.</li>
+                        <li>Az ügyfél elvárásainak kezelése a munka időtartamával, a várható költségekkel és a lehetséges felfordulással kapcsolatban, különösen felújításoknál vagy nagy projekteknél.</li>
+                        <li>Hosszú távú bizalom kiépítése az ügyféllel, ami alapvető egy szolgáltató cégnél, különösen az ismétlődő munkák és az ajánlások szempontjából.</li>
+                        <li>Az ügyfél nem kimondott (vagy nem tudatosított) igényeinek felismerése és arra proaktív megoldások javaslása (pl. jövőbeni bővítésre való felkészülés, energiatakarékossági lehetőségek).</li>
+                        <li>Helyszíni konzultáció során a munka pontosítására, a felmerülő kérdések megválaszolására és a legjobb műszaki/gazdasági megoldás közös megtalálására irányuló párbeszéd.</li>
+                        <li>Visszajelzések kérése és fogadása az ügyféltől a munka befejeztével, és az esetleges kritikák konstruktív kezelése.</li>
+                        <li>Kapcsolattartás kulcsfontosságú ügyfelekkel vagy partnerekkel (pl. építész, generálkivitelező), koordináció és egyeztetés komplex projektekben.</li>
+                    </ul>
+                </div>
+
+                <!-- Biztonság és Kockázatértékelés -->
+                <div class="tip-card">
+                    <span class="tip-number">03</span>
+                    <div class="icon-wrapper">
+                        <i class="fas fa-shield-alt tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Biztonság és Kockázatértékelés a Helyszínen</h3>
+                    <ul class="tip-list">
+                        <li>Dinamikus, valós idejű kockázatértékelés a munka megkezdése *előtt* és *közben* a helyszínen, ami magában foglalja a látható és rejtett veszélyek (pl. régi, ismeretlen bekötések, statikai problémák, nedvesség, gázvezetékek közelsége) felismerését.</li>
+                        <li>Annak a felelős döntésnek a meghozatala, hogy egy munka biztonsági okokból nem végezhető el adott pillanatban vagy adott feltételekkel, és erről a megbízó tájékoztatása, akár a munka elvesztése árán is.</li>
+                        <li>Egyedi, helyszín-specifikus biztonsági intézkedések kidolgozása és betartása (pl. magasban végzett munka, szűk helyen végzett munka, veszélyes anyagok közelsége esetén).</li>
+                        <li>Munkatársak biztonsági kultúrájának kialakítása, nem csupán a szabályok betanítása, hanem a "safety-first" mentalitás átadása és ellenőrzése.</li>
+                        <li>Közvetlen veszély felismerése és azonnali cselekvés (pl. áramtalanítás, terület elkerítése) kritikus helyzetekben (pl. tűz, robbanásveszély, súlyos áramütés veszélye).</li>
+                        <li>Munkavédelmi eszközök (pl. szigetelt szerszámok, megfelelő PPE) állapotának és megfelelő használatának szigorú ellenőrzése, ami felelősségvállalást igényel.</li>
+                        <li>Közel-balesetek vagy kisebb incidensek kivizsgálása, az emberi tényezők és a rendszerhibák felismerése a jövőbeli balesetek megelőzése érdekében.</li>
+                        <li>A munkahelyi környezet folyamatos figyelése a változások (pl. más szakmák által okozott új veszélyek) szempontjából és a biztonsági intézkedések adaptálása.</li>
+                        <li>Speciális engedélyekhez vagy eljárásokhoz kötött munkák (pl. robbanásveszélyes környezet, kórház, nagyfeszültség) biztonsági tervének kidolgozása és betartatása.</li>
+                        <li>Ügyfél tájékoztatása a potenciális veszélyekről a meglévő rendszerrel kapcsolatban, még akkor is, ha az adott munkát nem rendelték meg kifejezetten erre.</li>
+                    </ul>
+                </div>
+
+                <!-- Műszaki Tervezés -->
+                <div class="tip-card">
+                    <span class="tip-number">04</span>
+                    <div class="icon-wrapper">
+                        <i class="fas fa-drafting-compass tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Műszaki Tervezés, Rendszertervezés és Ajánlatadás (Nem Sablon Alapú)</h3>
+                    <ul class="tip-list">
+                        <li>Egyedi vagy komplex igényekre szabott elektromos rendszer tervezése (pl. speciális világítás, ipari gépek tápellátása, épületautomatizálás).</li>
+                        <li>Különböző műszaki megoldások előnyeinek és hátrányainak mérlegelése az ügyfél igényei, költségvetése és a helyszíni adottságok figyelembevételével, és a legjobb kompromisszum megtalálása.</li>
+                        <li>Részletes és pontos árajánlat összeállítása komplex vagy bizonytalan (pl. régi, feltárást igénylő) munkákra, figyelembe véve a várható kockázatokat és az esetlegesen felmerülő extra munkákat.</li>
+                        <li>Anyagok és berendezések kiválasztása nem csupán ár vagy specifikáció alapján, hanem figyelembe véve a minőséget, megbízhatóságot, garanciát, elérhetőséget és a gyártó támogatását.</li>
+                        <li>Jövőbeni igények előrejelzése és a rendszer "jövőbiztos" tervezése, amennyire lehetséges (pl. nagyobb keresztmetszetű vezetékek, több tartalék áramkör).</li>
+                        <li>Világítási tervek készítése, ami nem csupán a szabványokat követi, hanem az esztétikai és funkcionális szempontokat is figyelembe veszi (pl. hangulatvilágítás étteremben, specifikus munkavilágítás műhelyben).</li>
+                        <li>Nagyobb projektek (pl. családi ház teljes átvezetékelése, csarnok villanyszerelése) ütemezésének, erőforrásigényének és logisztikájának megtervezése.</li>
+                        <li>Energiatakarékossági megoldások (pl. LED-világítás, mozgásérzékelők, intelligens vezérlés) integrálásának megtervezése és az ügyfél számára gazdasági előnyeinek bemutatása.</li>
+                        <li>Egyedi gépvezérlések vagy automatizálási feladatok elektromos tervezése.</li>
+                        <li>Projektek utólagos értékelése, a tapasztalatok beépítése a jövőbeni tervezési és ajánlatadási folyamatokba.</li>
+                    </ul>
+                </div>
+
+                <!-- Etikai és Erkölcsi Döntéshozatal -->
+                <div class="tip-card">
+                    <span class="tip-number">05</span>
+                    <div class="icon-wrapper">
+                        <i class="fas fa-balance-scale tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Etikai és Erkölcsi Döntéshozatal</h3>
+                    <ul class="tip-list">
+                        <li>Annak a döntésnek a meghozatala, hogy jelenteni kell-e a hatóságok vagy az ügyfél felé a helyszínen talált súlyos, de nem a megbízáshoz kapcsolódó szabálytalanságot vagy veszélyt (pl. szomszédos lakásban gyanús bekötés, korábbi kivitelező hibája), még akkor is, ha ez kényelmetlen vagy konfliktust okoz.</li>
+                        <li>Ügyfél nyomására nem biztonságos vagy szabálytalan megoldás elutasítása (pl. földelés nélküli konnektor felszerelése, túlzott terhelés egy áramkörre), még akkor is, ha a munka elvesztésével jár.</li>
+                        <li>Tisztességes és átlátható árazás kialakítása és kommunikációja, elkerülve a rejtett költségeket vagy a helyzet kihasználását (pl. sürgős hibaelhárításnál indokolatlanul magas ár).</li>
+                        <li>Saját hibák elismerése és azok korrekt, az ügyfél számára kedvező kezelése.</li>
+                        <li>Környezeti szempontok figyelembevétele a munkavégzés során (pl. keletkező hulladék megfelelő kezelése, energiatakarékos megoldások javaslata).</li>
+                        <li>Konkurenciával szembeni tisztelet és etikus magatartás fenntartása.</li>
+                        <li>Saját vagy alkalmazottak szakmai fejlődésének és képzésének biztosítása az új technológiák és szabványok naprakész ismerete érdekében, ami felelősség az ügyfelek felé.</li>
+                        <li>Alvállalkozó vagy beszállító kiválasztása nem csupán ár alapján, hanem figyelembe véve az ő etikai normáikat és minőségi munkavégzésüket.</li>
+                        <li>A cég jó hírének és reputációjának védelme a magas minőségű és etikus munkavégzés révén.</li>
+                        <li>Érdekütközések felismerése és kezelése (pl. ha egy adott termék forgalmazásában érdekelt a cég, de egy másik megoldás lenne jobb az ügyfélnek).</li>
+                    </ul>
+                </div>
+
+                <!-- Személyzetvezetés -->
+                <div class="tip-card">
+                    <span class="tip-number">06</span>
+                    <div class="icon-wrapper">
+                        <i class="fas fa-users tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Személyzetvezetés, Csapatmunka és Mentorálás</h3>
+                    <ul class="tip-list">
+                        <li>Alkalmazottak (különösen a fiatalabbak és a tanulók) mentorálása, tapasztalatok átadása, nem csupán technikai tudás, hanem a "mesterség" fortélyai és a biztonságos munkavégzés iránti elkötelezettség átadása.</li>
+                        <li>Csapat tagjai közötti konfliktusok felismerése, közvetítése és megoldása.</li>
+                        <li>Munkatársak motiválása, elismerése és teljesítményük értékelése, figyelembe véve nem csupán a mérhető eredményeket, hanem a hozzáállást, a biztonság betartását és a csapatmunkát is.</li>
+                        <li>Biztonságos munkakörnyezet és csapatkultúra kialakítása, ahol a munkatársak mernek szólni, ha valami nem biztonságos, vagy ha hibát követtek el.</li>
+                        <li>Egyedi munkatársak erősségeinek és gyengeségeinek felismerése, és a feladatok ennek megfelelően történő kiosztása.</li>
+                        <li>Új munkatársak vagy tanulók beillesztése a csapatba és a cég kultúrájába.</li>
+                        <li>Teljesítményproblémákkal küzdő munkatársakkal való beszélgetés, a probléma okának feltárása (akár személyes problémák is lehetnek a háttérben) és a támogatás nyújtása.</li>
+                        <li>Képzési és fejlődési tervek összeállítása a munkatársak számára.</li>
+                        <li>A csapaton belüli tudásmegosztás ösztönzése és megkönnyítése.</li>
+                        <li>Példamutatás a magas szakmai színvonal, a biztonság és az etikus magatartás terén.</li>
+                    </ul>
+                </div>
+
+                <!-- Kreativitás és Innováció -->
+                <div class="tip-card">
+                    <span class="tip-number">07</span>
+                    <div class="icon-wrapper">
+                        <i class="fas fa-lightbulb tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Kreativitás és Innováció (Villanyszerelő Kontextusban)</h3>
+                    <ul class="tip-list">
+                        <li>Új vagy szokatlan problémákra kreatív, nem szokványos megoldások kitalálása a helyszíni adottságokhoz igazodva (pl. kábelezés elrejtése műemlék épületben a szerkezet károsítása nélkül, egyedi rögzítési megoldások).</li>
+                        <li>Energiatakarékos vagy környezetbarát megoldások proaktív keresése és javaslása az ügyfeleknek, nem csupán a szabványoknak megfelelés.</li>
+                        <li>Új technológiák (pl. smart home rendszerek, energiatárolók, speciális világítástechnika) adaptálása és integrálása a cég szolgáltatási körébe.</li>
+                        <li>Munkafolyamatok vagy eszközök fejlesztése a hatékonyság és a biztonság növelése érdekében (pl. saját fejlesztésű tesztelési módszer, speciális szerszámok).</li>
+                        <li>Egyedi ügyfélkérésekre szabott, innovatív műszaki megoldások kidolgozása.</li>
+                        <li>Piaci rések vagy új szolgáltatási lehetőségek azonosítása és azok megvalósítására üzleti terv készítése (pl. specializáció napelemes rendszerekre, elektromos autótöltők telepítésére).</li>
+                        <li>Marketing anyagok vagy a cég weboldalának kreatív tartalmának megalkotása, ami kiemeli a cég egyediségét és szakértelmét.</li>
+                        <li>Prezentációk vagy oktatási anyagok készítése, amelyek érthetően és vonzóan mutatnak be komplex műszaki témákat.</li>
+                        <li>Részvétel iparági szakmai csoportokban, konferenciákon, új ötletek és legjobb gyakorlatok megismerése és adaptálása.</li>
+                        <li>Saját tapasztalatok és tudásbázis folyamatos bővítése a szakirodalom, képzések és a gyakorlat révén.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+<section class="features">
+  <div class="container">
+    <h2 class="section-title">Szükségtelen Feladatok (Időpocsékolás)</h2>
+    <p class="section-subtitle">Villanyszerelő Cég</p>
+
+    <div class="tips-grid">
+      <!-- 1 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">01</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-archive tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Redundáns Adminisztráció</h3>
+        <ul class="tip-list">
+          <li>Kézi adatbevitel a papír alapú munkalapokról egy digitális rendszerbe (jobb: digitális munkalapok bevezetése mobil appon keresztül).</li>
+          <li>Ugyanazon információk többszöri rögzítése különböző táblázatokban vagy rendszerekben (pl. ügyféladatok, projektstátusz, anyagszükséglet) ahelyett, hogy egy integrált rendszer kezelné (jobb: egységes CRM/projektmenedzsment szoftver használata).</li>
+          <li>Minden dokumentum (számlák, ajánlatok, munkalapok) fizikai archiválása a digitális mentés mellett, ha a digitális másolat könnyen kereshető és elérhető (jobb: csak digitális tárolás és kereshető rendszer kiépítése).</li>
+          <li>Munkatársak kézi, papír alapú jelenléti íveinek vagy munkaidő naplóinak manuális feldolgozása és ellenőrzése digitális munkaidő-követés helyett (jobb: mobil munkaidő-követő app vagy GPS alapú rendszer bevezetése).</li>
+          <li>Árajánlatok egyedi, szövegszerkesztőben történő megírása sablonok vagy árajánlatkészítő szoftver használata nélkül, ami sok másolással és formázással jár (jobb: árajánlatkészítő sablonok vagy szoftver használata).</li>
+          <li>Belső közlemények fizikai kinyomtatása és kézi terjesztése az email/chat/belső kommunikációs platform mellett (jobb: kizárólag digitális kommunikációs csatornák használata belsőleg).</li>
+          <li>Számlák manuális, egyenkénti kiállítása ahelyett, hogy a rendszer automatikusan generálná a munkalap vagy projektadatok alapján (jobb: integrált számlázó rendszer használata, ami összekapcsolható a projektadatokkal).</li>
+          <li>Külön űrlapok kitöltése minden egyes kisebb anyagszükséglet vagy felhasznált alkatrész dokumentálására egy adott munkán belül ahelyett, hogy projekt- vagy munkalap szinten történne a rögzítés (jobb: anyagszükséglet rögzítése a digitális munkalapon vagy projekt szinten).</li>
+          <li>Gépjárművek kilométer-elszámolásának manuális naplózása és ellenőrzése GPS alapú követés vagy dedikált mobil app helyett (jobb: automatizált kilométer-követés bevezetése).</li>
+          <li>Többlépcsős, redundáns belső ellenőrzési folyamatok ugyanazon adminisztratív adatokhoz (pl. ugyanazt a munkalapot ellenőrzi a projektvezető, az irodavezető és a könyvelés is manuálisan).</li>
+          <li>Minden bejövő postai levél vagy dokumentum feleslegesen szkennelése, ha az eredeti elektronikus formában is rendelkezésre áll.</li>
+        </ul>
+      </div>
+
+      <!-- 2 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">02</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-users tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Felesleges Megbeszélések</h3>
+        <ul class="tip-list">
+          <li>Napi kötelező reggeli eligazítás, ahol a státuszfrissítéseket gyorsan meg lehetne osztani egy projektmenedzsment platformon vagy chat csatornán (jobb: aszinkron státuszfrissítések és csak szükség esetén rövid, célzott megbeszélések).</li>
+          <li>Hosszú, fókuszálatlan helyszíni megbeszélések, ahol csak néhány kulcsfontosságú személynek kellene részt vennie (jobb: csak az érintettek részvétele, előre megadott napirenddel).</li>
+          <li>Megbeszélések olyan témákról, amelyekről már döntés született vagy amelyeket emailben/chatben is hatékonyan lehetett volna kommunikálni (jobb: írásos kommunikáció előnyben részesítése, megbeszélés csak döntéshozatalra vagy komplex problémák megvitatására).</li>
+          <li>Napi rendszerességgel visszarendelni a szerelőket a telephelyre olyan általános megbeszélésekre, amelyek nem érintik közvetlenül a napi munkájukat vagy a biztonságot (jobb: helyszíni vagy online (videó) kommunikáció, ha lehetséges).</li>
+          <li>Vezetőségi megbeszélések, amelyek újra és újra ugyanazokat a témákat járják körbe, konkrét döntések vagy feladatok kijelölése nélkül (jobb: világos napirend, kijelölt felelősök és határidők).</li>
+          <li>Beszállítókkal vagy partnerekkel tartott személyes megbeszélések, amelyek egy gyors telefonhívással vagy email váltással is elintézhetők lennének (jobb: hatékony csatorna kiválasztása a kommunikációhoz).</li>
+          <li>Megbeszélések beütemezése csupán "ellenőrzés" céljából, amikor egy rövid státuszkérés is elegendő lenne (jobb: proaktív, aszinkron státuszjelentések vagy célzott kérdések).</li>
+          <li>Mindenkit meghívni egy osztályról vagy csapatból egy megbeszélésre, amikor csak a közvetlenül érintett döntéshozókra vagy közreműködőkre van szükség (jobb: csak a releváns személyek meghívása).</li>
+          <li>Megbeszélések az információ átadására, ha az írásos összefoglaló (email, dokumentum) is elegendő lenne (jobb: írásos kommunikáció nagyobb csoportok felé).</li>
+          <li>Előkészítetlen megbeszélések, ahol a résztvevők nem tudják, mi a cél, és mire készüljenek (jobb: mindig előre küldött napirend és a szükséges háttérinformációk).</li>
+        </ul>
+      </div>
+
+      <!-- 3 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">03</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-search-plus tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Túlzott Ellenőrzés / Mikromenedzsment</h3>
+        <ul class="tip-list">
+          <li>Elvárni, hogy a szerelők minden egyes kis feladat elvégzése *után* telefonáljanak a telephelyre, hogy jelentsék a státuszt (jobb: digitális státuszfrissítés mobil appon keresztül projekt/munka szinten).</li>
+          <li>A vezetőség minden egyes árajánlat aprólékos átnézése és engedélyezése, még rutinmunkáknál is (jobb: árajánlatok jóváhagyási folyamatának egyszerűsítése, sablonok használata, felelősség delegálása).</li>
+          <li>Kis értékű anyagok vagy eszközök beszerzéséhez több szintű, fizikai aláírással történő engedélyeztetés előírása (jobb: digitális beszerzési rendszer, értékhatárok szerinti engedélyezési szintek).</li>
+          <li>Szerelők GPS-adatait állandóan figyelni, és megkérdőjelezni minden kisebb útvonaleltérést (pl. ha célzottan mennek egy adott boltba specifikus anyagért) (jobb: bizalom a munkatársak felé, csak rendellenességek esetén beavatkozás).</li>
+          <li>Részletes, lépésről lépésre történő jelentések követelése egyszerű javítási munkákról (jobb: szabványosított, egyszerűsített munkalapok és jelentések).</li>
+          <li>Folyamatosan félbeszakítani az irodai munkatársakat vagy a szerelőket, hogy a már folyamatban lévő vagy kijelölt feladatok státuszáról érdeklődjön valaki (jobb: rendszeres, de nem túlzott státuszfrissítési pontok kijelölése, pl. napi/heti jelentések).</li>
+          <li>Minden kimenő email vagy dokumentum átnézése és átfogalmazása, amelyet projektmenedzserek vagy irodai munkatársak küldenek (jobb: sablonok használata, kommunikációs irányelvek lefektetése, bizalom a munkatársak szakértelmében).</li>
+          <li>Szerszámosládák és kisbuszok túlzott mértékű, gyakori ellenőrzése "megfelelőség" címszóval, amikor az alapvető bizalom és szúrópróbaszerű ellenőrzések is elegendőek lennének (jobb: bizalomra épülő rendszer szúrópróbákkal).</li>
+          <li>Megtagadni, hogy a csapatvezetők vagy művezetők apróbb, helyszíni döntéseket hozzanak vezetői engedély nélkül (jobb: döntési jogkörök delegálása megfelelő szinten).</li>
+          <li>Minden apró hiba kijavíttatása, még akkor is, ha az nem befolyásolja a funkciót vagy a biztonságot, és a javítás jelentősen megnöveli a ráfordított időt (átcsúszik a perfekcionizmusba is).</li>
+        </ul>
+      </div>
+
+      <!-- 4 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">04</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-volume-down tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Rossz Kommunikáció</h3>
+        <ul class="tip-list">
+          <li>Fontos munkával kapcsolatos részletek (feladatkör, ügyfél elvárások, helyszíni kapcsolattartók) szóbeli átadása dokumentálás helyett (jobb: központi, digitális rendszerben dokumentálni minden releváns információt).</li>
+          <li>Információs silók létrejötte, ahol a különböző csapatok (iroda, helyszíni szerelők, árajánlatkészítők) nem osztanak meg kritikus frissítéseket egymással (jobb: integrált kommunikációs és projektmenedzsment platform használata, rendszeres csapat-átjárások).</li>
+          <li>Több, nem összekapcsolt kommunikációs csatorna (email, WhatsApp, SMS, külön chat appok) használata világos protokoll nélkül (jobb: egységes kommunikációs platform vagy szabályrendszer meghatározása).</li>
+          <li>Fontos információkat tartalmazó tömeges emailek küldése, amelyek elvesznek a bejövő levelek között, célzott kommunikáció vagy platform helyett (jobb: célzott üzenetek, belső kommunikációs csatornák használata).</li>
+          <li>Nincsenek szabványosított sablonok a gyakori kommunikációhoz (árajánlatok, helyszíni jelentések, utánkövetések), ami sok egyedi fogalmazást igényel (jobb: sablonok használata a hatékonyság növelése érdekében).</li>
+          <li>Nem egyértelmű utasítások az anyagszükségleti listákon, ami miatt a szerelők rossz vagy hiányzó anyagokkal érkeznek a helyszínre (jobb: pontos, digitális anyagszükségleti listák a munkalaphoz kapcsolva).</li>
+          <li>Az ügyfélkommunikációt több ember kezeli koordináció nélkül, ami ellentmondásos információkhoz vezet (jobb: egy kijelölt kapcsolattartó vagy központi ügyfélkezelő rendszer használata).</li>
+          <li>A menetrendi késések vagy változások késedelmes kommunikációja, ami állásidőt okoz a szerelőknek a helyszínen (jobb: azonnali, proaktív kommunikáció minden változásról).</li>
+          <li>A kérések vagy frissítések lezárásának hiánya (pl. valaki információt kér, megkapja, de nem erősíti meg a vételt vagy a lépést, amit tett) (jobb: kommunikációs ciklus lezárása, visszaigazolás).</li>
+          <li>Feltételezés, hogy az információ eljutott vagy megértették anélkül, hogy ezt megerősítették volna (jobb: visszakérdezés, megerősítés kérése fontos információknál).</li>
+        </ul>
+      </div>
+
+      <!-- 5 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">05</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-history tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Elavult Rendszerek / Technológia</h3>
+        <ul class="tip-list">
+          <li>Papír alapú munkalapok és jelenléti ívek használata digitális űrlapok és munkaidő-követő appok helyett (jobb: mobil alapú digitális munkalapok és munkaidő-követés).</li>
+          <li>Készletnyilvántartás (anyagok, eszközök) manuálisan, táblázatokban történő kezelése dedikált készletnyilvántartó szoftver helyett (jobb: készletnyilvántartó szoftver bevezetése).</li>
+          <li>Általános naptár (pl. megosztott Google Naptár) használata komplex munkabeosztásokhoz építőipari/szolgáltatásmenedzsment szoftver helyett (jobb: dedikált ütemező szoftver használata).</li>
+          <li>Számlák manuális generálása Wordben vagy Excelben, ahelyett, hogy az árajánlatkészítő, munkakövető és számlázó szoftverek integráltan működnének (jobb: integrált üzleti menedzsment szoftver használata).</li>
+          <li>Különálló, nem integrált rendszerek használata CRM-re, munkakövetésre, könyvelésre és kommunikációra (jobb: integrált vagy összekapcsolható rendszerek kiépítése).</li>
+          <li>Biztonsági kézikönyvek és eljárások fizikai példányaira támaszkodni, ahelyett, hogy könnyen elérhető digitális verziókat biztosítanánk (jobb: digitális dokumentumtár, mobil hozzáféréssel).</li>
+          <li>Nem használni felhő alapú tárhelyet a dokumentumokhoz, ami megnehezíti a távoli hozzáférést és a megosztást (jobb: felhő alapú dokumentumkezelés bevezetése).</li>
+          <li>Elavult árajánlatkészítő szoftver használata, amely manuális adatbevitelt igényel szabványos tételeknél és számításoknál (jobb: modern, adatbázis alapú árajánlatkészítő szoftver).</li>
+          <li>Nem használni mobil appokat a helyszíni csapatok számára a munkarészletek eléréséhez, a haladás jelentéséhez és fotók rögzítéséhez (jobb: mobil appok bevezetése a helyszíni munkához).</li>
+          <li>Több csapat útvonalának manuális tervezése optimalizáló szoftver helyett (jobb: útvonaloptimalizáló szoftver használata).</li>
+        </ul>
+      </div>
+
+      <!-- 6 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">06</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-gem tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Perfekcionizmus (Kontraproduktív)</h3>
+        <ul class="tip-list">
+          <li>Túlzott időt tölteni az árajánlatok grafikai tökéletesítésével, bonyolult formázással, még egyszerűbb munkáknál is (jobb: szabványosított, tiszta és professzionális, de nem túldíszített sablonok használata).</li>
+          <li>Kisebb, működést vagy biztonságot nem befolyásoló tökéletlenségek újbóli kijavíttatása a helyszínen, ami jelentősen növeli a ráfordított időt (jobb: az elfogadható szabványoknak és előírásoknak való megfelelésre fókuszálni, nem a túlzott esztétikai tökéletességre rejtett helyeken).</li>
+          <li>Minden egyes vezetékcsatlakozás túlzott dokumentálása több fotóval és részletes leírással, ami meghaladja a szükséges biztonsági vagy dokumentációs követelményeket (jobb: csak a szükséges mértékű dokumentáció, a szabványoknak megfelelően).</li>
+          <li>Megtagadni a feladatok delegálását azzal az indokkal, hogy "senki más nem tudja pontosan úgy megcsinálni, ahogy én" (jobb: tréning és bizalom a munkatársak képességeiben, delegálás).</li>
+          <li>Órákat tölteni belső dokumentumok vagy emailek kisebb megfogalmazásbeli változtatásain való rágódással (jobb: gyors döntéshozatal, a "jó" elég lehet a "tökéletes" helyett).</li>
+          <li>Egy munka vagy feladat befejezésének késleltetése a "tökéletes" eszközre vagy anyagra várva, amikor egy könnyen elérhető, megfelelő alternatíva is létezik (jobb: pragmatikus megközelítés, elérhető erőforrások használata).</li>
+          <li>Végtelenül finomítani belső folyamatokat, amelyek már elég hatékonyak, jelentős hozzáadott érték nélkül (jobb: folyamatos fejlesztésre törekedni, de csak ahol az jelentős javulást hoz).</li>
+          <li>Esztétikailag tökéletes kábelvezetések erőltetése olyan területeken, amelyeket falak vagy mennyezetek fognak eltakarni, ami szükségtelenül növeli a telepítési időt (jobb: fókusz a biztonságra, működésre és a szabványokra).
+    <script>
+        // Add mouse move effect to cards
+        document.querySelectorAll('.tip-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const cardRect = card.getBoundingClientRect();
+                const x = e.clientX - cardRect.left;
+                const y = e.clientY - cardRect.top;
+
+                const centerX = cardRect.width / 2;
+                const centerY = cardRect.height / 2;
+
+                const angleY = (x - centerX) / 25;
+                const angleX = (centerY - y) / 25;
+
+                card.style.transform = `rotateY(${angleY}deg) rotateX(${angleX}deg) translateY(-15px)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(-15px) rotateX(0)';
+            });
+        });
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateElements = document.querySelectorAll('.animate-up');
+
+            // Trigger animations with delay
+            setTimeout(() => {
+                animateElements.forEach(el => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                });
+            }, 300);
+        });
+    </script>
+</body>
 </html>
