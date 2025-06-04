@@ -1,16 +1,907 @@
-<!-- loading.html -->
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Az oldal tölt...</title>
-    <meta http-equiv="refresh" content="15" />
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milyen folyamatokat automatizáljunk cégünkben?</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-      body { font-family: sans-serif; text-align: center; padding-top: 100px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00f7ff;
+            --primary-dark: #00c4cc;
+            --secondary: #ff00c8;
+            --accent: #7700ff;
+            --dark: #0a0e17;
+            --light: #e6f7ff;
+            --card-bg: rgba(10, 14, 23, 0.8);
+            --glass-bg: rgba(20, 25, 40, 0.25);
+            --glow-primary: 0 0 15px rgba(0, 247, 255, 0.7);
+            --glow-secondary: 0 0 15px rgba(255, 0, 200, 0.7);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --warning: #ff4757;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: linear-gradient(135deg, var(--dark), #050a1a);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(0, 247, 255, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 200, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(119, 0, 255, 0.05) 0%, transparent 30%);
+            z-index: -1;
+        }
+
+        .grid-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(0, 247, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 247, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .floating-objects {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .floating-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.2;
+            animation: float 25s infinite linear;
+        }
+
+        .circle-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--primary);
+            top: 10%;
+            left: 5%;
+            animation-duration: 30s;
+        }
+
+        .circle-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--secondary);
+            top: 60%;
+            left: 80%;
+            animation-duration: 25s;
+            animation-delay: -5s;
+        }
+
+        .circle-3 {
+            width: 200px;
+            height: 200px;
+            background: var(--accent);
+            top: 20%;
+            left: 70%;
+            animation-duration: 20s;
+            animation-delay: -10s;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 6rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 3rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--glow-primary), 0 20px 50px rgba(0, 0, 0, 0.5);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.3s forwards;
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--light), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            position: relative;
+        }
+
+        .hero-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--light);
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 300;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.7rem 1.8rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            background: rgba(255, 71, 87, 0.15);
+            color: var(--warning);
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            letter-spacing: 0.1em;
+            border: 1px solid rgba(255, 71, 87, 0.3);
+            box-shadow: 0 0 15px rgba(255, 71, 87, 0.3);
+            transition: var(--transition);
+        }
+
+        .badge:hover {
+            background: rgba(255, 71, 87, 0.25);
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(255, 71, 87, 0.5);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 8rem 0;
+            position: relative;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            text-align: center;
+            background: linear-gradient(to right, var(--light), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            letter-spacing: -0.02em;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out 0.2s forwards;
+        }
+
+        .section-subtitle {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 2rem auto 5rem;
+            text-align: center;
+            color: var(--light);
+            line-height: 1.7;
+            opacity: 0.8;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out 0.4s forwards;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tip-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transform: translateY(30px) rotateX(5deg);
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            perspective: 1000px;
+        }
+
+        .tip-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--warning), var(--accent));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.6s ease;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-15px) rotateX(0);
+            box-shadow: 0 0 20px rgba(255, 71, 87, 0.3), 0 25px 50px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 71, 87, 0.3);
+        }
+
+        .tip-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .tip-card:hover .icon-wrapper {
+            transform: translateY(-10px) scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 71, 87, 0.5);
+        }
+
+        .icon-wrapper {
+            width: 90px;
+            height: 90px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, rgba(255, 71, 87, 0.1), rgba(119, 0, 255, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 71, 87, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .icon-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 71, 87, 0.2), transparent);
+            transform: rotate(45deg);
+            transition: var(--transition);
+        }
+
+        .tip-card:hover .icon-wrapper::before {
+            transform: rotate(45deg) translate(20px, 20px);
+        }
+
+        .tip-icon {
+            font-size: 2.5rem;
+            color: var(--warning);
+            transition: var(--transition);
+            z-index: 2;
+        }
+
+        .tip-title {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            font-weight: 700;
+            color: var(--light);
+            line-height: 1.3;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: -0.01em;
+        }
+
+        .tip-number {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 3rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.05);
+            line-height: 1;
+            transition: var(--transition);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .tip-card:hover .tip-number {
+            color: rgba(255, 71, 87, 0.1);
+            transform: scale(1.2);
+        }
+
+        .tip-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .tip-list li {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .tip-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--warning);
+            font-size: 1.3rem;
+            transition: var(--transition);
+        }
+
+        .tip-list li:hover {
+            color: var(--light);
+            transform: translateX(5px);
+        }
+
+        .tip-list li:hover::before {
+            transform: translateX(5px);
+            color: var(--primary);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(20px, -20px) rotate(5deg);
+            }
+            50% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            75% {
+                transform: translate(-20px, 20px) rotate(-5deg);
+            }
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+        }
+
+        .tip-card:nth-child(1) { animation-delay: 0.2s; }
+        .tip-card:nth-child(2) { animation-delay: 0.3s; }
+        .tip-card:nth-child(3) { animation-delay: 0.4s; }
+        .tip-card:nth-child(4) { animation-delay: 0.5s; }
+        .tip-card:nth-child(5) { animation-delay: 0.6s; }
+        .tip-card:nth-child(6) { animation-delay: 0.7s; }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .hero {
+                padding: 4rem 0;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.3rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .section-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .tip-card {
+                padding: 2.5rem 2rem;
+            }
+
+            .tip-list li {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            .hero-title {
+                font-size: 1.8rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 1.7rem;
+            }
+
+            .tip-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .icon-wrapper {
+                width: 75px;
+                height: 75px;
+            }
+
+            .tip-icon {
+                font-size: 2rem;
+            }
+
+            .tip-title {
+                font-size: 1.5rem;
+            }
+
+            .tips-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
     </style>
-  </head>
-  <body>
-    <h1>Készül az oldalad...</h1>
-    <p>Kérlek várj egy pillanatot.</p>
-  </body>
+</head>
+<body>
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <span class="badge">Cégfejlesztési Szakértő</span>
+            <h1 class="hero-title">Szükséges és Nem Automatizálható Feladatok</h1>
+            <p class="hero-subtitle">A cégfejlesztési szakértő fő feladata a vállalat növekedésének, hatékonyságának és versenyképességének javítása. Ehhez olyan mélyreható elemzésekre, stratégiai gondolkodásra, emberi interakcióra és szubjektív ítélőképességre van szükség, amely jelenleg vagy belátható jövőben nem reprodukálható kizárólag automatizált rendszerek által.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <div class="container">
+        <h2 class="section-title">Nem Automatizálható Feladatok Részletezése</h2>
+        <p class="section-subtitle">Az alábbiakban részletezzük ezeket a feladatokat, alkategóriákba rendezve őket:</p>
+
+        <div class="tips-grid">
+            <!-- Tip Card 01 -->
+            <div class="tip-card">
+                <span class="tip-number">01</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-file-alt tip-icon"></i>
+                </div>
+                <h3 class="tip-title">Stratégiai Tervezés, Jövőkép Alkotás és Mély Kontextuális Elemzés</h3>
+                <ul class="tip-list">
+                    <li>A cég **hosszú távú jövőképének és küldetésének** **megfogalmazása** és **inspiráló kommunikációja**, ami nem pusztán adatgyűjtés, hanem a cég **értékeinek, ambícióinak és a piaci lehetőségek intuitív összekapcsolása**. (Emberi gondolkodás, értékalapú megközelítés, intuíció, inspiráció)</li>
+                    <li>A **stratégiai irányok** **kidolgozása** és **választása** rendkívül komplex és bizonytalan piaci környezetben, ahol a döntéshez nem elegendőek az objektív adatok, hanem a lehetséges jövőbeli forgatókönyvek **szubjektív mérlegelése** és a kockázatok **ítéleten alapuló felmérése** szükséges. (Komplex problémamegoldás, bizonytalanság kezelése, szubjektív ítélőképesség)</li>
+                    <li>A **diverz, gyakran ellentmondásos piaci és belső információk** **mélyreható interpretálása** és **szintézise** (pl. vásárlói érzelmek, informális visszajelzések, versenytársak rejtett szándékai), ami túlmutat a statisztikai elemzéseken, és **kontextuális megértést** és **szubjektív következtetéseket** igényel. (Kritikus gondolkodás, szubjektív értelmezés, kontextuális megértés)</li>
+                    <li>A **vállalat egyedi versenyelőnyének** **azonosítása** és **kiemelése**, ami nem egy automatizált összehasonlítás eredménye, hanem a cég **kultúrájának, a munkatársak kollektív tudásának** és a **személyes ügyfélkapcsolatoknak** a **szubjektív megértésén** alapul. (Szubjektív megértés, emberi tényezők figyelembe vétele)</li>
+                    <li>Egy **lehetséges fúzió vagy akvizíció** stratégiai **illeszkedésének** **felmérése**, ami magában foglalja a két cég **kultúrájának kompatibilitásának szubjektív értékelését**, a vezetői csapatok **személyes dinamikájának megértését** és a jövőbeli szinergiák **intuitív előrejelzését**. (Szubjektív értékelés, emberi dinamikák megértése, intuíció)</li>
+                    <li>A **hosszú távú trendek** és a **váratlan diszruptorok** **intuitív előrejelzése** és a cég **rugalmasságának** **stratégiai tervezése** ezek kezelésére. (Intuíció, bizonytalanság kezelése, előre nem programozható rugalmasság tervezése)</li>
+                    <li>A **stratégiai partnerek** **kiválasztása** nem csak pénzügyi vagy piaci adatok alapján, hanem a **személyes kémia, a bizalom** és a közös **értékek** **szubjektív felmérésével**. (Szubjektív felmérés, emberi kapcsolatok, bizalom)</li>
+                </ul>
+            </div>
+
+            <!-- Tip Card 02 -->
+            <div class="tip-card">
+                <span class="tip-number">02</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-comments tip-icon"></i>
+                </div>
+                <h3 class="tip-title">Komplex Problémamegoldás, Innováció és Megoldás-Design</h3>
+                <ul class="tip-list">
+                    <li>Egy **teljesen új, precedens nélküli** működési vagy szervezeti probléma (pl. egy új technológia bevezetésének váratlan emberi akadályai) **gyökerének** **diagnosztizálása** és **kreatív, testreszabott megoldások** **kidolgozása**, amire nincsenek előre meghatározott algoritmusok. (Kreativitás, komplex problémamegoldás, diagnosztizálás, egyedi megoldások)</li>
+                    <li>Egy **innovatív üzleti modell** **megalkotása** vagy egy meglévő **újraértelmezése**, amihez **kreatív gondolkodás** és a különböző, látszólag össze nem illő elemek **intuitív összekapcsolása** szükséges. (Innováció, kreativitás, intuíció)</li>
+                    <li>Egy **szervezeten belüli rendszerhiba** (pl. rossz kommunikációs csatornák, informális hatalmi harcok) **azonosítása** és a **javítási terv** **megtervezése**, amihez a szervezeti dinamikák **mély, szubjektív megértése** és a lehetséges beavatkozások **emberi hatásának** mérlegelése kell. (Szubjektív megértés, emberi dinamikák, hatások mérlegelése)</li>
+                    <li>A **felmerülő problémák** **priorizálása** és a **legfontosabbakra** való **összpontosítás**, amihez **szubjektív ítélőképesség** szükséges a különböző tényezők (pl. hatás, sürgősség, emberi ellenállás potenciálja) **összeméréséhez**. (Priorizálás, szubjektív ítélőképesség)</li>
+                    <li>A **fejlesztési projektek** **koncepciójának** **megalkotása** és a **megvalósíthatóság** **szubjektív felmérése** a rendelkezésre álló emberi és anyagi erőforrások, valamint a várható ellenállás figyelembevételével. (Koncepció alkotás, szubjektív megvalósíthatósági felmérés)</li>
+                    <li>**Egyedi, nem sztenderd ügyfélproblémák** **mély megértése** és a cég képességeinek **kreatív felhasználásával** egy **személyre szabott megoldás** **kidolgozása**. (Empátia, kreativitás, személyre szabott megoldások)</li>
+                    <li>A **fejlesztési folyamat** során felmerülő **váratlan akadályok** **kreatív megkerülése** vagy **újraértelmezése** lehetőségként, ami **gyors gondolkodást** és **rugalmasságot** igényel. (Gyors gondolkodás, rugalmasság, kreatív problémamegoldás)</li>
+                </ul>
+            </div>
+
+            <!-- Tip Card 03 -->
+            <div class="tip-card">
+                <span class="tip-number">03</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-truck tip-icon"></i>
+                </div>
+                <h3 class="tip-title">Változáskezelés, Szervezetfejlesztés és Emberi Adaptáció Támogatása</h3>
+                <ul class="tip-list">
+                    <li>A **változással szembeni ellenállás** **emberi gyökereinek** (pl. félelem, bizonytalanság, régi beidegződések) **mélyreható megértése** és **érzelmi intelligencián** alapuló **kezelése**. (Érzelmi intelligencia, empátia, emberi pszichológia megértése)</li>
+                    <li>Egy **szervezeti átalakítás** **kommunikációs stratégiájának** **megtervezése**, ami figyelembe veszi a különböző érintettek **érzelmi reakcióit**, a **bizalomépítés** fontosságát és a **személyes megközelítés** szükségességét. (Érzelmi intelligencia, stratégiai kommunikáció, bizalomépítés)</li>
+                    <li>**Segíteni az alkalmazottaknak** a változási folyamat **személyes kihívásain** való túllépésben, **coachingon, mentoráláson** és **empatikus támogatáson** keresztül. (Coaching, mentorálás, empátia, személyes támogatás)</li>
+                    <li>A **változás bevezetésének** **sebességének** és a **munkatársak terhelésének** **szubjektív felmérése** és **menedzselése** a kiégés elkerülése és a fenntarthatóság érdekében. (Szubjektív felmérés, emberi tényezők figyelembe vétele)</li>
+                    <li>Egy új **munkakultúra** vagy **értékrend** **bevezetésének** és **elsajátításának** támogatása **személyes példamutatáson**, a kívánt **viselkedésminták** **formálásán** és a **közös megértés** **elősegítésén** keresztül. (Személyes példamutatás, viselkedésformálás, közös megértés elősegítése)</li>
+                    <li>A **változás "puha" indikátorainak** (pl. morál, elkötelezettség, informális együttműködés) **folyamatos, szubjektív monitorozása** és a szükséges **emberi beavatkozások** **azonosítása**. (Szubjektív monitorozás, emberi beavatkozás)</li>
+                    <li>A **szervezeti struktúra** **áttervezése** nem csupán a hatékonyság szempontjából, hanem figyelembe véve a **munkatársak kapcsolatrendszerét**, a **csapatdinamikákat** és a **személyes autonómia** szükségességét – ez mély **szervezetpszichológiai megértést** igényel. (Szervezetpszichológiai megértés, emberi kapcsolatrendszerek figyelembe vétele)</li>
+                </ul>
+            </div>
+
+            <!-- Tip Card 04 -->
+            <div class="tip-card">
+                <span class="tip-number">04</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-user-tie tip-icon"></i>
+                </div>
+                <h3 class="tip-title">Érintett Kezelés (Stakeholder Management), Kapcsolatépítés és Befolyásolás</h3>
+                <ul class="tip-list">
+                    <li>A különböző **érintettek** (pl. felsővezetés, középvezetők, munkatársak, ügyfelek, partnerek) **rejtett motivációinak, félelmeinek és érdekeinek** **mélyreható feltárása** és **értelmezése**, ami **intuitív emberismeretet** és a "sorok között olvasás" képességét igényli. (Intuitív emberismeret, rejtett motivációk feltárása)</li>
+                    <li>A kritikus érintettek **meggyőzése** egy új fejlesztési irány vagy döntés szükségességéről, amihez nem elegendőek a logikus érvek, hanem a **bizalom építése**, az **érvek személyre szabása** az adott érintett **értékrendjéhez** és a **lehetséges ellenvetések empatikus kezelése** szükséges. (Bizalomépítés, érvelés személyre szabása, empátia, meggyőzés)</li>
+                    <li>**Navigálni a belső politikai erőviszonyok** között a fejlesztési projektekhez szükséges támogatás és erőforrások biztosítása érdekében, ami **szubjektív érzéket** és **tapasztalatot** igényel a szervezeti dinamikákkal kapcsolatban. (Szervezeti politika megértése, szubjektív érzékenység)</li>
+                    <li>**Hosszú távú, bizalmi alapú kapcsolatok** **építése** és **fenntartása** a kulcsfontosságú érintettekkel, ami **őszinte kommunikációt**, **empátiát** és a **személyes kapcsolódás** képességét igényli. (Bizalom, empátia, személyes kapcsolódás)</li>
+                    <li>A **nehéz vagy ellenálló érintettek** **kezelése**, az **ellenállásuk mögött meghúzódó okok** (gyakran érzelmi vagy szubjektív alapú) **megértése** és a **hozzájuk vezető emberi út** **megtalálása**. (Érzelmi intelligencia, ellenállás okainak megértése, emberi megközelítés)</li>
+                    <li>Egy fejlesztési kezdeményezés **szponzorainak** **kiválasztása** és **elkötelezettségük** fenntartása, ami a potenciális szponzorok **szubjektív értékelését** a befolyásuk, érdeklődésük és megbízhatóságuk alapján, valamint folyamatos **emberi törődést** igényel. (Szubjektív értékelés, emberi törődés)</li>
+                </ul>
+            </div>
+
+            <!-- Tip Card 05 -->
+            <div class="tip-card">
+                <span class="tip-number">05</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-tools tip-icon"></i>
+                </div>
+                <h3 class="tip-title">Vezetés, Csapatfejlesztés és Coaching (Ha csapatot vezet)</h3>
+                <ul class="tip-list">
+                    <li>Egy cégfejlesztési csapat **vezetőjének lenni**, a tagokat **motiválni**, a **potenciáljukat kibontakoztatni**, a **konfliktusokat kezelni** és egy **összetartó, hatékony csapatot** építeni – ez magas fokú **érzelmi intelligenciát**, **emberismeretet** és **inspirációs képességet** igényel. (Vezetés, motiváció, konfliktuskezelés, csapatépítés, érzelmi intelligencia, inspiráció)</li>
+                    <li>Egy munkatárs **fejlődési szükségleteinek** és **karrier ambícióinak** **szubjektív felmérése** és egy **személyre szabott fejlesztési terv** **kidolgozása**, ami túlmutat a sztenderd képzéseken. (Szubjektív felmérés, személyre szabás, emberi fejlődés támogatása)</li>
+                    <li>**Coaching** vagy **mentoring** nyújtása vezetőknek vagy munkatársaknak, ami **bizalomra épülő kapcsolatot**, **aktív hallgatást** és a coach **szubjektív megérzéseinek** és **élettapasztalatának** felhasználását is magában foglalja. (Coaching, mentoring, bizalom, aktív hallgatás, szubjektív megérzés)</li>
+                    <li>A csapaton belüli **együttműködés** és a **csapatszellem** **tudatos építése** olyan módon, ami a tagok **egyedi személyiségjegyeit** és **erősségeit** is figyelembe veszi. (Csapatépítés, egyedi személyiségek figyelembe vétele)</li>
+                    <li>A **csapattagok teljesítményének** **mély, kontextuális értékelése**, ami túlmutat a mérőszámokon, és magában foglalja a **hozzáállás, a problémamegoldó képesség** és a **csapatra gyakorolt pozitív hatás** **szubjektív megítélését**. (Teljesítményértékelés, szubjektív megítélés, hozzáállás értékelése)</li>
+                </ul>
+            </div>
+
+            <!-- Tip Card 06 -->
+            <div class="tip-card">
+                <span class="tip-number">06</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-user-slash tip-icon"></i>
+                </div>
+                <h3 class="tip-title">Tárgyalás és Magas Tétű Kommunikáció:</h3>
+                <ul class="tip-list">
+                    <li>**Vezetni egy komplex tárgyalást** (pl. egy jelentős partnerségről, vagy egy belső szervezeti átalakításról), ahol a siker a felek **rejtett érdekeinek** **mély megértésén**, a **bizalom kialakításán**, a **személyes rapporton** és a</li>
+                    <!-- Note: The provided text for Tip 06 is incomplete. Only the provided list item(s) are included. -->
+                </ul>
+            </div>
+        </div> <!-- closes .tips-grid -->
+    </div> <!-- closes .container -->
+</section> <!-- closes .features -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <span class="badge">Cégfejlesztési Szakértő</span>
+            <h1 class="hero-title">Szükséges és Nem Automatizálható Feladatok</h1>
+            <p class="hero-subtitle">A cégfejlesztési szakértő fő feladata a vállalat növekedésének, hatékonyságának és versenyképességének javítása. Ehhez olyan mélyreható elemzésekre, stratégiai gondolkodásra, emberi interakcióra és szubjektív ítélőképességre van szükség, amely jelenleg vagy belátható jövőben nem reprodukálható kizárólag automatizált rendszerek által.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <div class="container">
+        <h2 class="section-title">Nem Automatizálható Feladatok Részletezése</h2>
+        <p class="section-subtitle">Az alábbiakban részletezzük ezeket a feladatokat, alkategóriákba rendezve őket:</p>
+
+        <div class="tips-grid">
+            <!-- Tip Card 01 -->
+            <div class="tip-card">
+                <span class="tip-number">01</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-file-alt tip-icon"></i>
+                </div>
+                <h3 class="tip-title">Stratégiai Tervezés, Jövőkép Alkotás és Mély Kontextuális Elemzés</h3>
+                <ul class="tip-list">
+                    <li>A cég **hosszú távú jövőképének és küldetésének** **megfogalmazása** és **inspiráló kommunikációja**, ami nem pusztán adatgyűjtés, hanem a cég **értékeinek, ambícióinak és a piaci lehetőségek intuitív összekapcsolása**. (Emberi gondolkodás, értékalapú megközelítés, intuíció, inspiráció)</li>
+                    <li>A **stratégiai irányok** **kidolgozása** és **választása** rendkívül komplex és bizonytalan piaci környezetben, ahol a döntéshez nem elegendőek az objektív adatok, hanem a lehetséges jövőbeli forgatókönyvek **szubjektív mérlegelése** és a kockázatok **ítéleten alapuló felmérése** szükséges. (Komplex problémamegoldás, bizonytalanság kezelése, szubjektív ítélőképesség)</li>
+                    <li>A **diverz, gyakran ellentmondásos piaci és belső információk** **mélyreható interpretálása** és **szintézise** (pl. vásárlói érzelmek, informális visszajelzések, versenytársak rejtett szándékai), ami túlmutat a statisztikai elemzéseken, és **kontextuális megértést** és **szubjektív következtetéseket** igényel. (Kritikus gondolkodás, szubjektív értelmezés, kontextuális megértés)</li>
+                    <li>A **vállalat egyedi versenyelőnyének** **azonosítása** és **kiemelése**, ami nem egy automatizált összehasonlítás eredménye, hanem a cég **kultúrájának, a munkatársak kollektív tudásának** és a **személyes ügyfélkapcsolatoknak** a **szubjektív megértésén** alapul. (Szubjektív megértés, emberi tényezők figyelembe vétele)</li>
+                    <li>Egy **lehetséges fúzió vagy akvizíció** stratégiai **illeszkedésének** **felmérése**, ami magában foglalja a két cég **kultúrájának kompatibilitásának szubjektív értékelését**, a vezetői csapatok **személyes dinamikájának megértését** és a jövőbeli szinergiák **intuitív előrejelzését**. (Szubjektív értékelés, emberi dinamikák megértése, intuíció)</li>
+                    <li>A **hosszú távú trendek** és a **váratlan diszruptorok** **intuitív előrejelzése** és a cég **rugalmasságának** **stratégiai tervezése** ezek kezelésére. (Intuíció, bizonytalanság kezelése, előre nem programozható rugalmasság tervezése)</li>
+                    <li>A **stratégiai partnerek** **kiválasztása** nem csak pénzügyi vagy piaci adatok alapján, hanem a **személyes kémia, a bizalom** és a közös **értékek** **szubjektív felmérésével**. (Szubjektív felmérés, emberi kapcsolatok, bizalom)</li>
+                </ul>
+            </div>
+
+            <!-- Tip Card 02 -->
+            <div class="tip-card">
+                <span class="tip-number">02</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-comments tip-icon"></i>
+                </div>
+                <h3 class="tip-title">Komplex Problémamegoldás, Innováció és Megoldás-Design</h3>
+                <ul class="tip-list">
+                    <li>Egy **teljesen új, precedens nélküli** működési vagy szervezeti probléma (pl. egy új technológia bevezetésének váratlan emberi akadályai) **gyökerének** **diagnosztizálása** és **kreatív, testreszabott megoldások** **kidolgozása**, amire nincsenek előre meghatározott algoritmusok. (Kreativitás, komplex problémamegoldás, diagnosztizálás, egyedi megoldások)</li>
+                    <li>Egy **innovatív üzleti modell** **megalkotása** vagy egy meglévő **újraértelmezése**, amihez **kreatív gondolkodás** és a különböző, látszólag össze nem illő elemek **intuitív összekapcsolása** szükséges. (Innováció, kreativitás, intuíció)</li>
+                    <li>Egy **szervezeten belüli rendszerhiba** (pl. rossz kommunikációs csatornák, informális hatalmi harcok) **azonosítása** és a **javítási terv** **megtervezése**, amihez a szervezeti dinamikák **mély, szubjektív megértése** és a lehetséges beavatkozások **emberi hatásának** mérlegelése kell. (Szubjektív megértés, emberi dinamikák, hatások mérlegelése)</li>
+                    <li>A **felmerülő problémák** **priorizálása** és a **legfontosabbakra** való **összpontosítás**, amihez **szubjektív ítélőképesség** szükséges a különböző tényezők (pl. hatás, sürgősség, emberi ellenállás potenciálja) **összeméréséhez**. (Priorizálás, szubjektív ítélőképesség)</li>
+                    <li>A **fejlesztési projektek** **koncepciójának** **megalkotása** és a **megvalósíthatóság** **szubjektív felmérése** a rendelkezésre álló emberi és anyagi erőforrások, valamint a várható ellenállás figyelembevételével. (Koncepció alkotás, szubjektív megvalósíthatósági felmérés)</li>
+                    <li>**Egyedi, nem sztenderd ügyfélproblémák** **mély megértése** és a cég képességeinek **kreatív felhasználásával** egy **személyre szabott megoldás** **kidolgozása**. (Empátia, kreativitás, személyre szabott megoldások)</li>
+                    <li>A **fejlesztési folyamat** során felmerülő **váratlan akadályok** **kreatív megkerülése** vagy **újraértelmezése** lehetőségként, ami **gyors gondolkodást** és **rugalmasságot** igényel. (Gyors gondolkodás, rugalmasság, kreatív problémamegoldás)</li>
+                </ul>
+            </div>
+
+            <!-- Tip Card 03 -->
+            <div class="tip-card">
+                <span class="tip-number">03</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-truck tip-icon"></i>
+                </div>
+                <h3 class="tip-title">Változáskezelés, Szervezetfejlesztés és Emberi Adaptáció Támogatása</h3>
+                <ul class="tip-list">
+                    <li>A **változással szembeni ellenállás** **emberi gyökereinek** (pl. félelem, bizonytalanság, régi beidegződések) **mélyreható megértése** és **érzelmi intelligencián** alapuló **kezelése**. (Érzelmi intelligencia, empátia, emberi pszichológia megértése)</li>
+                    <li>Egy **szervezeti átalakítás** **kommunikációs stratégiájának** **megtervezése**, ami figyelembe veszi a különböző érintettek **érzelmi reakcióit**, a **bizalomépítés** fontosságát és a **személyes megközelítés** szükségességét. (Érzelmi intelligencia, stratégiai kommunikáció, bizalomépítés)</li>
+                    <li>**Segíteni az alkalmazottaknak** a változási folyamat **személyes kihívásain** való túllépésben, **coachingon, mentoráláson** és **empatikus támogatáson** keresztül. (Coaching, mentorálás, empátia, személyes támogatás)</li>
+                    <li>A **változás bevezetésének** **sebességének** és a **munkatársak terhelésének** **szubjektív felmérése** és **menedzselése** a kiégés elkerülése és a fenntarthatóság érdekében. (Szubjektív felmérés, emberi tényezők figyelembe vétele)</li>
+                    <li>Egy új **munkakultúra** vagy **értékrend** **bevezetésének** és **elsajátításának** támogatása **személyes példamutatáson**, a kívánt **viselkedésminták** **formálásán** és a **közös megértés** **elősegítésén** keresztül. (Személyes példamutatás, viselkedésformálás, közös megértés elősegítése)</li>
+                    <li>A **változás "puha" indikátorainak** (pl. morál, elkötelezettség, informális együttműködés) **folyamatos, szubjektív monitorozása** és a szükséges **emberi beavatkozások** **azonosítása**. (Szubjektív monitorozás, emberi beavatkozás)</li>
+                    <li>A **szervezeti struktúra** **áttervezése** nem csupán a hatékonyság szempontjából, hanem figyelembe véve a **munkatársak kapcsolatrendszerét**, a **csapatdinamikákat** és a **személyes autonómia** szükségességét – ez mély **szervezetpszichológiai megértést** igényel. (Szervezetpszichológiai megértés, emberi kapcsolatrendszerek figyelembe vétele)</li>
+                </ul>
+            </div>
+
+            <!-- Tip Card 04 -->
+            <div class="tip-card">
+                <span class="tip-number">04</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-user-tie tip-icon"></i>
+                </div>
+                <h3 class="tip-title">Érintett Kezelés (Stakeholder Management), Kapcsolatépítés és Befolyásolás</h3>
+                <ul class="tip-list">
+                    <li>A különböző **érintettek** (pl. felsővezetés, középvezetők, munkatársak, ügyfelek, partnerek) **rejtett motivációinak, félelmeinek és érdekeinek** **mélyreható feltárása** és **értelmezése**, ami **intuitív emberismeretet** és a "sorok között olvasás" képességét igényli. (Intuitív emberismeret, rejtett motivációk feltárása)</li>
+                    <li>A kritikus érintettek **meggyőzése** egy új fejlesztési irány vagy döntés szükségességéről, amihez nem elegendőek a logikus érvek, hanem a **bizalom építése**, az **érvek személyre szabása** az adott érintett **értékrendjéhez** és a **lehetséges ellenvetések empatikus kezelése** szükséges. (Bizalomépítés, érvelés személyre szabása, empátia, meggyőzés)</li>
+                    <li>**Navigálni a belső politikai erőviszonyok** között a fejlesztési projektekhez szükséges támogatás és erőforrások biztosítása érdekében, ami **szubjektív érzéket** és **tapasztalatot** igényel a szervezeti dinamikákkal kapcsolatban. (Szervezeti politika megértése, szubjektív érzékenység)</li>
+                    <li>**Hosszú távú, bizalmi alapú kapcsolatok** **építése** és **fenntartása** a kulcsfontosságú érintettekkel, ami **őszinte kommunikációt**, **empátiát** és a **személyes kapcsolódás** képességét igényli. (Bizalom, empátia, személyes kapcsolódás)</li>
+                    <li>A **nehéz vagy ellenálló érintettek** **kezelése**, az **ellenállásuk mögött meghúzódó okok** (gyakran érzelmi vagy szubjektív alapú) **megértése** és a **hozzájuk vezető emberi út** **megtalálása**. (Érzelmi intelligencia, ellenállás okainak megértése, emberi megközelítés)</li>
+                    <li>Egy fejlesztési kezdeményezés **szponzorainak** **kiválasztása** és **elkötelezettségük** fenntartása, ami a potenciális szponzorok **szubjektív értékelését** a befolyásuk, érdeklődésük és megbízhatóságuk alapján, valamint folyamatos **emberi törődést** igényel. (Szubjektív értékelés, emberi törődés)</li>
+                </ul>
+            </div>
+
+            <!-- Tip Card 05 -->
+            <div class="tip-card">
+                <span class="tip-number">05</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-tools tip-icon"></i>
+                </div>
+                <h3 class="tip-title">Vezetés, Csapatfejlesztés és Coaching (Ha csapatot vezet)</h3>
+                <ul class="tip-list">
+                    <li>Egy cégfejlesztési csapat **vezetőjének lenni**, a tagokat **motiválni**, a **potenciáljukat kibontakoztatni**, a **konfliktusokat kezelni** és egy **összetartó, hatékony csapatot** építeni – ez magas fokú **érzelmi intelligenciát**, **emberismeretet** és **inspirációs képességet** igényel. (Vezetés, motiváció, konfliktuskezelés, csapatépítés, érzelmi intelligencia, inspiráció)</li>
+                    <li>Egy munkatárs **fejlődési szükségleteinek** és **karrier ambícióinak** **szubjektív felmérése** és egy **személyre szabott fejlesztési terv** **kidolgozása**, ami túlmutat a sztenderd képzéseken. (Szubjektív felmérés, személyre szabás, emberi fejlődés támogatása)</li>
+                    <li>**Coaching** vagy **mentoring** nyújtása vezetőknek vagy munkatársaknak, ami **bizalomra épülő kapcsolatot**, **aktív hallgatást** és a coach **szubjektív megérzéseinek** és **élettapasztalatának** felhasználását is magában foglalja. (Coaching, mentoring, bizalom, aktív hallgatás, szubjektív megérzés)</li>
+                    <li>A csapaton belüli **együttműködés** és a **csapatszellem** **tudatos építése** olyan módon, ami a tagok **egyedi személyiségjegyeit** és **erősségeit** is figyelembe veszi. (Csapatépítés, egyedi személyiségek figyelembe vétele)</li>
+                    <li>A **csapattagok teljesítményének** **mély, kontextuális értékelése**, ami túlmutat a mérőszámokon, és magában foglalja a **hozzáállás, a problémamegoldó képesség** és a **csapatra gyakorolt pozitív hatás** **szubjektív megítélését**. (Teljesítményértékelés, szubjektív megítélés, hozzáállás értékelése)</li>
+                </ul>
+            </div>
+
+            <!-- Tip Card 06 -->
+            <div class="tip-card">
+                <span class="tip-number">06</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-user-slash tip-icon"></i>
+                </div>
+                <h3 class="tip-title">Tárgyalás és Magas Tétű Kommunikáció:</h3>
+                <ul class="tip-list">
+                    <li>**Vezetni egy komplex tárgyalást** (pl. egy jelentős partnerségről, vagy egy belső szervezeti átalakításról), ahol a siker a felek **rejtett érdekeinek** **mély megértésén**, a **bizalom kialakításán**, a **személyes rapporton** és a</li>
+                    <!-- Note: The provided text for Tip 06 is incomplete. Only the provided list item(s) are included. -->
+                </ul>
+            </div>
+        </div> <!-- closes .tips-grid -->
+    </div> <!-- closes .container -->
+</section> <!-- closes .features -->
+<section class="features">
+  <div class="container">
+    <h2 class="section-title">Szükségtelen Feladatok (Időpocsékolás):</h2>
+    <p class="section-subtitle">Ismerje fel és iktassa ki az időrabló tevékenységeket.</p>
+
+    <div class="tips-grid">
+      <!-- 1 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">01</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-tasks tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Redundáns adminisztráció:</h3>
+        <ul class="tip-list">
+          <li>Adatbevitel többszörösen különböző rendszerekbe (pl. ügyféladatok CRM-be és egy különálló Excel táblába is). Időt, energiát emészt fel, növeli a hibalehetőséget anélkül, hogy extra értéket teremtene; elkerülhető rendszerintegrációval vagy egységes adatforrás használatával.</li>
+          <li>Fizikai dokumentumok szkennelése és digitális rendszerekbe feltöltése, ha a digitális eredeti már elegendő vagy hiteles. Felesleges munka, helyfoglalás; elkerülhető papírmentes folyamatok bevezetésével.</li>
+          <li>Feleslegesen sok jóváhagyási szint alacsony kockázatú döntéseknél vagy beszerzéseknél. Lassítja a folyamatokat, demotiválja az alkalmazottakat; elkerülhető felhatalmazás delegálásával és kockázat alapú jóváhagyási mátrixokkal.</li>
+          <li>Minden beérkező számla manuális rögzítése a pénzügyi rendszerbe, ha optikai karakterfelismerő (OCR) szoftver vagy automatikus integráció lehetséges lenne. Időigényes, ismétlődő munka; elkerülhető automatizálással.</li>
+          <li>Rendszeres (heti/havi), de soha nem használt riportok vagy státuszjelentések manuális összeállítása. Erőforrásokat emészt fel, anélkül, hogy döntéseket támasztana alá; elkerülhető a riport szükségességének felülvizsgálatával, automatizálással vagy törléssel.</li>
+          <li>Utazási költségtérítések papíralapú igénylése és feldolgozása online rendszer helyett. Lassú, nehézkes, hibalehetőség; elkerülhető digitális költségelszámolási rendszer bevezetésével.</li>
+          <li>Belső űrlapok (pl. szabadságigénylő) bonyolult kitöltési logikával, feleslegesen sok mezővel. Frusztráló a munkatársaknak, lassú a feldolgozás; elkerülhető űrlapok egyszerűsítésével, digitalizálással.</li>
+          <li>Minden beérkező e-mail kinyomtatása "archiválási" céllal. Abszurd idő- és erőforrás pazarlás; elkerülhető hatékony digitális archiválási és keresési módszerek alkalmazásával.</li>
+          <li>Projekt státusz frissítések kézi gyűjtése és összegzése e-mailben, ha központi projektmenedzsment eszközből ez automatikusan vagy könnyebben lekérdezhető. Redundáns munka, elavult információk; elkerülhető egységes projektmenedzsment platform használatával.</li>
+          <li>Külön nyilvántartások vezetése ugyanarról a dologról különböző osztályokon (pl. ügyfélkapcsolatok az értékesítésnél és a supportnál eltérő rendszerekben/táblázatokban). Adatinkonzisztencia, dupla munka, nehéz átlátni; elkerülhető központi rendszer (pl. CRM) bevezetésével.</li>
+        </ul>
+      </div>
+
+      <!-- 2 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">02</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-users tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Felesleges megbeszélések:</h3>
+        <ul class="tip-list">
+          <li>Megbeszélés összehívása pusztán információ átadására, amit hatékonyabban és gyorsabban el lehetne küldeni írásban (e-mail, chat, belső hírlevél). Időpazarlás a résztvevőknek, megszakítja a munkafolyamatot; elkerülhető aszinkron kommunikációs eszközök preferálásával információátadásra.</li>
+          <li>Minden érintett meghívása egy megbeszélésre, amikor csak néhány kulcsszereplőre van szükség a döntéshozatalhoz vagy a vita lefolytatásához. Nagy csoportban nehezebb dönteni, sokak idejét elveszi anélkül, hogy aktívan hozzájárulnának; elkerülhető csak a szükséges személyek meghívásával, a többieknek összefoglaló küldésével.</li>
+          <li>Megbeszélések tartása világos napirend és előre meghatározott cél nélkül. Csak sodródás, nincs konkrét eredmény, felesleges vita; elkerülhető minden megbeszéléshez világos napirend és kívánt eredmény meghatározásával.</li>
+          <li>Ismétlődő státuszmegbeszélések, ahol a résztvevők csupán felolvassák azokat az információkat, amiket már írásban is elérhetővé tettek (pl. projektmenedzsment eszközben). Redundáns, passzív részvétel; elkerülhető írásos státuszfrissítések preferálásával, a megbeszélést pedig a problémák, döntések és blokkolók megbeszélésére használva.</li>
+          <li>Túl hosszúra nyúló megbeszélések a kijelölt időkeret vagy hatékony moderálás hiánya miatt. Elveszti a fókuszt, időt rabol; elkerülhető szigorú időkeret tartásával, aktív moderálással, a megbeszélés végén akciópontok rögzítésével.</li>
+          <li>Olyan megbeszélések, ahol a résztvevők nagy része nem aktív, csak "tájékoztatásul" vannak ott. Időpazarlás a passzív résztvevőknek; elkerülhető relevánsabb kommunikációs formák (e-mail, összefoglaló) alkalmazásával számukra.</li>
+          <li>Spontán, előkészítetlen "gyors" megbeszélések, amik elhúzódnak, vagy nincs konkrét eredményük. Zavarja a munkafolyamatot, nehéz fókuszálni; elkerülhető tervezett, fókuszált megbeszélések preferálásával, vagy az ilyen "gyors" megbeszélések struktúráltabbá tételével.</li>
+          <li>Visszatérő megbeszélések, amik eredetileg egy probléma megoldására jöttek létre, de a probléma már megoldódott, a megbeszélés mégis megmaradt a naptárban. Ritualizált időpazarlás; elkerülhető a rendszeres megbeszélések szükségességének időnkénti felülvizsgálatával és a feleslegesek törlésével.</li>
+          <li>A megbeszélésen hozott döntésekről és akciópontokról nincs írásos összefoglaló vagy jegyzőkönyv. Nincs elszámoltathatóság, könnyen feledésbe merülnek a dolgok, szükség lehet újra megbeszélni ugyanazt; elkerülhető minden megbeszélés után egy rövid összefoglaló, döntéslista és akciópont lista küldésével.</li>
+          <li>Meghívó küldése minden lehetséges érintettnek, ahelyett, hogy előzetesen egyeztetnék velük, releváns-e számukra a téma és tudnak-e hozzájárulni. Tiszteletlen mások idejével szemben; elkerülhető célzott meghívókkal és előzetes egyeztetéssel.</li>
+        </ul>
+      </div>
+
+      <!-- 3 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">03</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-eye tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Túlzott ellenőrzés:</h3>
+        <ul class="tip-list">
+          <li>Minden apróbb döntést a vezetőnek kell jóváhagynia, még akkor is, ha az alkalmazott kompetens és a döntés alacsony kockázatú. Lassítja a folyamatokat, frusztrálja a munkatársakat, leköti a vezető idejét; elkerülhető felhatalmazás és felelősség delegálásával.</li>
+          <li>Részletes, percre pontos időnyilvántartás követelése olyan pozíciókban, ahol az eredmény és a teljesítmény a mérvadó, nem a ledolgozott óra. Bizalmatlanságot sugall, adminisztrációs terhet ró a munkatársakra; elkerülhető a fókusz áthelyezésével az eredményekre és teljesítményre.</li>
+          <li>Minden kimenő dokumentum (e-mail, levél, jelentés) több szintű ellenőrzése a küldés előtt, ha az alkalmazott képzett és megbízható. Lassítja a kommunikációt, felesleges, ha nincs reális kockázat; elkerülhető szabványok és irányelvek bevezetésével, bizalommal.</li>
+          <li>Mikromenedzsment: a vezető folyamatosan ellenőrzi az alkalmazott munkafolyamatának minden apró részletét, ahelyett, hogy az eredményt várná el. Fojtogató, demotiváló, gátolja az önállóságot és a kreativitást; elkerülhető bizalommal, a fókusz áthelyezésével az elvárt eredményekre.</li>
+          <li>Minden elköltött forint vagy nagyon alacsony összegű beszerzés jóváhagyásának megkövetelése. Hatalmas adminisztrációs teher, lassú folyamatok; elkerülhető költségkeretek meghatározásával, alacsony összeghatárok feletti automatikus vagy egyszerűsített jóváhagyási folyamatokkal.</li>
+          <li>Munkafolyamatok szükségtelenül bonyolult ellenőrzési pontokkal, amelyek nem növelik érdemben a minőséget, biztonságot vagy hatékonyságot. Időigényes, bürokratikus; elkerülhető az ellenőrzési pontok céljának és hatékonyságának rendszeres felülvizsgálatával.</li>
+          <li>Elvégzett feladatok vagy dokumentumok ismételt, felesleges ellenőrzése egy másik személy által, ha az első ellenőrzés már megbízható. Redundáns munka, erőforrás pazarlás; elkerülhető tiszta felelősségi körök és megbízható ellenőrzési protokollok kialakításával.</li>
+          <li>Részletes, indoklás nélküli jelentések kérése a napi tevékenységekről. Adminisztrációs terhet ró a munkatársakra, bizalmatlanságot sugall; elkerülhető eredmény-alapú jelentésekkel, projekt alapú követéssel.</li>
+          <li>Túl sok "checkpoint" beiktatása egy projekten belül, ami indokolatlanul lassítja a haladást és bürokratikussá teszi a folyamatot. Lassú projektvégrehajtás; elkerülhető csak a kritikus mérföldköveknél történő ellenőrzéssel és a bizalommal a csapatban.</li>
+          <li>Az alkalmazottak online tevékenységének (pl. weboldalak látogatása, chat üzenetek) folyamatos, részletes monitorozása, ahelyett, hogy a bizalmon és az eredmények mérésén alapulna a munkaviszony. Morálromboló, frusztráló, és az adatok elemzése is időigényes; elkerülhető bizalmi kultúra építésével és eredményközpontú megközelítéssel.</li>
+        </ul>
+      </div>
+
+      <!-- 4 tippkártya -->
+      <div class="tip-card">
+        <span class="tip-number">04</span>
+        <div class="icon-wrapper">
+          <i class="fas fa-comments tip-icon"></i>
+        </div>
+        <h3 class="tip-title">Rossz kommunikáció:</h3>
+        <ul class="tip-list">
+          <li>Információ eljuttatása a nem megfelelő csatornán keresztül (pl. sürgős, azonnali beavatkozást igénylő kérés e-mailben chat vagy telefon helyett, vagy fontos, összetett információ átadása pusztán szóban, írásos megerősítés nélkül). Késedelmek, félreértések, információvesztés; elkerülhető a megfelelő kommunikációs csatorna kiválasztásával az üzenet sürgőssége, bonyolultsága és jellege alapján.</li>
+          <li>Kritikus információk elhallgatása vagy késleltetett megosztása az érintett munkatársakkal vagy csapatokkal. Projektek csúszása, rossz döntések, bizalmatlanság; elkerülhető átlátható, időben történő, proaktív kommunikációval.</li>
+          <li>Túl sok, irreleváns e-mail küldése a cég minden munkatársának ("reply all" szükségtelenül, céltalan CC-zések). Információs zajt generál, csökkenti a fontos üzenetek esélyét, időt vesz el a szűréssel; elkerülhető csak a releváns címzettek megadásával, tudatos "reply all" használattal.</li>
+          <li>Információs szilók kialakulása, ahol az egyes csapatok vagy egyének nem osztják meg egymással a releváns tudást, tapasztalatot vagy információt. Duplikált munka, rossz döntések, lemaradások; elkerülhető tudásmegosztó platformok bevezetésével, cross-funkcionális kommunikáció és együttműködés bátorításával.</li>
+          <li>Fontos döntések vagy változások (pl. átszervezés, új stratégia) bejelentése előkészítés nélkül, a munkatársak előzetes tájékoztatása vagy bevonása nélkül. Ellenállást szül, bizonytalanságot okoz, rontja a morált; elkerülhető tervezett, átlátható kommunikációs stratégia kidolgozásával és bevonással.</li>
+          <li>Szakzsargon vagy céges rövidítések használata olyan munkatársakkal vagy külsősökkel szemben, akik nem ismerik ezeket. Félreértések, kommunikációs akadályok; elkerülhető tiszta, érthető nyelvezet használatával, vagy a használt rövidítések, szakkifejezések magyarázatával.</li>
+          <li>Írásos kommunikáció hiánya fontos megbeszélések vagy döntések után (nincs összefoglaló, akciópontok, döntési jegyzőkönyv). Feledés, félreértések, nincs elszámoltathatóság; elkerülhető minden fontos megbeszélés vagy döntés írásos rögzítésével és megosztásával.</li>
+          <li>Visszajelzés hiánya a munkatársak felé a teljesítményükről, a munkafolyamatokról vagy a hozott döntések hatásáról. Bizonytalanság, fejlődés elmaradása, demotiváció; elkerülhető rendszeres, konstruktív, konkrét visszajelzések adásával.</li>
+          <li>Ugyanazon információ ismételt közlése különböző csatornákon, de inkonzisztens vagy ellentmondásos módon. Zavart okoz, hitelességet ront; elkerülhető egységes, egyértelmű kommunikációs protokollok kialakításával.</li>
+          <li>Nem adnak lehetőséget a munkatársaknak kérdések feltevésére, tisztázásra vagy agg</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+    <script>
+        // Add mouse move effect to cards
+        document.querySelectorAll('.tip-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const cardRect = card.getBoundingClientRect();
+                const x = e.clientX - cardRect.left;
+                const y = e.clientY - cardRect.top;
+
+                const centerX = cardRect.width / 2;
+                const centerY = cardRect.height / 2;
+
+                const angleY = (x - centerX) / 25;
+                const angleX = (centerY - y) / 25;
+
+                card.style.transform = `rotateY(${angleY}deg) rotateX(${angleX}deg) translateY(-15px)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(-15px) rotateX(0)';
+            });
+        });
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateElements = document.querySelectorAll('.animate-up');
+
+            // Trigger animations with delay
+            setTimeout(() => {
+                animateElements.forEach(el => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                });
+            }, 300);
+        });
+    </script>
+</body>
 </html>
