@@ -1,0 +1,477 @@
+<output>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kutyakozmetika Marketing Tippek</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #007bff; /* Kék */
+            --primary-dark: #0056b3;
+            --secondary: #28a745; /* Zöld */
+            --dark: #343a40; /* Sötétszürke */
+            --light: #f8f9fa; /* Nagyon világos szürke */
+            --gray-100: #e9ecef;
+            --gray-200: #dee2e6;
+            --gray-300: #ced4da;
+            --gray-400: #adb5bd;
+            --gray-600: #6c757d;
+            --gray-800: #212529; /* Sötét szöveg */
+            --accent: #ffc107; /* Sárga/Arany */
+            --box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s ease;
+            --border-radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.7;
+            color: var(--gray-800);
+            background: var(--light);
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 2rem; }
+        .mb-5 { margin-bottom: 2.5rem; }
+        .mb-6 { margin-bottom: 3rem; }
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mt-4 { margin-top: 2rem; }
+        .mt-6 { margin-top: 3rem; }
+        .mt-8 { margin-top: 4rem; }
+        .mt-12 { margin-top: 6rem; }
+        .my-8 { margin-top: 4rem; margin-bottom: 4rem; }
+        .py-12 { padding-top: 6rem; padding-bottom: 6rem; }
+        .py-20 { padding-top: 10rem; padding-bottom: 10rem; }
+        .py-8 { padding-top: 4rem; padding-bottom: 4rem; }
+        .pb-20 { padding-bottom: 10rem; }
+        .px-4 { padding-left: 2rem; padding-right: 2rem; }
+        .w-full { width: 100%; }
+        .max-w-3xl { max-width: 48rem; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .flex-col { flex-direction: column; }
+        .flex-row { flex-direction: row; }
+        .flex-wrap { flex-wrap: wrap; }
+        .gap-4 { gap: 1rem; }
+        .gap-6 { gap: 1.5rem; }
+        .gap-8 { gap: 2rem; }
+        .text-white { color: white; }
+        .text-primary { color: var(--primary); }
+        .text-secondary { color: var(--secondary); }
+        .text-accent { color: var(--accent); }
+        .text-gray-400 { color: var(--gray-400); }
+        .text-gray-600 { color: var(--gray-600); }
+        .font-bold { font-weight: 700; }
+        .text-sm { font-size: 0.875rem; }
+        .text-lg { font-size: 1.125rem; }
+        .text-xl { font-size: 1.25rem; }
+        .text-2xl { font-size: 1.5rem; }
+        .text-3xl { font-size: 1.875rem; }
+        .text-4xl { font-size: 2.25rem; }
+        .text-5xl { font-size: 3rem; }
+        .leading-tight { line-height: 1.25; }
+        .uppercase { text-transform: uppercase; }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 8rem 0 6rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 150%, rgba(40, 167, 69, 0.15) 0%, transparent 50%); /* Zöld radial gradient */
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #fff, var(--accent)); /* Fehér-Sárga gradient */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--gray-100); /* Világosabb fehér */
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            background-color: rgba(0, 123, 255, 0.1); /* Kék opacity */
+            color: var(--primary);
+            border-radius: 50px;
+            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 0 8rem;
+            background-color: white;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-align: center;
+            color: var(--dark);
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+            text-align: center;
+            color: var(--gray-600);
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .tip-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.04);
+            transition: var(--transition);
+            border: 1px solid var(--gray-200);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--box-shadow);
+            border-color: var(--gray-300);
+        }
+
+        .tip-card:hover .icon-wrapper {
+            transform: scale(1.05);
+        }
+
+        .tip-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 4px;
+            width: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent)); /* Kék-Sárga grad */
+        }
+
+        .icon-wrapper {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.1), rgba(255, 193, 7, 0.1)); /* Kék-Sárga opacity */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .tip-icon {
+            font-size: 1.5rem;
+            color: var(--primary); /* Kék ikon */
+        }
+
+        .tip-title {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .tip-text {
+            color: var(--gray-600);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        
+        .tip-text ul {
+            list-style-type: disc; /* Kerek pontok */
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+
+        .tip-text li {
+            margin-bottom: 8px;
+        }
+
+        .tip-text strong {
+            color: var(--dark);
+        }
+
+        .tip-number {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-200);
+            line-height: 1;
+        }
+
+        /* Utility Animations */
+        .animate-up {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        
+        .animate-up:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Floating Animation for Icons */
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .section-title {
+                font-size: 2.25rem;
+            }
+
+            .tips-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 6rem 0 4rem;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.125rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.75rem;
+            }
+            
+            .tip-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <span class="badge">Kutyakozmetika Marketing Tippek</span>
+                <h1 class="hero-title">Remek ötlet marketing tippeket adni egy kutyakozmetikusnak!</h1>
+                <p class="hero-subtitle">Itt van 9 tipp, ami segíthet a vállalkozásod népszerűsítésében a legjobb eredmények elérése érdekében.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">9 Tipp a Vállalkozásod Népszerűsítéséhez</h2>
+            <p class="section-subtitle">Ezek a tippek segítenek a kutyakozmetikád hatékonyabb marketingjében és a vendégkör bővítésében.</p>
+
+            <div class="tips-grid">
+                <!-- Tip 1 -->
+                <div class="tip-card animate-up">
+                    <span class="tip-number">01</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-globe tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Kiváló Online Jelenlét Építése</h3>
+                    <div class="tip-text">
+                        <ul>
+                            <li><strong>Profi Weboldal:</strong> Készíts egy letisztult, könnyen navigálható weboldalt, ahol szerepelnek a szolgáltatásaid, az áraid, a nyitvatartás, az elérhetőségeid, és persze gyönyörű képek a szépített kutyusokról.</li>
+                            <li><strong>Aktív Közösségi Média:</strong> Legyél jelen Facebookon és Instagramon. Posztolj rendszeresen "előtte-utána" képeket, tippeket a kutyaápoláshoz, bemutasd a kozmetikát és a csapatot. Használj releváns hashtag-eket (#kutyakozmetika, #budapestkutyakozmetika, #kutyafazon, stb.).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Tip 2 -->
+                <div class="tip-card animate-up">
+                    <span class="tip-number">02</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-camera tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Csodás "Előtte-Utána" Fotók és Videók</h3>
+                    <p class="tip-text">A vizuális tartalom a kulcs! Fotózz vagy videózz minden elkészült munkát, és oszd meg ezeket a közösségi médiában, a weboldaladon. Ez megmutatja a szakértelmedet és a munkád minőségét.</p>
+                </div>
+
+                <!-- Tip 3 -->
+                <div class="tip-card animate-up">
+                    <span class="tip-number">03</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-map-marker-alt tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Helyi SEO és Google Cégem</h3>
+                    <p class="tip-text">Regisztráld a vállalkozásodat a Google Cégemen (Google My Business) profilba. Töltsd ki minden adatoddal, tegyél fel képeket, és ösztönözd a vendégeidet, hogy véleményezzenek. Ez segít abban, hogy a helyi keresésekre megjelenj.</p>
+                </div>
+
+                <!-- Tip 4 -->
+                <div class="tip-card animate-up">
+                    <span class="tip-number">04</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-gift tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Visszatérő Vendég Program és Hűségkártya</h3>
+                    <p class="tip-text">Jutalmazd a törzsvendégeidet! Kínálj kedvezményeket, például minden 10. fürdetés vagy nyírás utáni alkalom ingyenes vagy kedvezményes. Ez ösztönzi az embereket, hogy visszatérjenek hozzád.</p>
+                </div>
+
+                <!-- Tip 5 -->
+                <div class="tip-card animate-up">
+                    <span class="tip-number">05</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-users tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Szájról Szájra Terjedő Marketing és Ajánlási Program</h3>
+                    <p class="tip-text">A elégedett ügyfelek a legjobb reklám! Kérd meg őket, hogy ajánljanak be másokat. Kínálhatsz egy kis kedvezményt mind az ajánlónak, mind az új vendégnek az első alkalomra.</p>
+                </div>
+
+                <!-- Tip 6 -->
+                <div class="tip-card animate-up">
+                    <span class="tip-number">06</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-tags tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Különleges Ajánlatok és Csomagok</h3>
+                    <p class="tip-text">Alkoss szezonális vagy tematikus csomagokat (pl. "Tavaszi megújulás", "Nyári csomag", "Karácsonyi csillogás"). Kínálj bevezető árat az új vendégeknek. Hirdess meg "baráti napokat", ahol két kutya együtt érkezik, és mindkettő kap kedvezményt.</p>
+                </div>
+
+                <!-- Tip 7 -->
+                <div class="tip-card animate-up">
+                    <span class="tip-number">07</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-handshake tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Együttműködések Helyi Vállalkozásokkal</h3>
+                    <p class="tip-text">Keress meg más, kutyás témájú helyi vállalkozásokat (pl. kutyakiképzők, állatorvosok, kutyás boltok) és kössetek szorosabb együttműködést. Kölcsönösen ajánljátok egymást, vagy közös promóciókat indíthattok.</p>
+                </div>
+
+                <!-- Tip 8 -->
+                <div class="tip-card animate-up">
+                    <span class="tip-number">08</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-lightbulb tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Tartalmas Tanácsadás és Tippek</h3>
+                    <p class="tip-text">Ne csak a kozmetikában legyél aktív! Ossz meg online vagy akár kis szórólapokon hasznos tippeket a gazdiknak a mindennapi ápoláshoz, táplálkozáshoz, egészséghez. Ezzel pozicionálod magad szakértőként.</p>
+                </div>
+
+                <!-- Tip 9 -->
+                <div class="tip-card animate-up">
+                    <span class="tip-number">09</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-calendar-alt tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Kutyás Rendezvényeken Való Részvétel/Szervezés</h3>
+                    <p class="tip-text">Ha van rá lehetőséged, vegyél részt helyi kutyás rendezvényeken, fesztiválokon vagy vásárokon. Akár egy kis standdal, vagy csak jelenléteddel, bemutathatod a szolgáltatásaidat, és kapcsolatot építhetsz a potenciális ügyfelekkel. Lehet, hogy egy mini-bemutatót is tarthatsz.</p>
+                </div>
+            </div>
+            
+            <p class="text-center mt-8 text-lg font-bold">Fontos, hogy következetes légy ezekben a tevékenységekben, és mindig az ügyfél élményre koncentrálj, hiszen a jó hírnév és az elégedett vendégek a leghatékonyabb marketing eszközök. Sok sikert!</p>
+        </div>
+    </section>
+</body>
+</html>
+</output>
