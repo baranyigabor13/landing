@@ -1,0 +1,666 @@
+<output>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Tippek Villanyszerelőknek</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #10b981;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-600: #475569;
+            --gray-800: #1e293b;
+            --accent: #8b5cf6;
+            --box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s ease;
+            --border-radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.7;
+            color: var(--gray-800);
+            background: var(--light);
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 2rem; }
+        .mb-5 { margin-bottom: 2.5rem; }
+        .mb-6 { margin-bottom: 3rem; }
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mt-4 { margin-top: 2rem; }
+        .mt-6 { margin-top: 3rem; }
+        .mt-8 { margin-top: 4rem; }
+        .mt-12 { margin-top: 6rem; }
+        .my-8 { margin-top: 4rem; margin-bottom: 4rem; }
+        .py-12 { padding-top: 6rem; padding-bottom: 6rem; }
+        .py-20 { padding-top: 10rem; padding-bottom: 10rem; }
+        .py-8 { padding-top: 4rem; padding-bottom: 4rem; }
+        .pb-20 { padding-bottom: 10rem; }
+        .px-4 { padding-left: 2rem; padding-right: 2rem; }
+        .w-full { width: 100%; }
+        .max-w-3xl { max-width: 48rem; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .flex-col { flex-direction: column; }
+        .flex-row { flex-direction: row; }
+        .flex-wrap { flex-wrap: wrap; }
+        .gap-4 { gap: 1rem; }
+        .gap-6 { gap: 1.5rem; }
+        .gap-8 { gap: 2rem; }
+        .text-white { color: white; }
+        .text-primary { color: var(--primary); }
+        .text-secondary { color: var(--secondary); }
+        .text-accent { color: var(--accent); }
+        .text-gray-400 { color: var(--gray-400); }
+        .text-gray-600 { color: var(--gray-600); }
+        .font-bold { font-weight: 700; }
+        .text-sm { font-size: 0.875rem; }
+        .text-lg { font-size: 1.125rem; }
+        .text-xl { font-size: 1.25rem; }
+        .text-2xl { font-size: 1.5rem; }
+        .text-3xl { font-size: 1.875rem; }
+        .text-4xl { font-size: 2.25rem; }
+        .text-5xl { font-size: 3rem; }
+        .leading-tight { line-height: 1.25; }
+        .uppercase { text-transform: uppercase; }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--dark), #111827);
+            color: white;
+            padding: 8rem 0 6rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 150%, rgba(37, 99, 235, 0.15) 0%, transparent 50%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #fff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--gray-300);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            background-color: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            border-radius: 50px;
+            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 0 8rem;
+            background-color: white;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-align: center;
+            color: var(--dark);
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+            text-align: center;
+            color: var(--gray-600);
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .tip-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.04);
+            transition: var(--transition);
+            border: 1px solid var(--gray-200);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--box-shadow);
+            border-color: var(--gray-300);
+        }
+
+        .tip-card:hover .icon-wrapper {
+            transform: scale(1.05);
+        }
+
+        .tip-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 4px;
+            width: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .icon-wrapper {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(139, 92, 246, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .tip-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .tip-title {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .tip-number {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-200);
+            line-height: 1;
+        }
+
+        .tip-text {
+            color: var(--gray-600);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        /* Utility Animations */
+        .animate-up {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        
+        .animate-up:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Floating Animation for Icons */
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .section-title {
+                font-size: 2.25rem;
+            }
+
+            .tips-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 6rem 0 4rem;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.125rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.75rem;
+            }
+            
+            .tip-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <span class="badge">Marketing Tippek Villanyszerelőknek</span>
+                <h1 class="hero-title">36 Tipp Villanyszerelőknek a Sikerhez</h1>
+                <p class="hero-subtitle">Fedezd fel a legfontosabb marketing stratégiákat és taktikákat, amelyek segítenek kiemelkedni a villanyszerelői piacon, több ügyfelet szerezni és növelni a bevételeidet.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">36 Marketing Tipp Villanyszerelőknek</h2>
+            <p class="section-subtitle">Ezek a tippek lefedik az online és offline marketing minden aspektusát, a digitális láthatóságtól a személyes ügyfélkapcsolatokig.</p>
+
+            <div class="tips-grid">
+                <!-- Online Jelenlét és Láthatóság -->
+                <h3 class="text-center text-3xl font-bold mb-6 text-primary col-span-full">Online Jelenlét és Láthatóság</h3>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">01</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-globe tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Professzionális Weboldal</h3>
+                    <p class="tip-text">Készítsen modern, könnyen navigálható weboldalt, amely részletezi szolgáltatásait, referenciáit és elérhetőségeit.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">02</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-map-marker-alt tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Google Cégem Profil</h3>
+                    <p class="tip-text">Optimalizálja a Google Cégem profilját releváns kulcsszavakkal, képekkel és nyitvatartási időkkel.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">03</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-search tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Helyi SEO</h3>
+                    <p class="tip-text">Használjon helyspecifikus kulcsszavakat (pl. "villanyszerelő Budapest XVII. kerület") a weboldalon és online listázásokban.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">04</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-star tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Online Vélemények</h3>
+                    <p class="tip-text">Kérjen visszajelzést elégedett ügyfelektől, és biztassa őket vélemény írására a Google-ben, Facebookon.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">05</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-users tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Közösségi Média Jelenlét</h3>
+                    <p class="tip-text">Legyen aktív Facebookon, Instagramon vagy akár LinkedInen. Osszon meg hasznos tippeket, befejezett munkákról képeket.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">06</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-blog tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Blogírás</h3>
+                    <p class="tip-text">Írjon blogbejegyzéseket villanyássággal kapcsolatos témákban (pl. "biztonságos világítás otthon", "energiatakarékossági tippek").</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">07</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-ad tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Online Hirdetések (Google Ads)</h3>
+                    <p class="tip-text">Célzott hirdetéseket futtasson Google-ben olyan kulcsszavakra, amelyeket az ügyfelek keresnek.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">08</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-video tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">YouTube Csatorna</h3>
+                    <p class="tip-text">Készítsen rövid videókat gyakori problémákról, azok megoldásairól vagy a szolgáltatásairól.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">09</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-list-alt tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Online Direktóriumi Listázások</h3>
+                    <p class="tip-text">Regisztráljon szakmai és helyi online direktóriumban.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">10</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-comments tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Szakmai Blogokon, Fórumokon</h3>
+                    <p class="tip-text">Vegyen részt online szakmai beszélgetésekben, ossza meg tudását.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">11</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-envelope tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">E-mail Marketing</h3>
+                    <p class="tip-text">Gyűjtsön ügyfél-e-mail címeket (beleegyezéssel) és küldjön hírleveleket akciókról, tippekről.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">12</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-camera tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Online Képgaléria</h3>
+                    <p class="tip-text">Töltsön fel jó minőségű képeket a korábbi munkáiról a weboldalára és közösségi médiába.</p>
+                </div>
+
+                <!-- Hagyományos és Helyi Marketing -->
+                <h3 class="text-center text-3xl font-bold mb-6 text-primary col-span-full mt-12">Hagyományos és Helyi Marketing</h3>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">13</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-id-card tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Névjegykártyák</h3>
+                    <p class="tip-text">Legyen mindig kéznél professzionális, jól megtervezett névjegykártyája.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">14</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-car tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Autómatricázás</h3>
+                    <p class="tip-text">Jól látható logóval és telefonszámmal matricázza fel cégautóit.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">15</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-mail-bulk tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Helyi Szórólapozás</h3>
+                    <p class="tip-text">Célzottan osszon szórólapokat a környékén lakó, potenciális ügyfeleknek.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">16</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-newspaper tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Helyi Újságok, Kiadványok</h3>
+                    <p class="tip-text">Hirdessen helyi újságokban, közösségi újságokban.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">17</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-sticker-plane tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Szolgáltatási Matricák</h3>
+                    <p class="tip-text">Hagyjon egy matricát a munkavégzés helyén (pl. termosztáton, biztosítéktáblán), melyen elérhetőségei szerepelnek.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">18</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-handshake tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Szájhagyomány (Referencia Marketing)</h3>
+                    <p class="tip-text">Kérjen meg elégedett ügyfeleket, hogy ajánlják Önt ismerőseiknek.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">19</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-handshake tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Partnerségek</h3>
+                    <p class="tip-text">Együttműködés ingatlanügynökökkel, építési vállalkozókkal, lakberendezőkkel.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">20</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-calendar-alt tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Helyi Rendezvények Támogatása</h3>
+                    <p class="tip-text">Szponzoráljon helyi eseményeket, ezzel növelve a márkaismertséget.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">21</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-tshirt tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Beszédes pólók/Munkaruházat</h3>
+                    <p class="tip-text">Viseljen céglogóval ellátott ruházatot munka közben is.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">22</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-question-circle tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Kérdőívek, Visszajelzési Levelek</h3>
+                    <p class="tip-text">Postai úton is küldhet visszajelzési kérdőívet a munkavégzés után.</p>
+                </div>
+
+                <!-- Szolgáltatás és Ügyfélkapcsolat -->
+                <h3 class="text-center text-3xl font-bold mb-6 text-primary col-span-full mt-12">Szolgáltatás és Ügyfélkapcsolat</h3>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">23</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-headset tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Kiváló Ügyfélszolgálat</h3>
+                    <p class="tip-text">Legyen udvarias, segítőkész és mindig elérhető.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">24</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-clock tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Gyors Reagálás</h3>
+                    <p class="tip-text">Készüljön fel gyors reagálásra a beérkező megkeresésekre, különösen sürgős esetekben.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">25</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-dollar-sign tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Átlátszó Árazás</h3>
+                    <p class="tip-text">Nyíltan kommunikálja az árakat, vagy legalábbis egy becsült árat a helyszíni felmérés után.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">26</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-shield-alt tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Garancia Biztosítása</h3>
+                    <p class="tip-text">Adjon garanciát a munkájára, ez növeli az ügyfelek bizalmát.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">27</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-gift tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Hűségprogramok</h3>
+                    <p class="tip-text">Kínáljon kedvezményeket a visszatérő ügyfeleknek.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">28</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-lightbulb tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Szakmai Tanácsadás</h3>
+                    <p class="tip-text">Ne csak a munkát végezze el, hanem adjon tanácsot a jövőbeli lehetőségekről, biztonságról.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">29</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-calendar-check tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Időben Történő Munkavégzés</h3>
+                    <p class="tip-text">Tartsa be a megbeszélt határidőket.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">30</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-broom tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Tisztaság és Rend</h3>
+                    <p class="tip-text">A munkavégzés során és után is hagyjon tiszta, rendezett környezetet.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">31</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-chalkboard-teacher tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Képzések, Újdonságok Követése</h3>
+                    <p class="tip-text">Legyen naprakész a legújabb technológiákban és szabványokban, és kommunikálja ezt az ügyfelek felé.</p>
+                </div>
+
+                <!-- Speciális Akciók és Ajánlatok -->
+                <h3 class="text-center text-3xl font-bold mb-6 text-primary col-span-full mt-12">Speciális Akciók és Ajánlatok</h3>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">32</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-snowman tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Szezonalitás Kihasználása</h3>
+                    <p class="tip-text">Kínáljon speciális akciókat ünnepek környékén (pl. karácsonyi világítás ellenőrzés).</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">33</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-user-friends tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">"Hozd el a Barátod" Akció</h3>
+                    <p class="tip-text">Ajánljon kedvezményt mindkét félnek, ha egy meglévő ügyfél új ügyfelet hoz.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">34</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-percentage tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Új Ügyfeleknek Bevezető Árak</h3>
+                    <p class="tip-text">Vonzzon be új ügyfeleket egy első alkalomra szóló kedvezménnyel.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">35</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-file-alt tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">Ingyenes Árajánlat</h3>
+                    <p class="tip-text">Ajánljon ingyenes helyszíni felmérést és árajánlatot.</p>
+                </div>
+                <div class="tip-card animate-up">
+                    <span class="tip-number">36</span>
+                    <div class="icon-wrapper float">
+                        <i class="fas fa-broom tip-icon"></i>
+                    </div>
+                    <h3 class="tip-title">"Tavaszi Nagytakarítás" Akció</h3>
+                    <p class="tip-text">Kínáljon átvizsgálási csomagokat a szezonális karbantartáshoz.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+</output>
